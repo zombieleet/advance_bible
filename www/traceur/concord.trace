@@ -1,0 +1,113 @@
+import {GetJson as GetJson} from "loadRequested.js"
+import {objectEntries as objectEntries} from "loadRequested.js"
+class Concord {
+	constructor() {
+		let concord = document.querySelector('.bible-concord');
+		let concordModal = document.querySelector('#BibleConcord');
+		let bibleCover = document.querySelector('.bible-cover');
+		let close = document.querySelector('.bible-close');
+		let search = document.querySelector('.bible-start-search');
+		let bibleInput = document.querySelector('.bible-search-concord');
+		this.concord = () => concord;		
+		this.concordModal = () => concordModal;
+		this.bibleCover = () => bibleCover;
+		this.close = () => close;
+		this.search = () => search;
+		this.bibleInput = () => bibleInput;
+	}
+	showConcord() {
+		this.concord().addEventListener('click', (e) => {
+			this.concordModal().style["display"] = "flex";
+			this.concordModal().setAttribute('data-location', 'bringdown');
+			this.bibleCover().removeAttribute('data-display');
+
+		});
+		return this;
+	}
+	closeModal() {
+		this.close().addEventListener('click', (e) => {
+			
+			this.concordModal().setAttribute('data-location', 'bringup');
+
+			setTimeout(() => {
+				this.bibleCover().setAttribute('data-display', 'none');
+				this.concordModal().style["display"] = "none";
+			}, 50);
+		})
+		return this;
+	}
+	prom(inputValue, arg) {
+		return new Promise((resolve, reject) => {
+			try {
+
+				//resolve(Concord.check(inputValue,splitText));
+			} catch(ex) {}
+
+		})
+	}
+	static check(inputValue,splitText) {
+
+		for ( let text of splitText ) {
+			console.log(text);
+		}
+	}
+	// static Search(text) {
+	// 	let worker = new Worker('js/search.js');
+	// 	worker.onmessage = (data) => {
+	// 		console.log(data, "hi");
+	// 	}
+	// 	worker.postMessage({text: text, value: this.bibleInput().value});
+	// 	worker.terminate();
+	// }	
+	searchConcord() {
+		this.search().addEventListener('click', (e) => {
+
+			if ( this.bibleInput().value.length === 0 ) {
+				return false;
+			}
+			
+			this.concordModal().setAttribute('data-location', 'bringup');
+
+			setTimeout(() => {
+				this.bibleCover().setAttribute('data-display', 'none');
+				this.concordModal().style["display"] = "none";
+				let getConcord = new GetJson("js/jsons/oldtestament.json");
+				getConcord.loadJson().then((concord) => {
+					for ( let [index,value] of objectEntries(concord) ) {
+						let getLocationConcord = new GetJson(`js/jsons/${value}.json`);
+						let i = 0;
+						let j = 1;
+						getLocationConcord.loadJson().then((concord) => {
+							let {book, chapters} = concord
+							for ( let [index,versesValue] of objectEntries(chapters) ) {
+								let {chapter,verses} = versesValue;
+								//if ( verses[i] === undefined ) continue ;
+								try {
+									let inputValue = this.bibleInput().value
+									let textOfVerse = verses[i][j]//.split(" ");
+									//for ( let text of textOfVerse ) {
+										//console.log(text);
+										//console.log(inputValue.match(text), textOfVerse.join(" "));
+										if ( RegExp(inputValue, "ig").match(textOfVerse) ) {
+											console.log(book, chapter, (Number(Reflect.ownKeys(verses[i])[0]) - 1),textOfVerse.join(" "));
+										}
+									//}
+								} catch(ex){};
+								i = i + 1;
+								j = j + 1;
+							}
+						})
+					}
+				})
+				
+
+
+			}, 50);
+
+		})
+	}
+}
+
+var q = new Concord();
+
+q.showConcord().closeModal().searchConcord();

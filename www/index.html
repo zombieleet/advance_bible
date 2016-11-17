@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<html>
+    <head>
+        <!--
+        Customize this policy to fit your own app's needs. For more guidance, see:
+            https://github.com/apache/cordova-plugin-whitelist/blob/master/README.md#content-security-policy
+        Some notes:
+            * gap: is required only on iOS (when using UIWebView) and is needed for JS->native communication
+            * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
+            * Disables use of inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
+                * Enable inline JS: add 'unsafe-inline' to default-src
+        -->
+        <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *"> -->
+        <meta name="format-detection" content="telephone=no">
+        <meta name="msapplication-tap-highlight" content="no">
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+        <!-- codrdova defaults
+        <link rel="stylesheet" type="text/css" href="css/index.css">
+        -->
+
+        <link rel="stylesheet" href="font/css/font-awesome.min.css">
+        <link rel="stylesheet" type="text/css" href="libs/bootstrap.min.css">
+        <link rel="stylesheet" href="css/app.css">
+        <title>Holy Bible</title>
+    </head>
+    <body>
+      <!-- cordova default
+        <div class="app">
+            <h1>CocoonJS</h1>
+            <div id="deviceready" class="blink">
+                <p class="event listening">Connecting to Device</p>
+                <p class="event received">Device is Ready</p>
+            </div>
+        </div>
+        <script type="text/javascript" src="js/index.js"></script>
+      -->
+        <div id="bible-body">
+          <header class="bible bible-header">
+            <h1 class="bible bible-title">Bible</h1>
+          </header>
+          <nav class="bible-nav">
+            <div class="fa fa-long-arrow-left fa-2x bible fa-pull-right bible-arrows"></div>
+            <ul class="bible bible-nav-list">
+              <li class="fa fa-home bible-nav-item" data-target="bible-choice"><span>HOME</span><p class="bible-underline"></p></li>
+              <li class="fa fa-gear bible-nav-item"  data-target="bible-settings"><span>SETTINGS</span><p class="bible-underline"></p></li>
+              <li class="fa fa-heart bible-nav-item"  data-target="bible-favourites"><span>FAVOURITES</span><p class="bible-underline"></p></li>
+              <li class="fa fa-book bible-nav-item"  data-target="bible-newt" data-modal="ot-chapter"><span>NEW TESTAMENT</span><p class="bible-underline"></p></li>
+              <li class="fa fa-book bible-nav-item"  data-target="bible-ot" data-modal="newt-chapter"><span>OLD TESTAMENT</span><p class="bible-underline"></p></li>
+              <li class="fa fa-music bible-nav-item"  data-target="bible-hymns"><span>HYMNS</span><p class="bible-underline"></p></li>
+              <li class="fa fa-sticky-note bible-nav-item" data-target="bible-note"><span>NOTE</span><p class="bible-underline"></p></li>
+              <li class="fa fa-cloud-download bible-nav-item"><span>UPDATE</span><p class="bible-underline"></p></li>
+            </ul>
+          </nav>
+          <section class="bible-home-screen">
+            <div class="bible-choice">
+                <p class="bible-choice-select bible-choice-language">SELECT LANGUAGE</p>
+
+                <select class="bible-choice-select bible-choice-item">
+                  <option>German</option>
+                  <option>German</option>
+                  <option>German</option>
+                  <option>German</option>
+                  <option>German</option>
+                  <option>German</option>
+                  <option>German</option>
+                </select>
+                <div class="bible-testatment-choice">
+                  <span class="bible-oldtestament bible-choice-select bible-choice-item">
+                    OLD TESTAMENT
+                  </span>
+                  <span class="bible-newtestament bible-choice-select bible-choice-item">
+                    NEW TESTAMENT
+                  </span>
+                </div>
+                <button type="button" class="bible-choice-select bible-concord">CONCORD</button>
+            </div>
+            <div class="bible-settings"  data-display="none">
+              <ul class="list-group text-left" data-change="bible-list-group">
+                <li class="list-group-item">Font Style
+                  <div class="dropdown pull-right">
+                    <span class="badge" data-current="sans-serif" data-type="font-style">sans-serif</span>
+                    <span class="dropdown-toggle" type="button" data-toggle="dropdown">
+                      <span class="caret"></span>
+                    </span>
+                    <ul class="dropdown-menu list-group changeHoverState" role="fontFamily">
+                        <li class="list-group-item setval">sans-serif</li>
+                        <li class="list-group-item setval">Arial Narrow</li>
+                        <li class="list-group-item setval">Arial black</li>
+                        <li class="list-group-item setval">Algerian</li>
+                        <li class="list-group-item setval">Arial</li>
+                        <li class="list-group-item setval">helvetica</li>
+                        <li class="list-group-item setval">webdings</li>
+                        <li class="list-group-item setval">webdings</li>
+                    </ul>
+                  </div>
+                </li>
+                <li class="list-group-item">Font Size
+                  <div class="dropdown pull-right">
+                    <span class="badge" data-current="14" data-type="font-size">14</span>
+                    <span class="dropdown-toggle" type="button" data-toggle="dropdown">
+                      <span class="caret"></span>
+                    </span>
+                    <ul class="dropdown-menu list-group changeHoverState" role="fontSize">
+                        <li class="list-group-item setval">6</li>
+                        <li class="list-group-item setval">10</li>
+                        <li class="list-group-item setval">14</li>
+                        <li class="list-group-item setval">16</li>
+                        <li class="list-group-item setval">20</li>
+                        <li class="list-group-item setval">24</li>
+                        <li class="list-group-item setval">30</li>
+                        <li class="list-group-item setval">36</li>
+                    </ul>
+                  </div>
+                </li>
+                <li class="list-group-item">Audio
+                  <span class="pull-right bible-on-of-Parent" data-color="darkgrey" data-current="no">
+                    <span class="bible-on-of" data-padding="-1em"></span>
+                  </span>
+                </li>
+                <li class="list-group-item">Audio Language
+                  <div class="dropdown pull-right">
+                    <span class="badge" data-current="english" data-type="audio-language">English</span>
+                    <span class="dropdown-toggle" type="button" data-toggle="dropdown">
+                      <span class="caret"></span>
+                    </span>
+                    <ul class="dropdown-menu list-group changeHoverState" role="audioLanguage">
+                        <li class="list-group-item setval">English</li>
+                        <li class="list-group-item setval">English</li>
+                        <li class="list-group-item setval">English</li>
+                        <li class="list-group-item setval">English</li>
+                        <li class="list-group-item setval">English</li>
+                        <li class="list-group-item setval">English</li>
+                    </ul>
+                  </div>
+
+                </li>
+                <li class="list-group-item">Volume
+                    <div class="dropdown pull-right">
+                      <span class="badge" data-current="30%" data-type="sound-level">30%</span>
+                      <span class="dropdown-toggle" type="button" data-toggle="dropdown">
+                        <span class="caret"></span>
+                      </span>
+                      <ul class="dropdown-menu list-group changeHoverState" role="volumeLevel">
+                          <li class="list-group-item setval">10%</li>
+                          <li class="list-group-item setval">20%</li>
+                          <li class="list-group-item setval">30%</li>
+                          <li class="list-group-item setval">40%</li>
+                          <li class="list-group-item setval">50%</li>
+                          <li class="list-group-item setval">60%</li>
+                          <li class="list-group-item setval">70%</li>
+                          <li class="list-group-item setval">80%</li>
+                          <li class="list-group-item setval">90%</li>
+                          <li class="list-group-item setval">100%</li>
+                      </ul>
+                    </div>
+                </li>
+                <li class="list-group-item">Text Color
+                  <div class="dropdown pull-right">
+                      <span class="badge" data-current="white" data-type="text-color">White</span>
+                      <span class="dropdown-toggle" type="button" data-toggle="dropdown">
+                        <span class="caret"></span>
+                      </span>
+                      <ul class="dropdown-menu list-group changeHoverState" role="textColor">
+                          <li class="list-group-item setval">White</li>
+                          <li class="list-group-item setval">Black</li>
+                          <li class="list-group-item setval">Yellow</li>
+                          <li class="list-group-item setval">Blue</li>
+                      </ul>
+                    </div>
+
+                  </li>
+                <li class="list-group-item">Background Color
+                  <div class="dropdown pull-right">
+                      <span class="badge" data-current="blue" data-type="background-color">Blue</span>
+                      <span class="dropdown-toggle" type="button" data-toggle="dropdown">
+                        <span class="caret"></span>
+                      </span>
+                      <ul class="dropdown-menu list-group changeHoverState" role="backgroundColor">
+                          <li class="list-group-item setval">White</li>
+                          <li class="list-group-item setval">Black</li>
+                          <li class="list-group-item setval">Yellow</li>
+                          <li class="list-group-item setval">Blue</li>
+                      </ul>
+                    </div>
+
+                </li>
+                <li class="list-group-item">Language</li>
+              </ul>
+            </div>
+            <div class="bible-favourites" data-display="none">
+              FAVOURITES
+            </div>
+            <div class="bible-newt" data-display="none" data-modal="newt-chapter">
+            </div>
+            <div class="bible-ot" data-display="none" data-modal="ot-chapter">
+            </div>
+            <div class="bible-hymns" data-display="none">
+              HYMNS
+            </div>
+            <div class="bible-note" data-display="none">
+              NOTES
+            </div>
+          </section>
+
+        </div>
+        <div class="bible-cover" data-display="none">
+
+        </div>
+      <div id="BibleConcord">
+          <p class="fa fa-close bible-close"></p><br>
+          <label for="bible-concord">Word To Search</label>
+          <input type="text" id="bible-concord" class="bible-search-concord" placeholder="word to search">
+          <button type="button" class="bible-start-search">Search</button>
+      </div>
+      <div class="bible-getChapters" data-display="none">
+        <h4 class="bible-getChapters-book"></h4>
+        <hr />
+        <span class="fa fa-close fa-pull-right bible-close"></span>
+
+      </div>
+        <script type="application/javascript">
+              window.addEventListener("DOMContentLoaded", (e) => {
+                    let s = document.querySelectorAll('[data-type]');
+                    Array.from(s, (el) => {
+                      console.log(el);
+                      let item = localStorage.getItem(el.getAttribute('data-type'));
+                      if ( item === null ) return ;
+                      el.removeAttribute("data-current");
+                      el.setAttribute('data-current', item);
+                      el.textContent = item;
+                    });
+              });
+        </script>
+        <!-- <script type="text/javascript" src="cordova.js"></script> -->
+        </script>
+        <script src="libs/traceur.js"></script>
+        <script src="js/home.js"></script>
+        <script src="js/settings.js"></script>
+        <script src="js/nav.js"></script>
+        <script src="js/concord.js"></script>
+        <script src="libs/jquery.js"></script>
+        <script src="libs/bootstrap.min.js"></script>
+        <!-- <script src="js/modalChapters.js"></script> -->
+        <!-- <script src="js/bible.js"></script> -->
+    </body>
+
+</html>
