@@ -13,12 +13,14 @@ class Settings {
           target.setAttribute("data-current", "yes");
           target.setAttribute('data-animate', "paddingAnimateIncrease")
           target.style["background-color"] = target.getAttribute('data-color');
+          localStorage.setItem("sound-state", target.getAttribute('data-current'))
           return ;
         }
         target.setAttribute('data-color',"darkgrey");
         target.setAttribute('data-current', "no");
         target.setAttribute('data-animate', "paddingAnimateDecrease")
         target.style["background-color"] = target.getAttribute('data-color');
+        localStorage.setItem("sound-state", target.getAttribute('data-current'))
         return ;
       }
     })
@@ -35,6 +37,8 @@ class Settings {
         let role = parent.getAttribute('role')
         console.log(role);
         switch (role) {
+          case null:
+            break ;
           case "fontFamily":
             localStorage.setItem('font-family', elShowValue.getAttribute('data-current'));
             break;

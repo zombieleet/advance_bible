@@ -200,12 +200,79 @@ $traceurRuntime.registerModule("loadRequested.js", [], function() {
     }
   };
 });
+$traceurRuntime.registerModule("audio.js", [], function() {
+  "use strict";
+  var __moduleName = "audio.js";
+  var Audio = function() {
+    function Audio() {}
+    return ($traceurRuntime.createClass)(Audio, {}, {
+      SetAudio: function() {
+        var link = arguments[0];
+        var audio = arguments[1];
+        if (link === undefined) {
+          throw new Error("Link is Undefined");
+        }
+        if (HTMLAudioElement[Symbol.hasInstance](audio)) {
+          Audio.CreaetControls(audio);
+          audio.play();
+        }
+      },
+      CreateControls: function(audio) {
+        var parent = document.querySelector('.bible-read-text');
+        var playbtn = document.createElement('button');
+        playbtn.setAttribute('class', 'btn btn-default btn-lg');
+        var pausebtn = document.createElement('button');
+        pausebtn.setAttribute('class', 'btn btn-default btn-lg');
+        var stopbtn = document.createElement('button');
+        stopbtn.setAttribute('class', 'btn btn-default btn-lg');
+        var bar = document.createElement('progress');
+        bar.setAttribute('value', audio.currentTime);
+        bar.setAttribute('max', audio.duration);
+        parent.appendChild(playbtn);
+        parent.appendChild(pausebtn);
+        parent.appendChild(stopbtn);
+        parent.appendChild(bar);
+        Audio.ControlsListener({
+          playbtn: playbtn,
+          pausebtn: pausebtn,
+          stopbtn: stopbtn
+        });
+      },
+      IncrementAudioBar: function(bar) {
+        console.log(bar);
+      },
+      ControlsListener: function(btnlisteners) {
+        var $__2 = btnlisteners,
+            playbtn = $__2.playbtn,
+            pausebtn = $__2.pausebtn,
+            stopbtn = $__2.stopbtn;
+        playbtn.addEventListener('click', function(evt) {
+          var target = evt.target;
+          if (target.disabled) {
+            return false;
+          }
+          if (audio.ended) {
+            audio.play().then(function() {
+              var bar = document.querySelector('progress');
+              Audio.IncrementAudioBar(bar);
+            });
+          }
+        });
+      }
+    });
+  }();
+  return {get Audio() {
+      return Audio;
+    }};
+});
 $traceurRuntime.registerModule("bible.js", [], function() {
   "use strict";
   var __moduleName = "bible.js";
-  var GetJson = $traceurRuntime.getModule($traceurRuntime.normalizeModuleName("loadRequested.js", "bible.js")).GetJson;
-  var JumpToChapter = $traceurRuntime.getModule($traceurRuntime.normalizeModuleName("loadRequested.js", "bible.js")).JumpToChapter;
-  var objectEntries = $traceurRuntime.getModule($traceurRuntime.normalizeModuleName("loadRequested.js", "bible.js")).objectEntries;
+  var $__19 = $traceurRuntime.getModule($traceurRuntime.normalizeModuleName("loadRequested.js", "bible.js")),
+      JumpToChapter = $__19.JumpToChapter,
+      objectEntries = $__19.objectEntries,
+      GetJson = $__19.GetJson;
+  var Audio = $traceurRuntime.getModule($traceurRuntime.normalizeModuleName("audio.js", "bible.js")).Audio;
   var GetBible = function() {
     function GetBible() {
       var bibleTestament = document.querySelector('.bible-testament');
@@ -302,6 +369,9 @@ $traceurRuntime.registerModule("bible.js", [], function() {
         parent.style["font-family"] = bibleSettingsValues.fontStyle;
         parent.style["color"] = bibleSettingsValues.textcolor;
         parent.style["background-color"] = bibleSettingsValues.bgcolor;
+        if (bibleSettingsValues.audio === 'yes') {
+          console.log(book);
+        }
         var $__12 = true;
         var $__13 = false;
         var $__14 = undefined;
@@ -370,10 +440,11 @@ $traceurRuntime.registerModule("bible.js", [], function() {
 $traceurRuntime.registerModule("../traceur/home.trac", [], function() {
   "use strict";
   var __moduleName = "../traceur/home.trac";
-  var GetJson = $traceurRuntime.getModule($traceurRuntime.normalizeModuleName("loadRequested.js", "../traceur/home.trac")).GetJson;
-  var objectEntries = $traceurRuntime.getModule($traceurRuntime.normalizeModuleName("loadRequested.js", "../traceur/home.trac")).objectEntries;
+  var $__11 = $traceurRuntime.getModule($traceurRuntime.normalizeModuleName("loadRequested.js", "../traceur/home.trac")),
+      GetJson = $__11.GetJson,
+      objectEntries = $__11.objectEntries,
+      Modal = $__11.Modal;
   var GetBible = $traceurRuntime.getModule($traceurRuntime.normalizeModuleName("bible.js", "../traceur/home.trac")).GetBible;
-  var Modal = $traceurRuntime.getModule($traceurRuntime.normalizeModuleName("loadRequested.js", "../traceur/home.trac")).Modal;
   var Home = function() {
     function Home() {
       var oldTestament = document.querySelector('.bible-oldtestament');

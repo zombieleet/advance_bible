@@ -1,6 +1,8 @@
-import {GetJson as GetJson} from "loadRequested.js";
-import {JumpToChapter as JumpToChapter} from "loadRequested.js";
-import {objectEntries as objectEntries} from "loadRequested.js";
+//import {GetJson as GetJson} from "loadRequested.js";
+import {JumpToChapter, objectEntries, GetJson} from "loadRequested.js";
+import {Audio} from "audio.js";
+//import {objectEntries as objectEntries} from "loadRequested.js";
+
 export class GetBible {
 	constructor() {
 		let bibleTestament = document.querySelector('.bible-testament');
@@ -38,6 +40,11 @@ export class GetBible {
 
 		parent.style["color"] = bibleSettingsValues.textcolor;
 		parent.style["background-color"] = bibleSettingsValues.bgcolor;
+
+		if ( bibleSettingsValues.audio === 'yes' ) {
+				let audiobook = book.join("");
+				let audioBible = net GetJson(`audios/KJV/${audiobook}/${audiobook}`);
+		}
 
 		for ( let verses of chapter["verses"] ) {
 			for ( let [versenum,versetext]  of objectEntries(verses) ) {
