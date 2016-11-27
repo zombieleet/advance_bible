@@ -240,7 +240,6 @@
               window.addEventListener("DOMContentLoaded", (e) => {
                     let s = document.querySelectorAll('[data-type]');
                     Array.from(s, (el) => {
-                      console.log(el);
                       let item = localStorage.getItem(el.getAttribute('data-type'));
                       if ( item === null ) return ;
                       el.removeAttribute("data-current");

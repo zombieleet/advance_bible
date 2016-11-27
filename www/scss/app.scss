@@ -306,6 +306,22 @@ body {
   font-weight: bolder;
   text-transform: uppercase;
 }
+.bible-audio-ctrlers {
+  position: fixed;
+  left: 45%;
+  progress {
+    height: .1em;
+  }
+  .audioctrlers {
+    button {
+      margin-left: 1em;
+    }
+    button:first-of-type {
+      margin-left: 0;
+    }
+  }
+}
+
 @keyframes incrWidthOfBibleUnderline {
   from {
       width: 1%;

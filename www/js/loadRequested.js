@@ -6,7 +6,6 @@ export function* objectEntries(obj) {
     \*                */
     let propKeys = Object.keys(obj);
     for ( let propKey of propKeys ) {
-
         yield [propKey, obj[propKey]];
     }
 }

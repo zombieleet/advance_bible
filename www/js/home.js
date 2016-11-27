@@ -200,71 +200,6 @@ $traceurRuntime.registerModule("loadRequested.js", [], function() {
     }
   };
 });
-$traceurRuntime.registerModule("audio.js", [], function() {
-  "use strict";
-  var __moduleName = "audio.js";
-  var Audio = function() {
-    function Audio() {}
-    return ($traceurRuntime.createClass)(Audio, {}, {
-      SetAudio: function() {
-        var link = arguments[0];
-        var audio = arguments[1];
-        if (link === undefined) {
-          throw new Error("Link is Undefined");
-        }
-        if (HTMLAudioElement[Symbol.hasInstance](audio)) {
-          Audio.CreaetControls(audio);
-          audio.play();
-        }
-      },
-      CreateControls: function(audio) {
-        var parent = document.querySelector('.bible-read-text');
-        var playbtn = document.createElement('button');
-        playbtn.setAttribute('class', 'btn btn-default btn-lg');
-        var pausebtn = document.createElement('button');
-        pausebtn.setAttribute('class', 'btn btn-default btn-lg');
-        var stopbtn = document.createElement('button');
-        stopbtn.setAttribute('class', 'btn btn-default btn-lg');
-        var bar = document.createElement('progress');
-        bar.setAttribute('value', audio.currentTime);
-        bar.setAttribute('max', audio.duration);
-        parent.appendChild(playbtn);
-        parent.appendChild(pausebtn);
-        parent.appendChild(stopbtn);
-        parent.appendChild(bar);
-        Audio.ControlsListener({
-          playbtn: playbtn,
-          pausebtn: pausebtn,
-          stopbtn: stopbtn
-        });
-      },
-      IncrementAudioBar: function(bar) {
-        console.log(bar);
-      },
-      ControlsListener: function(btnlisteners) {
-        var $__2 = btnlisteners,
-            playbtn = $__2.playbtn,
-            pausebtn = $__2.pausebtn,
-            stopbtn = $__2.stopbtn;
-        playbtn.addEventListener('click', function(evt) {
-          var target = evt.target;
-          if (target.disabled) {
-            return false;
-          }
-          if (audio.ended) {
-            audio.play().then(function() {
-              var bar = document.querySelector('progress');
-              Audio.IncrementAudioBar(bar);
-            });
-          }
-        });
-      }
-    });
-  }();
-  return {get Audio() {
-      return Audio;
-    }};
-});
 $traceurRuntime.registerModule("bible.js", [], function() {
   "use strict";
   var __moduleName = "bible.js";
@@ -272,7 +207,108 @@ $traceurRuntime.registerModule("bible.js", [], function() {
       JumpToChapter = $__19.JumpToChapter,
       objectEntries = $__19.objectEntries,
       GetJson = $__19.GetJson;
-  var Audio = $traceurRuntime.getModule($traceurRuntime.normalizeModuleName("audio.js", "bible.js")).Audio;
+  var Audio = function() {
+    function Audio() {}
+    return ($traceurRuntime.createClass)(Audio, {}, {
+      SetAudio: function() {
+        var link = arguments[0];
+        var audio = arguments[1];
+        var info = arguments[2];
+        if (link === undefined) {
+          throw new Error("Link is Undefined");
+        }
+        if (HTMLAudioElement[Symbol.hasInstance](audio)) {
+          var $__16 = info,
+              book = $__16.book,
+              chapter = $__16.chapter;
+          var parent = document.querySelector('.bible-read-text');
+          audio.setAttribute('src', link);
+          Audio.CreateControls(parent, audio, book, chapter);
+        }
+      },
+      CreateControls: function(parent, audio, book, chapter) {
+        var divbtn = document.createElement('div');
+        var ctrlBtn = document.createElement('div');
+        var playbtn = document.createElement('button');
+        playbtn.setAttribute('class', 'btn btn-success btn-xs  glyphicon glyphicon-play');
+        var pausebtn = document.createElement('button');
+        pausebtn.setAttribute('class', 'btn btn-success btn-xs  glyphicon glyphicon-pause');
+        var stopbtn = document.createElement('button');
+        stopbtn.setAttribute('class', 'btn btn-success btn-xs glyphicon glyphicon-stop');
+        var bar = document.createElement('progress');
+        bar.setAttribute('class', 'progress progress-bar-success');
+        bar.setAttribute('value', audio.currentTime);
+        bar.setAttribute('max', 300);
+        divbtn.setAttribute('class', 'bible-audio-ctrlers');
+        ctrlBtn.setAttribute('class', 'audioctrlers');
+        ctrlBtn.appendChild(playbtn);
+        ctrlBtn.appendChild(pausebtn);
+        ctrlBtn.appendChild(stopbtn);
+        divbtn.appendChild(bar);
+        divbtn.appendChild(ctrlBtn);
+        divbtn.appendChild(audio);
+        parent.insertBefore(divbtn, parent.firstElementChild);
+        var ctrlers = document.querySelectorAll('.bible-audio-ctrlers');
+        if (ctrlers.length > 1) {
+          ctrlers[ctrlers.length - 1].remove();
+        }
+        Audio.ControlsListener(audio, {
+          playbtn: playbtn,
+          pausebtn: pausebtn,
+          stopbtn: stopbtn,
+          bar: bar
+        }, book, chapter);
+      },
+      IncrementAudioBar: function(bar, audio) {
+        bar.setAttribute('value', audio.currentTime);
+      },
+      ControlsListener: function(audio, btnlisteners, book, chapter) {
+        var $__16 = btnlisteners,
+            playbtn = $__16.playbtn,
+            pausebtn = $__16.pausebtn,
+            stopbtn = $__16.stopbtn,
+            bar = $__16.bar;
+        playbtn.addEventListener('click', function(evt) {
+          var target = evt.target;
+          if (target.disabled) {
+            return false;
+          }
+          if (!audio.ended) {
+            audio.play();
+            audio.addEventListener('timeupdate', function(evt) {
+              var target = evt.target;
+              if (audio.ended) {
+                chapter["chapter"] = (Number(chapter["chapter"]) + 1);
+                GetBible.StyleBible(book, chapter);
+                return;
+              }
+              Audio.IncrementAudioBar(bar, target);
+            });
+            target.setAttribute('class', playbtn.getAttribute('class') + " disabled");
+            pausebtn.setAttribute('class', pausebtn.getAttribute('class').replace('disabled', ''));
+            return;
+          }
+        });
+        pausebtn.addEventListener('click', function(evt) {
+          var target = evt.target;
+          if (!audio.ended) {
+            audio.pause();
+            target.setAttribute('class', pausebtn.getAttribute('class') + " disabled");
+            playbtn.setAttribute('class', playbtn.getAttribute('class').replace('disabled', ''));
+          }
+        });
+        stopbtn.addEventListener('click', function(evt) {
+          var target = evt.target;
+          if (!audio.ended) {
+            audio.currentTime = 0;
+            audio.pause();
+            playbtn.setAttribute('class', playbtn.getAttribute('class').replace('disabled', ''));
+            pausebtn.setAttribute('class', pausebtn.getAttribute('class').replace('disabled', ''));
+          }
+        });
+      }
+    });
+  }();
   var GetBible = function() {
     function GetBible() {
       var bibleTestament = document.querySelector('.bible-testament');
@@ -296,8 +332,6 @@ $traceurRuntime.registerModule("bible.js", [], function() {
             }
             homeScreen.appendChild(bibleReadText);
             bibleChapters.loadJson().then(function(bc) {
-              var q = new JumpToChapter();
-              console.log(q.moveTo());
               var i = 0;
               GetBible.StyleBible(bc["book"], bc.chapters[i]);
               homeScreen.addEventListener('click', function(e) {
@@ -314,9 +348,7 @@ $traceurRuntime.registerModule("bible.js", [], function() {
                     if (bc.chapters[i] === undefined) {
                       i = 0;
                       GetBible.StyleBible(bc["book"], bc.chapters[i]);
-                    }
-                    if ((i + 1) === bc.chapters.length) {
-                      GetBible.StyleBible(bc["book"], bc.chapters[i]);
+                      return;
                     }
                     GetBible.StyleBible(bc["book"], bc.chapters[i]);
                   } catch (ex) {}
@@ -342,6 +374,14 @@ $traceurRuntime.registerModule("bible.js", [], function() {
       }}, {StyleBible: function(book, chapter) {
         var $__17,
             $__18;
+        var homeScreen = document.querySelector('.bible-home-screen');
+        var bibleReadText = document.createElement('div');
+        bibleReadText.setAttribute('class', 'bible-read-text');
+        var removeBibleReadText = homeScreen.getElementsByClassName('bible-read-text')[0];
+        if (removeBibleReadText !== undefined) {
+          removeBibleReadText.remove();
+        }
+        homeScreen.appendChild(bibleReadText);
         var parent = document.querySelector('.bible-read-text');
         var backward = document.createElement('span');
         var forward = document.createElement('span');
@@ -369,9 +409,6 @@ $traceurRuntime.registerModule("bible.js", [], function() {
         parent.style["font-family"] = bibleSettingsValues.fontStyle;
         parent.style["color"] = bibleSettingsValues.textcolor;
         parent.style["background-color"] = bibleSettingsValues.bgcolor;
-        if (bibleSettingsValues.audio === 'yes') {
-          console.log(book);
-        }
         var $__12 = true;
         var $__13 = false;
         var $__14 = undefined;
@@ -430,6 +467,20 @@ $traceurRuntime.registerModule("bible.js", [], function() {
               throw $__14;
             }
           }
+        }
+        if (bibleSettingsValues.audio === 'yes') {
+          var audio = document.querySelectorAll('audio');
+          var audiobook = book.replace(/\s+/, '');
+          var audioBible = fetch(("audios/KJV/" + audiobook + "/" + audiobook + chapter["chapter"] + ".mp3"));
+          audioBible.then(function(data) {
+            return data.url;
+          }).then(function(src) {
+            var audio = document.createElement('audio');
+            Audio.SetAudio(src, audio, {
+              book: book,
+              chapter: chapter
+            });
+          });
         }
       }});
   }();
