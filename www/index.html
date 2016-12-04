@@ -42,16 +42,6 @@
         <title>Holy Bible</title>
     </head>
     <body>
-      <!-- cordova default
-        <div class="app">
-            <h1>CocoonJS</h1>
-            <div id="deviceready" class="blink">
-                <p class="event listening">Connecting to Device</p>
-                <p class="event received">Device is Ready</p>
-            </div>
-        </div>
-        <script type="text/javascript" src="js/index.js"></script>
-      -->
         <div id="bible-body">
           <header class="bible bible-header">
             <h1 class="bible bible-title">Bible</h1>
@@ -71,26 +61,17 @@
           </nav>
           <section class="bible-home-screen">
             <div class="bible-choice">
-                <p class="bible-choice-select bible-choice-language">SELECT LANGUAGE</p>
+                <button class="btn btn-default bible-choice-select bible-choice-language">SELECT LANGUAGE</button>
 
-                <select class="bible-choice-select bible-choice-item">
-                  <option>German</option>
-                  <option>German</option>
-                  <option>German</option>
-                  <option>German</option>
-                  <option>German</option>
-                  <option>German</option>
-                  <option>German</option>
-                </select>
                 <div class="bible-testatment-choice">
-                  <span class="bible-oldtestament bible-choice-select bible-choice-item">
+                  <button class="btn btn-default bible-oldtestament bible-choice-select bible-choice-item">
                     OLD TESTAMENT
-                  </span>
-                  <span class="bible-newtestament bible-choice-select bible-choice-item">
+                  </button>
+                  <button class="btn btn-default bible-newtestament bible-choice-select bible-choice-item">
                     NEW TESTAMENT
-                  </span>
+                  </button>
                 </div>
-                <button type="button" class="bible-choice-select bible-concord">CONCORD</button>
+                <button type="button" class="btn btn-default bible-choice-select bible-concord">CONCORD</button>
             </div>
             <div class="bible-settings"  data-display="none">
               <ul class="list-group text-left" data-change="bible-list-group">
@@ -225,10 +206,22 @@
 
         </div>
       <div id="BibleConcord">
-          <p class="fa fa-close bible-close"></p><br>
-          <label for="bible-concord">Word To Search</label>
+          <!-- <p class="fa fa-close bible-close"></p><br>
+          <div>
+            <label for="bible-concord">Word To Search</label>
+          </div
           <input type="text" id="bible-concord" class="bible-search-concord" placeholder="word to search">
-          <button type="button" class="bible-start-search">Search</button>
+          <button type="button" class="bible-start-search">Search</button> -->
+          <form class="form">
+            <p class="fa fa-close bible-close"></p>
+            <fieldset class="form-group">
+              <label for="bible-concord">Words To Search</label>
+              <input type="text" class="form-control bible-search-concord" />
+            </fieldset>
+            <fieldset class="form-group">
+              <button type="Submit" class="form-control bible-start-search">SEARCH</button>
+            </fieldset>
+          </form>
       </div>
       <div class="bible-getChapters" data-display="none">
         <h4 class="bible-getChapters-book"></h4>
