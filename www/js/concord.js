@@ -1,24 +1,24 @@
 $traceurRuntime.registerModule("loadRequested.js", [], function() {
   "use strict";
-  var $__9 = $traceurRuntime.initGeneratorFunction(objectEntries);
   var __moduleName = "loadRequested.js";
+  var $__12 = $traceurRuntime.initGeneratorFunction(objectEntries);
   function objectEntries(obj) {
     var propKeys,
-        $__5,
         $__6,
         $__7,
+        $__8,
+        $__4,
         $__3,
-        $__2,
         propKey,
-        $__8;
+        $__9;
     return $traceurRuntime.createGeneratorInstance(function($ctx) {
       while (true)
         switch ($ctx.state) {
           case 0:
             propKeys = Object.keys(obj);
-            $__5 = true;
-            $__6 = false;
-            $__7 = undefined;
+            $__6 = true;
+            $__7 = false;
+            $__8 = undefined;
             $ctx.state = 24;
             break;
           case 24:
@@ -26,18 +26,18 @@ $traceurRuntime.registerModule("loadRequested.js", [], function() {
             $ctx.state = 13;
             break;
           case 13:
-            $__3 = void 0, $__2 = (propKeys)[Symbol.iterator]();
+            $__4 = void 0, $__3 = (propKeys)[Symbol.iterator]();
             $ctx.state = 9;
             break;
           case 9:
-            $ctx.state = (!($__5 = ($__3 = $__2.next()).done)) ? 5 : 7;
+            $ctx.state = (!($__6 = ($__4 = $__3.next()).done)) ? 5 : 7;
             break;
           case 4:
-            $__5 = true;
+            $__6 = true;
             $ctx.state = 9;
             break;
           case 5:
-            propKey = $__3.value;
+            propKey = $__4.value;
             $ctx.state = 6;
             break;
           case 6:
@@ -55,12 +55,12 @@ $traceurRuntime.registerModule("loadRequested.js", [], function() {
           case 10:
             $ctx.popTry();
             $ctx.maybeUncatchable();
-            $__8 = $ctx.storedException;
+            $__9 = $ctx.storedException;
             $ctx.state = 16;
             break;
           case 16:
-            $__6 = true;
-            $__7 = $__8;
+            $__7 = true;
+            $__8 = $__9;
             $ctx.state = 11;
             $ctx.finallyFallThrough = -2;
             break;
@@ -70,12 +70,12 @@ $traceurRuntime.registerModule("loadRequested.js", [], function() {
             break;
           case 22:
             try {
-              if (!$__5 && $__2.return != null) {
-                $__2.return();
+              if (!$__6 && $__3.return != null) {
+                $__3.return();
               }
             } finally {
-              if ($__6) {
-                throw $__7;
+              if ($__7) {
+                throw $__8;
               }
             }
             $ctx.state = 20;
@@ -86,7 +86,7 @@ $traceurRuntime.registerModule("loadRequested.js", [], function() {
           default:
             return $ctx.end();
         }
-    }, $__9, this);
+    }, $__12, this);
   }
   var GetJson = function() {
     function GetJson(url) {
@@ -112,12 +112,91 @@ $traceurRuntime.registerModule("loadRequested.js", [], function() {
         });
       }}, {});
   }();
+  var JumpToChapter = function() {
+    function JumpToChapter() {
+      var bibleGetChapters = document.querySelector('.bible-getChapters');
+      this.bibleGetChapters = function() {
+        return bibleGetChapters;
+      };
+    }
+    return ($traceurRuntime.createClass)(JumpToChapter, {moveTo: function() {
+        this.bibleGetChapters().addEventListener('click', function(e) {
+          var target = e.target;
+          var match = target.textContent.match(/\d+/g) || target.textContent.match(/CH\./);
+          if (match && (target.nodeName.toLowerCase() === "p")) {
+            if (match[0] === "CH.") {
+              target = target.nextElementSibling;
+            }
+          }
+        });
+      }}, {});
+  }();
+  var Modal = function() {
+    function Modal() {}
+    return ($traceurRuntime.createClass)(Modal, {}, {
+      extended: function(callback) {
+        var qq = document.querySelector('.bible-cover');
+        var modalChapters = document.querySelector('#bible-body');
+        modalChapters.addEventListener('click', function(e) {
+          var target = e.target;
+          if (target.classList.toString().includes("bible-location")) {
+            Modal.searchJson(target.textContent.replace(/\s+/g, ""));
+            qq.removeAttribute('data-display');
+          }
+        });
+        var getChaptersParent = document.querySelector('.bible-getChapters');
+        var close = getChaptersParent.getElementsByClassName('bible-close')[0];
+        close.addEventListener('click', function() {
+          var chaptersParent = document.querySelector('.bible-getChapters-chaptersParent');
+          var qq = document.querySelector('.bible-cover');
+          if (!!chaptersParent)
+            chaptersParent.remove();
+          getChaptersParent.setAttribute("data-display", "none");
+          qq.setAttribute('data-display', 'none');
+        });
+      },
+      searchJson: function(testament) {
+        var getChapters = new GetJson(("js/jsons/" + testament + ".json"));
+        getChapters.loadJson().then(function(ch) {
+          var $__10 = ch,
+              book = $__10.book,
+              chapters = $__10.chapters;
+          var getChaptersParent = document.querySelector('.bible-getChapters');
+          var bookName = document.querySelector('.bible-getChapters-book');
+          bookName.innerHTML = book;
+          var chaptersParent = document.createElement('ul');
+          chaptersParent.setAttribute('class', 'bible-getChapters-chaptersParent');
+          var removeChaptersParent = document.querySelector('.bible-getChapters-chaptersParent');
+          if (!!removeChaptersParent) {
+            removeChaptersParent.remove();
+          }
+          getChaptersParent.removeAttribute('data-display');
+          getChaptersParent.appendChild(chaptersParent);
+          Array.from(chapters, function(getchapters) {
+            var $__11 = getchapters,
+                chapter = $__11.chapter,
+                verses = $__11.verses;
+            var chapterNode = document.createElement('li');
+            chapterNode.setAttribute('class', 'bible-getChapters-chapter');
+            chaptersParent.appendChild(chapterNode);
+            chapterNode.innerHTML = ("<div>\n                                    <p>CH.</p>\n                                    <p>" + chapter + "</p>\n                                  <div>");
+          });
+        });
+      }
+    });
+  }();
   return {
     get objectEntries() {
       return objectEntries;
     },
     get GetJson() {
       return GetJson;
+    },
+    get JumpToChapter() {
+      return JumpToChapter;
+    },
+    get Modal() {
+      return Modal;
     }
   };
 });
@@ -155,22 +234,19 @@ $traceurRuntime.registerModule("../traceur/concord.trace", [], function() {
     }
     return ($traceurRuntime.createClass)(Concord, {
       showConcord: function() {
-        var $__4 = this;
+        var $__1 = this;
         this.concord().addEventListener('click', function(e) {
-          $__4.concordModal().style["display"] = "flex";
-          $__4.concordModal().setAttribute('data-location', 'bringdown');
-          $__4.bibleCover().removeAttribute('data-display');
+          $__1.concordModal().style["display"] = "flex";
+          $__1.concordModal().setAttribute('data-location', 'bringdown');
+          $__1.bibleCover().removeAttribute('data-display');
         });
         return this;
       },
       closeModal: function() {
-        var $__4 = this;
+        var $__1 = this;
         this.close().addEventListener('click', function(e) {
-          $__4.concordModal().setAttribute('data-location', 'bringup');
-          setTimeout(function() {
-            $__4.bibleCover().setAttribute('data-display', 'none');
-            $__4.concordModal().style["display"] = "none";
-          }, 50);
+          $__1.bibleCover().setAttribute('data-display', 'none');
+          $__1.concordModal().style["display"] = "none";
         });
         return this;
       },
@@ -180,94 +256,86 @@ $traceurRuntime.registerModule("../traceur/concord.trace", [], function() {
         });
       },
       searchConcord: function() {
-        var $__4 = this;
+        var $__1 = this;
         this.search().addEventListener('click', function(e) {
-          if ($__4.bibleInput().value.length === 0) {
+          e.preventDefault();
+          if ($__1.bibleInput().value.length === 0) {
             return false;
           }
-          $__4.concordModal().setAttribute('data-location', 'bringup');
+          $__1.concordModal().setAttribute('data-location', 'bringup');
           setTimeout(function() {
-            $__4.bibleCover().setAttribute('data-display', 'none');
-            $__4.concordModal().style["display"] = "none";
+            $__1.bibleCover().setAttribute('data-display', 'none');
+            $__1.concordModal().style["display"] = "none";
             var getConcord = new GetJson("js/jsons/oldtestament.json");
             getConcord.loadJson().then(function(concord) {
-              var $__13,
-                  $__14;
-              var $__8 = true;
-              var $__9 = false;
-              var $__10 = undefined;
+              var $__10,
+                  $__11;
+              var q = 0;
+              var $__5 = true;
+              var $__6 = false;
+              var $__7 = undefined;
               try {
-                var $__20 = function() {
-                  var $__12 = $__6.value,
-                      index = ($__13 = $__12[Symbol.iterator](), ($__14 = $__13.next()).done ? void 0 : $__14.value),
-                      value = ($__14 = $__13.next()).done ? void 0 : $__14.value;
+                for (var $__3 = void 0,
+                    $__2 = (objectEntries(concord))[Symbol.iterator](); !($__5 = ($__3 = $__2.next()).done); $__5 = true) {
+                  var $__9 = $__3.value,
+                      index = ($__10 = $__9[Symbol.iterator](), ($__11 = $__10.next()).done ? void 0 : $__11.value),
+                      nameOfLocation = ($__11 = $__10.next()).done ? void 0 : $__11.value;
                   {
-                    var getLocationConcord = new GetJson(("js/jsons/" + value + ".json"));
-                    var i = 0;
-                    var j = 1;
+                    var getLocationConcord = new GetJson(("js/jsons/" + nameOfLocation + ".json"));
                     getLocationConcord.loadJson().then(function(concord) {
-                      var $__17,
-                          $__18;
-                      var $__15 = concord,
-                          book = $__15.book,
-                          chapters = $__15.chapters;
-                      var $__8 = true;
-                      var $__9 = false;
-                      var $__10 = undefined;
+                      var $__14,
+                          $__15;
+                      var $__12 = concord,
+                          book = $__12.book,
+                          chapters = $__12.chapters;
+                      var $__5 = true;
+                      var $__6 = false;
+                      var $__7 = undefined;
                       try {
-                        for (var $__6 = void 0,
-                            $__5 = (objectEntries(chapters))[Symbol.iterator](); !($__8 = ($__6 = $__5.next()).done); $__8 = true) {
-                          var $__16 = $__6.value,
-                              index$__21 = ($__17 = $__16[Symbol.iterator](), ($__18 = $__17.next()).done ? void 0 : $__18.value),
-                              versesValue = ($__18 = $__17.next()).done ? void 0 : $__18.value;
+                        for (var $__3 = void 0,
+                            $__2 = (objectEntries(chapters))[Symbol.iterator](); !($__5 = ($__3 = $__2.next()).done); $__5 = true) {
+                          var $__13 = $__3.value,
+                              index$__17 = ($__14 = $__13[Symbol.iterator](), ($__15 = $__14.next()).done ? void 0 : $__15.value),
+                              versesValue = ($__15 = $__14.next()).done ? void 0 : $__15.value;
                           {
-                            var $__19 = versesValue,
-                                chapter = $__19.chapter,
-                                verses = $__19.verses;
-                            try {
-                              var inputValue = $__4.bibleInput().value;
-                              var textOfVerse = verses[i][j];
-                              if (RegExp(inputValue, "ig").match(textOfVerse)) {
-                                console.log(book, chapter, (Number(Reflect.ownKeys(verses[i])[0]) - 1), textOfVerse.join(" "));
-                              }
-                            } catch (ex) {}
-                            ;
-                            i = i + 1;
-                            j = j + 1;
+                            var $__16 = versesValue,
+                                chapter = $__16.chapter,
+                                verses = $__16.verses;
+                            var worker = new Worker('thread/concord.js');
+                            worker.postMessage("hi");
+                            worker.addEventListener('message', function(evt) {
+                              console.log(evt);
+                            });
                           }
                         }
-                      } catch ($__11) {
-                        $__9 = true;
-                        $__10 = $__11;
+                      } catch ($__8) {
+                        $__6 = true;
+                        $__7 = $__8;
                       } finally {
                         try {
-                          if (!$__8 && $__5.return != null) {
-                            $__5.return();
+                          if (!$__5 && $__2.return != null) {
+                            $__2.return();
                           }
                         } finally {
-                          if ($__9) {
-                            throw $__10;
+                          if ($__6) {
+                            throw $__7;
                           }
                         }
                       }
                     });
                   }
-                };
-                for (var $__6 = void 0,
-                    $__5 = (objectEntries(concord))[Symbol.iterator](); !($__8 = ($__6 = $__5.next()).done); $__8 = true) {
-                  $__20();
                 }
-              } catch ($__11) {
-                $__9 = true;
-                $__10 = $__11;
+              } catch ($__8) {
+                $__6 = true;
+                $__7 = $__8;
               } finally {
                 try {
-                  if (!$__8 && $__5.return != null) {
-                    $__5.return();
+                  if (!$__5 && $__2.return != null) {
+                    $__2.return();
                   }
                 } finally {
-                  if ($__9) {
-                    throw $__10;
+                  if ($__6) {
+                    throw $__7;
                   }
                 }
               }
@@ -276,28 +344,28 @@ $traceurRuntime.registerModule("../traceur/concord.trace", [], function() {
         });
       }
     }, {check: function(inputValue, splitText) {
-        var $__8 = true;
-        var $__9 = false;
-        var $__10 = undefined;
+        var $__5 = true;
+        var $__6 = false;
+        var $__7 = undefined;
         try {
-          for (var $__6 = void 0,
-              $__5 = (splitText)[Symbol.iterator](); !($__8 = ($__6 = $__5.next()).done); $__8 = true) {
-            var text = $__6.value;
+          for (var $__3 = void 0,
+              $__2 = (splitText)[Symbol.iterator](); !($__5 = ($__3 = $__2.next()).done); $__5 = true) {
+            var text = $__3.value;
             {
               console.log(text);
             }
           }
-        } catch ($__11) {
-          $__9 = true;
-          $__10 = $__11;
+        } catch ($__8) {
+          $__6 = true;
+          $__7 = $__8;
         } finally {
           try {
-            if (!$__8 && $__5.return != null) {
-              $__5.return();
+            if (!$__5 && $__2.return != null) {
+              $__2.return();
             }
           } finally {
-            if ($__9) {
-              throw $__10;
+            if ($__6) {
+              throw $__7;
             }
           }
         }
