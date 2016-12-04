@@ -1,3 +1,7 @@
 www/audios/
-www/.sass-cache/
+www/.sass-cache/*
 www/css/*.map
+config.xml
+hooks/
+platforms/
+plugins/
