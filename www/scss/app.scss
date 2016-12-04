@@ -57,12 +57,11 @@ body {
         .bible-choice-select  {
           @include CoolPadding($bg-color);
         }
-        .bible-choice-select:nth-of-type(0) {
-          display: flex;
+        .bible-choice-language {
+          margin-left: 4em;
         }
-        select {
-          margin-top: 1em;
-          margin-left: 6em;
+        .modal {
+          margin-top: 5em;
         }
         .bible-testatment-choice {
           margin-top: 1em;
@@ -234,7 +233,7 @@ body {
   top: 8em;
   left: 9.5em;
   background-color: white;
-  border-radius: .3em;
+  // border-radius: .3em;
   box-shadow: 0 0 1em  $bg-color;
   label {
     color: lighten($text-color, 50%);
@@ -246,29 +245,26 @@ body {
     .bible-close {
       position: absolute;
       cursor: pointer;
-      left: 19em;
+      left: 16em;
       top: .5em;
       color: lighten($text-color, 50%);
     }
   }
   .bible-search-concord {
     padding: .5em;
-    border-radius: .3em;
     margin-top: 1.5em;
-    margin-left: -7em;
+    // margin-left: -7em;
     border: .1em solid lighten($text-color, 50%);
     font-weight: bolder;
   }
   .bible-start-search {
       border: 1px solid lighten($text-color, 50%);
       background-color: lighten($text-color, 50%);
-      position: absolute;
       font-weight: bolder;
       color: white;
-      padding: .5em;
-      margin-top: 3em;
-      margin-left: 18em;
       cursor: pointer;
+      padding: 0em;
+      border-radius:none;
   }
 }
 .bible-getChapters {
@@ -358,11 +354,12 @@ body {
   display: none;
 }
 [data-location="bringdown"] {
-  animation-name: bringdown;
-  animation-duration: .3s;
-  animation-timing-function: ease-in;
-  animation-fill-mode: forwards;
-  animation-delay: .8s;
+  // animation-name: bringdown;
+  // animation-duration: .3s;
+  // animation-timing-function: ease-in;
+  // animation-fill-mode: forwards;
+  // animation-delay: .8s;
+  top: 10em;
 }
 [data-location="bringup"] {
   animation-name: bringup;
@@ -386,22 +383,22 @@ body {
     width: 10%;
   }
 }
-@keyframes bringdown {
-  0% {
-    top: 9em;
-  }
-  100% {
-    top: 10em;
-  }
-}
-@keyframes bringup {
-  0% {
-    top: 8em;
-  }
-  100% {
-    top: 7em;
-  }
-}
+// @keyframes bringdown {
+//   0% {
+//     top: 9em;
+//   }
+//   100% {
+//     top: 10em;
+//   }
+// }
+// @keyframes bringup {
+//   0% {
+//     top: 8em;
+//   }
+//   100% {
+//     top: 7em;
+//   }
+// }
 @keyframes increasePadding {
   0% {
     padding-left: -1em;
