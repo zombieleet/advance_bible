@@ -8,7 +8,7 @@ class Concord {
 		let close = document.querySelector('.bible-close');
 		let search = document.querySelector('.bible-start-search');
 		let bibleInput = document.querySelector('.bible-search-concord');
-		this.concord = () => concord;		
+		this.concord = () => concord;
 		this.concordModal = () => concordModal;
 		this.bibleCover = () => bibleCover;
 		this.close = () => close;
@@ -26,13 +26,8 @@ class Concord {
 	}
 	closeModal() {
 		this.close().addEventListener('click', (e) => {
-			
-			this.concordModal().setAttribute('data-location', 'bringup');
-
-			setTimeout(() => {
-				this.bibleCover().setAttribute('data-display', 'none');
-				this.concordModal().style["display"] = "none";
-			}, 50);
+			this.bibleCover().setAttribute('data-display', 'none');
+			this.concordModal().style["display"] = "none";
 		})
 		return this;
 	}
@@ -58,14 +53,16 @@ class Concord {
 	// 	}
 	// 	worker.postMessage({text: text, value: this.bibleInput().value});
 	// 	worker.terminate();
-	// }	
+	// }
 	searchConcord() {
 		this.search().addEventListener('click', (e) => {
+
+			e.preventDefault();
 
 			if ( this.bibleInput().value.length === 0 ) {
 				return false;
 			}
-			
+
 			this.concordModal().setAttribute('data-location', 'bringup');
 
 			setTimeout(() => {
@@ -73,35 +70,51 @@ class Concord {
 				this.concordModal().style["display"] = "none";
 				let getConcord = new GetJson("js/jsons/oldtestament.json");
 				getConcord.loadJson().then((concord) => {
-					for ( let [index,value] of objectEntries(concord) ) {
-						let getLocationConcord = new GetJson(`js/jsons/${value}.json`);
-						let i = 0;
-						let j = 1;
+					let q = 0;
+					for ( let [index,nameOfLocation] of objectEntries(concord) ) {
+
+						let getLocationConcord = new GetJson(`js/jsons/${nameOfLocation}.json`);
+
 						getLocationConcord.loadJson().then((concord) => {
+
 							let {book, chapters} = concord
+
 							for ( let [index,versesValue] of objectEntries(chapters) ) {
+
 								let {chapter,verses} = versesValue;
-								//if ( verses[i] === undefined ) continue ;
-								try {
-									let inputValue = this.bibleInput().value
-									let textOfVerse = verses[i][j]//.split(" ");
-									//for ( let text of textOfVerse ) {
-										//console.log(text);
-										//console.log(inputValue.match(text), textOfVerse.join(" "));
-										if ( RegExp(inputValue, "ig").match(textOfVerse) ) {
-											console.log(book, chapter, (Number(Reflect.ownKeys(verses[i])[0]) - 1),textOfVerse.join(" "));
-										}
-									//}
-								} catch(ex){};
-								i = i + 1;
-								j = j + 1;
+
+								let worker = new Worker('thread/concord.js');
+
+								worker.postMessage("hi")
+								worker.addEventListener('message', (evt) => {
+									console.log(evt);
+								})
+								// worker.terminate()
+								// let text = 1;
+								//
+								// Array.from(verses, (v) => {
+								// 		console.log(v[text]);
+								// 		text = 1 + text
+								// })
+
+
+								// try {
+								// 	let inputValue = this.bibleInput().value
+								// 	let textOfVerse = verses[i][j]//.split(" ");
+								// 	//for ( let text of textOfVerse ) {
+								// 		//console.log(text);
+								// 		//console.log(inputValue.match(text), textOfVerse.join(" "));
+								// 		if ( RegExp(inputValue, "ig").match(textOfVerse) ) {
+								// 			console.log(book, chapter, (Number(Reflect.ownKeys(verses[i])[0]) - 1),textOfVerse.join(" "));
+								// 		}
+								// 	//}
+								// } catch(ex){};
+								// i = i + 1;
+								// j = j + 1;
 							}
 						})
 					}
 				})
-				
-
-
 			}, 50);
 
 		})
