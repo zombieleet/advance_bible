@@ -85,11 +85,12 @@ class Concord {
 
 								let worker = new Worker('thread/concord.js');
 
-								worker.postMessage("hi")
-								worker.addEventListener('message', (evt) => {
+								worker.postMessage({})
+								worker.addEventListener('message', function (evt) {
 									console.log(evt);
+									worker.terminate();
 								})
-								// worker.terminate()
+
 								// let text = 1;
 								//
 								// Array.from(verses, (v) => {
