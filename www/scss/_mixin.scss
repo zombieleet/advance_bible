@@ -15,13 +15,14 @@
 @mixin Navigation($bg-color) {
   background-color: $bg-color;
   opacity: .5;
-  clear: left;
+  // clear: left;
+  float: right;
   margin-top: $margin-top-bible-body;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   height: 100vh;
-  width: 450px;
+  width: 100vw;
   // border: 3px solid blue;
   color: darken(white, 10%);
 }
