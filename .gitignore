@@ -1,5 +1,4 @@
 www/audios/
-www/css/*.map
 config.xml
 hooks/
 platforms/
@@ -7,3 +6,4 @@ plugins/
 .vscode
 jsconfig.json
 www/.sass-cache/
+www/css/*.css*
