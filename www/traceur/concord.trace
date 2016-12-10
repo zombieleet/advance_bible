@@ -46,14 +46,6 @@ class Concord {
 			console.log(text);
 		}
 	}
-	// static Search(text) {
-	// 	let worker = new Worker('js/search.js');
-	// 	worker.onmessage = (data) => {
-	// 		console.log(data, "hi");
-	// 	}
-	// 	worker.postMessage({text: text, value: this.bibleInput().value});
-	// 	worker.terminate();
-	// }
 	searchConcord() {
 		this.search().addEventListener('click', (e) => {
 
@@ -83,35 +75,17 @@ class Concord {
 
 								let {chapter,verses} = versesValue;
 
-								let worker = new Worker('thread/concord.js');
+								let text = 1;
+								let userInput = this.bibleInput().value;
+								let userInpuRegex = new RegExp(userInput, "igm")
 
-								worker.postMessage({})
-								worker.addEventListener('message', function (evt) {
-									console.log(evt);
-									worker.terminate();
+								Array.from(verses, (v) => {
+
+										if ( userInpuRegex.test(v[text]) ) {
+											console.log(v[text]);
+										}
+										text = 1 + text
 								})
-
-								// let text = 1;
-								//
-								// Array.from(verses, (v) => {
-								// 		console.log(v[text]);
-								// 		text = 1 + text
-								// })
-
-
-								// try {
-								// 	let inputValue = this.bibleInput().value
-								// 	let textOfVerse = verses[i][j]//.split(" ");
-								// 	//for ( let text of textOfVerse ) {
-								// 		//console.log(text);
-								// 		//console.log(inputValue.match(text), textOfVerse.join(" "));
-								// 		if ( RegExp(inputValue, "ig").match(textOfVerse) ) {
-								// 			console.log(book, chapter, (Number(Reflect.ownKeys(verses[i])[0]) - 1),textOfVerse.join(" "));
-								// 		}
-								// 	//}
-								// } catch(ex){};
-								// i = i + 1;
-								// j = j + 1;
 							}
 						})
 					}
