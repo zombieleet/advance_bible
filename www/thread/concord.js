@@ -1,4 +1,4 @@
 
-this.addEventListener('message', (evt) => {
-  this.postMessage(evt);
-})
+this.addEventListener('message', function (evt) {
+  this.postMessage({});
+}.bind(this));
