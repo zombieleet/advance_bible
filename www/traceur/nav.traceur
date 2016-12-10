@@ -2,43 +2,68 @@ import {GetJson as GetJson} from "loadRequested.js"
 import {objectEntries as objectEntries } from "loadRequested.js"
 import {GetBible as GetBible } from "bible.js";
 import {Modal as Modal} from "loadRequested.js";
-class Nav {
+// class Nav {
+//   constructor() {
+//     let bibleArrow = document.querySelector('.bible-arrows');
+//     this.bibleArrow = () => bibleArrow;
+//   }
+//   minMax() {
+//     this.bibleArrow().addEventListener('click', (e) => {
+//       let parentNodeNav = e.target.parentNode;
+//       let navItem = parentNodeNav.getElementsByTagName('span');
+//       if ( this.bibleArrow().classList.toString().indexOf("fa-long-arrow-left") >= 1 ) {
+//           parentNodeNav.setAttribute('data-minmax', 'minimise');
+//           setTimeout(() => {
+//             Array.from(navItem, (item) => {
+//               item.nextElementSibling.setAttribute('data-display', 'none');
+//               item.setAttribute('data-display', 'none');
+//               item.parentNode.setAttribute('class', item.parentNode.getAttribute('class') + ' fa-lg');
+//             })
+//             this.bibleArrow().classList.toggle('fa-long-arrow-left');
+//             this.bibleArrow().setAttribute('class', this.bibleArrow().getAttribute('class') + " fa-long-arrow-right");
+//           }, 100);
+//       } else {
+//          parentNodeNav.setAttribute('data-minmax', 'maximise');
+//          setTimeout(() => {
+//            Array.from(navItem, (item) => {
+//              item.nextElementSibling.removeAttribute('data-display');
+//              item.removeAttribute('data-display');
+//              item.parentNode.classList.toggle('fa-lg');
+//            })
+//            this.bibleArrow().classList.toggle('fa-long-arrow-right');
+//            this.bibleArrow().setAttribute('class', this.bibleArrow().getAttribute('class') + " fa-long-arrow-left");
+//          }, 100);
+//       }
+//     });
+//     return this;
+//   }
+// }
+class IconBar {
   constructor() {
-    let bibleArrow = document.querySelector('.bible-arrows');
-    this.bibleArrow = () => bibleArrow;
+    let iconBar = document.querySelector('.fa-bars');
+    this.iconBar = () => iconBar;
   }
-  minMax() {
-    this.bibleArrow().addEventListener('click', (e) => {
-      let parentNodeNav = e.target.parentNode;
-      let navItem = parentNodeNav.getElementsByTagName('span');
-      if ( this.bibleArrow().classList.toString().indexOf("fa-long-arrow-left") >= 1 ) {
-          parentNodeNav.setAttribute('data-minmax', 'minimise');
-          setTimeout(() => {
-            Array.from(navItem, (item) => {
-              item.nextElementSibling.setAttribute('data-display', 'none');
-              item.setAttribute('data-display', 'none');
-              item.parentNode.setAttribute('class', item.parentNode.getAttribute('class') + ' fa-lg');
-            })
-            this.bibleArrow().classList.toggle('fa-long-arrow-left');
-            this.bibleArrow().setAttribute('class', this.bibleArrow().getAttribute('class') + " fa-long-arrow-right");
-          }, 100);
-      } else {
-         parentNodeNav.setAttribute('data-minmax', 'maximise');
-         setTimeout(() => {
-           Array.from(navItem, (item) => {
-             item.nextElementSibling.removeAttribute('data-display');
-             item.removeAttribute('data-display');
-             item.parentNode.classList.toggle('fa-lg');
-           })
-           this.bibleArrow().classList.toggle('fa-long-arrow-right');
-           this.bibleArrow().setAttribute('class', this.bibleArrow().getAttribute('class') + " fa-long-arrow-left");
-         }, 100);
+  openIconBar() {
+    this.iconBar().addEventListener('click', (e) => {
+      let target = e.target;
+      let bibleNavItemParent = document.querySelector('.bible-nav');
+      let homeScreen = document.querySelector('.bible-home-screen');
+      
+      if ( ! bibleNavItemParent.hasAttribute('data-open-bar') ) {
+          homeScreen.setAttribute('data-reduce-size','reducesize');
+          bibleNavItemParent.setAttribute('data-open-bar', 'openbar')
+          return ;
       }
+
+      homeScreen.removeAttribute('data-reduce-size');
+
+      bibleNavItemParent.removeAttribute('data-open-bar');
+      bibleNavItemParent.setAttribute('data-close-bar', 'closebar');      
     });
-    return this;
   }
 }
-
+let icBar = new IconBar();
+icBar.openIconBar();
 class NavNavigation {
   constructor() {
     let bibleNavItemParent = document.querySelector('.bible-nav-list');
@@ -112,8 +137,8 @@ class NavNavigation {
     })
   }
 }
-var navigation = new Nav();
-navigation.minMax()
+// var navigation = new Nav();
+// navigation.minMax()
 
 var navigationNavigate = new NavNavigation()
 navigationNavigate.navigate();

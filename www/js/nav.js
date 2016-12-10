@@ -495,45 +495,31 @@ $traceurRuntime.registerModule("../traceur/nav.traceur", [], function() {
   var objectEntries = $traceurRuntime.getModule($traceurRuntime.normalizeModuleName("loadRequested.js", "../traceur/nav.traceur")).objectEntries;
   var GetBible = $traceurRuntime.getModule($traceurRuntime.normalizeModuleName("bible.js", "../traceur/nav.traceur")).GetBible;
   var Modal = $traceurRuntime.getModule($traceurRuntime.normalizeModuleName("loadRequested.js", "../traceur/nav.traceur")).Modal;
-  var Nav = function() {
-    function Nav() {
-      var bibleArrow = document.querySelector('.bible-arrows');
-      this.bibleArrow = function() {
-        return bibleArrow;
+  var IconBar = function() {
+    function IconBar() {
+      var iconBar = document.querySelector('.fa-bars');
+      this.iconBar = function() {
+        return iconBar;
       };
     }
-    return ($traceurRuntime.createClass)(Nav, {minMax: function() {
-        var $__2 = this;
-        this.bibleArrow().addEventListener('click', function(e) {
-          var parentNodeNav = e.target.parentNode;
-          var navItem = parentNodeNav.getElementsByTagName('span');
-          if ($__2.bibleArrow().classList.toString().indexOf("fa-long-arrow-left") >= 1) {
-            parentNodeNav.setAttribute('data-minmax', 'minimise');
-            setTimeout(function() {
-              Array.from(navItem, function(item) {
-                item.nextElementSibling.setAttribute('data-display', 'none');
-                item.setAttribute('data-display', 'none');
-                item.parentNode.setAttribute('class', item.parentNode.getAttribute('class') + ' fa-lg');
-              });
-              $__2.bibleArrow().classList.toggle('fa-long-arrow-left');
-              $__2.bibleArrow().setAttribute('class', $__2.bibleArrow().getAttribute('class') + " fa-long-arrow-right");
-            }, 100);
-          } else {
-            parentNodeNav.setAttribute('data-minmax', 'maximise');
-            setTimeout(function() {
-              Array.from(navItem, function(item) {
-                item.nextElementSibling.removeAttribute('data-display');
-                item.removeAttribute('data-display');
-                item.parentNode.classList.toggle('fa-lg');
-              });
-              $__2.bibleArrow().classList.toggle('fa-long-arrow-right');
-              $__2.bibleArrow().setAttribute('class', $__2.bibleArrow().getAttribute('class') + " fa-long-arrow-left");
-            }, 100);
+    return ($traceurRuntime.createClass)(IconBar, {openIconBar: function() {
+        this.iconBar().addEventListener('click', function(e) {
+          var target = e.target;
+          var bibleNavItemParent = document.querySelector('.bible-nav');
+          var homeScreen = document.querySelector('.bible-home-screen');
+          if (!bibleNavItemParent.hasAttribute('data-open-bar')) {
+            homeScreen.setAttribute('data-reduce-size', 'reducesize');
+            bibleNavItemParent.setAttribute('data-open-bar', 'openbar');
+            return;
           }
+          homeScreen.removeAttribute('data-reduce-size');
+          bibleNavItemParent.removeAttribute('data-open-bar');
+          bibleNavItemParent.setAttribute('data-close-bar', 'closebar');
         });
-        return this;
       }}, {});
   }();
+  var icBar = new IconBar();
+  icBar.openIconBar();
   var NavNavigation = function() {
     function NavNavigation() {
       var bibleNavItemParent = document.querySelector('.bible-nav-list');
@@ -584,8 +570,8 @@ $traceurRuntime.registerModule("../traceur/nav.traceur", [], function() {
         return bibleChapters;
       },
       PlaceLocationInDom: function(testament, bibleType) {
-        var $__11,
-            $__12;
+        var $__10,
+            $__11;
         var bibleChoice = document.querySelector(bibleType);
         var homeScreen = document.querySelector('.bible-home-screen');
         var testaMentParent = document.createElement('div');
@@ -597,15 +583,15 @@ $traceurRuntime.registerModule("../traceur/nav.traceur", [], function() {
             removeTestamentParent.remove();
           }
           homeScreen.appendChild(testaMentParent);
-          var $__6 = true;
-          var $__7 = false;
-          var $__8 = undefined;
+          var $__5 = true;
+          var $__6 = false;
+          var $__7 = undefined;
           try {
-            for (var $__4 = void 0,
-                $__3 = (objectEntries(testament))[Symbol.iterator](); !($__6 = ($__4 = $__3.next()).done); $__6 = true) {
-              var $__10 = $__4.value,
-                  otKey = ($__11 = $__10[Symbol.iterator](), ($__12 = $__11.next()).done ? void 0 : $__12.value),
-                  otValue = ($__12 = $__11.next()).done ? void 0 : $__12.value;
+            for (var $__3 = void 0,
+                $__2 = (objectEntries(testament))[Symbol.iterator](); !($__5 = ($__3 = $__2.next()).done); $__5 = true) {
+              var $__9 = $__3.value,
+                  otKey = ($__10 = $__9[Symbol.iterator](), ($__11 = $__10.next()).done ? void 0 : $__11.value),
+                  otValue = ($__11 = $__10.next()).done ? void 0 : $__11.value;
               {
                 var location = document.createElement('p');
                 ;
@@ -614,17 +600,17 @@ $traceurRuntime.registerModule("../traceur/nav.traceur", [], function() {
                 testaMentParent.appendChild(location);
               }
             }
-          } catch ($__9) {
-            $__7 = true;
-            $__8 = $__9;
+          } catch ($__8) {
+            $__6 = true;
+            $__7 = $__8;
           } finally {
             try {
-              if (!$__6 && $__3.return != null) {
-                $__3.return();
+              if (!$__5 && $__2.return != null) {
+                $__2.return();
               }
             } finally {
-              if ($__7) {
-                throw $__8;
+              if ($__6) {
+                throw $__7;
               }
             }
           }
@@ -632,8 +618,6 @@ $traceurRuntime.registerModule("../traceur/nav.traceur", [], function() {
       }
     });
   }();
-  var navigation = new Nav();
-  navigation.minMax();
   var navigationNavigate = new NavNavigation();
   navigationNavigate.navigate();
   return {};
