@@ -234,19 +234,19 @@ $traceurRuntime.registerModule("../traceur/concord.trace", [], function() {
     }
     return ($traceurRuntime.createClass)(Concord, {
       showConcord: function() {
-        var $__1 = this;
+        var $__2 = this;
         this.concord().addEventListener('click', function(e) {
-          $__1.concordModal().style["display"] = "flex";
-          $__1.concordModal().setAttribute('data-location', 'bringdown');
-          $__1.bibleCover().removeAttribute('data-display');
+          $__2.concordModal().style["display"] = "flex";
+          $__2.concordModal().setAttribute('data-location', 'bringdown');
+          $__2.bibleCover().removeAttribute('data-display');
         });
         return this;
       },
       closeModal: function() {
-        var $__1 = this;
+        var $__2 = this;
         this.close().addEventListener('click', function(e) {
-          $__1.bibleCover().setAttribute('data-display', 'none');
-          $__1.concordModal().style["display"] = "none";
+          $__2.bibleCover().setAttribute('data-display', 'none');
+          $__2.concordModal().style["display"] = "none";
         });
         return this;
       },
@@ -256,86 +256,90 @@ $traceurRuntime.registerModule("../traceur/concord.trace", [], function() {
         });
       },
       searchConcord: function() {
-        var $__1 = this;
+        var $__2 = this;
         this.search().addEventListener('click', function(e) {
           e.preventDefault();
-          if ($__1.bibleInput().value.length === 0) {
+          if ($__2.bibleInput().value.length === 0) {
             return false;
           }
-          $__1.concordModal().setAttribute('data-location', 'bringup');
+          $__2.concordModal().setAttribute('data-location', 'bringup');
           setTimeout(function() {
-            $__1.bibleCover().setAttribute('data-display', 'none');
-            $__1.concordModal().style["display"] = "none";
+            $__2.bibleCover().setAttribute('data-display', 'none');
+            $__2.concordModal().style["display"] = "none";
             var getConcord = new GetJson("js/jsons/oldtestament.json");
             getConcord.loadJson().then(function(concord) {
-              var $__10,
-                  $__11;
+              var $__11,
+                  $__12;
               var q = 0;
-              var $__5 = true;
-              var $__6 = false;
-              var $__7 = undefined;
+              var $__6 = true;
+              var $__7 = false;
+              var $__8 = undefined;
               try {
-                for (var $__3 = void 0,
-                    $__2 = (objectEntries(concord))[Symbol.iterator](); !($__5 = ($__3 = $__2.next()).done); $__5 = true) {
-                  var $__9 = $__3.value,
-                      index = ($__10 = $__9[Symbol.iterator](), ($__11 = $__10.next()).done ? void 0 : $__11.value),
-                      nameOfLocation = ($__11 = $__10.next()).done ? void 0 : $__11.value;
+                for (var $__4 = void 0,
+                    $__3 = (objectEntries(concord))[Symbol.iterator](); !($__6 = ($__4 = $__3.next()).done); $__6 = true) {
+                  var $__10 = $__4.value,
+                      index = ($__11 = $__10[Symbol.iterator](), ($__12 = $__11.next()).done ? void 0 : $__12.value),
+                      nameOfLocation = ($__12 = $__11.next()).done ? void 0 : $__12.value;
                   {
                     var getLocationConcord = new GetJson(("js/jsons/" + nameOfLocation + ".json"));
                     getLocationConcord.loadJson().then(function(concord) {
-                      var $__14,
-                          $__15;
-                      var $__12 = concord,
-                          book = $__12.book,
-                          chapters = $__12.chapters;
-                      var $__5 = true;
-                      var $__6 = false;
-                      var $__7 = undefined;
+                      var $__15,
+                          $__16;
+                      var $__13 = concord,
+                          book = $__13.book,
+                          chapters = $__13.chapters;
+                      var $__6 = true;
+                      var $__7 = false;
+                      var $__8 = undefined;
                       try {
-                        for (var $__3 = void 0,
-                            $__2 = (objectEntries(chapters))[Symbol.iterator](); !($__5 = ($__3 = $__2.next()).done); $__5 = true) {
-                          var $__13 = $__3.value,
-                              index$__17 = ($__14 = $__13[Symbol.iterator](), ($__15 = $__14.next()).done ? void 0 : $__15.value),
-                              versesValue = ($__15 = $__14.next()).done ? void 0 : $__15.value;
+                        var $__18 = function() {
+                          var $__14 = $__4.value,
+                              index = ($__15 = $__14[Symbol.iterator](), ($__16 = $__15.next()).done ? void 0 : $__16.value),
+                              versesValue = ($__16 = $__15.next()).done ? void 0 : $__16.value;
                           {
-                            var $__16 = versesValue,
-                                chapter = $__16.chapter,
-                                verses = $__16.verses;
+                            var $__17 = versesValue,
+                                chapter = $__17.chapter,
+                                verses = $__17.verses;
                             var worker = new Worker('thread/concord.js');
-                            worker.postMessage("hi");
+                            worker.postMessage({});
                             worker.addEventListener('message', function(evt) {
                               console.log(evt);
+                              worker.terminate();
                             });
                           }
+                        };
+                        for (var $__4 = void 0,
+                            $__3 = (objectEntries(chapters))[Symbol.iterator](); !($__6 = ($__4 = $__3.next()).done); $__6 = true) {
+                          $__18();
                         }
-                      } catch ($__8) {
-                        $__6 = true;
-                        $__7 = $__8;
+                      } catch ($__9) {
+                        $__7 = true;
+                        $__8 = $__9;
                       } finally {
                         try {
-                          if (!$__5 && $__2.return != null) {
-                            $__2.return();
+                          if (!$__6 && $__3.return != null) {
+                            $__3.return();
                           }
                         } finally {
-                          if ($__6) {
-                            throw $__7;
+                          if ($__7) {
+                            throw $__8;
                           }
                         }
                       }
                     });
                   }
                 }
-              } catch ($__8) {
-                $__6 = true;
-                $__7 = $__8;
+              } catch ($__9) {
+                $__7 = true;
+                $__8 = $__9;
               } finally {
                 try {
-                  if (!$__5 && $__2.return != null) {
-                    $__2.return();
+                  if (!$__6 && $__3.return != null) {
+                    $__3.return();
                   }
                 } finally {
-                  if ($__6) {
-                    throw $__7;
+                  if ($__7) {
+                    throw $__8;
                   }
                 }
               }
@@ -344,28 +348,28 @@ $traceurRuntime.registerModule("../traceur/concord.trace", [], function() {
         });
       }
     }, {check: function(inputValue, splitText) {
-        var $__5 = true;
-        var $__6 = false;
-        var $__7 = undefined;
+        var $__6 = true;
+        var $__7 = false;
+        var $__8 = undefined;
         try {
-          for (var $__3 = void 0,
-              $__2 = (splitText)[Symbol.iterator](); !($__5 = ($__3 = $__2.next()).done); $__5 = true) {
-            var text = $__3.value;
+          for (var $__4 = void 0,
+              $__3 = (splitText)[Symbol.iterator](); !($__6 = ($__4 = $__3.next()).done); $__6 = true) {
+            var text = $__4.value;
             {
               console.log(text);
             }
           }
-        } catch ($__8) {
-          $__6 = true;
-          $__7 = $__8;
+        } catch ($__9) {
+          $__7 = true;
+          $__8 = $__9;
         } finally {
           try {
-            if (!$__5 && $__2.return != null) {
-              $__2.return();
+            if (!$__6 && $__3.return != null) {
+              $__3.return();
             }
           } finally {
-            if ($__6) {
-              throw $__7;
+            if ($__7) {
+              throw $__8;
             }
           }
         }
