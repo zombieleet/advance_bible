@@ -48,7 +48,9 @@ body #bible-body {
   width: 100vw; }
 body #bible-body header {
   border-bottom: 0.1em solid #3b0ca4;
-  padding: .7em; }
+  padding: .1em; }
+body #bible-body header span {
+  cursor: pointer; }
 body #bible-body header .bible-title {
   text-align: center; }
 body #bible-body .bible-nav {
@@ -56,12 +58,15 @@ body #bible-body .bible-nav {
   border: 1px solid #3b0ca4;
   float: left;
   height: 100vh;
-  width: 40%;
-  background-color: #3b0ca4; }
+  width: 30vw;
+  margin-left: -14em;
+  font-weight: bold;
+  background-color: #2a0875; }
 body #bible-body .bible-nav .bible-arrows {
   cursor: pointer; }
 body #bible-body .bible-nav .bible-nav-list {
-  padding: .5em; }
+  padding: .5em;
+  width: 100%; }
 body #bible-body .bible-nav .bible-nav-list .bible-nav-item {
   list-style: none;
   display: block;
@@ -69,7 +74,8 @@ body #bible-body .bible-nav .bible-nav-list .bible-nav-item {
   padding-left: .5em;
   margin-top: .2em;
   cursor: pointer;
-  margin-top: .3em; }
+  margin-top: .3em;
+  font-weight: bolder; }
 body #bible-body .bible-nav .bible-nav-list .bible-nav-item .bible-underline {
   width: 0;
   margin-top: .3em;
@@ -83,13 +89,13 @@ body #bible-body .bible-nav .bible-nav-list .bible-nav-item:hover .bible-underli
 body #bible-body .bible-home-screen {
   background-color: #22075d;
   opacity: .5;
-  clear: left;
+  float: right;
   margin-top: 0.3em;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   height: 100vh;
-  width: 450px;
+  width: 100vw;
   color: #e6e6e6; }
 body #bible-body .bible-home-screen .bible-choice .bible-choice-select {
   font-size: 0.8em;
@@ -151,7 +157,7 @@ body #bible-body .bible-home-screen .bible-read-text {
 body #bible-body .bible-home-screen .bible-read-text .bible-go-left, body #bible-body .bible-home-screen .bible-read-text .bible-go-right {
   cursor: pointer;
   color: #8756f3;
-  font-size: 2em;
+  font-size: 1em;
   font-weight: bolder; }
 body #bible-body .bible-home-screen .bible-read-text .bible-go-left {
   float: left;
@@ -360,9 +366,8 @@ body #bible-body .bible-home-screen .bible-note {
 
 .bible {
   color: #190545;
-  font-size: 1.2em;
-  font-weight: bolder;
-  text-transform: uppercase; }
+  font-size: 1em;
+  font-weight: bold; }
 
 .bible-audio-ctrlers {
   position: fixed;
@@ -409,12 +414,29 @@ body #bible-body .bible-home-screen .bible-note {
 [data-location="bringdown"] {
   top: 10em; }
 
+[data-reduce-size="reducesize"] {
+  animation-name: sizeReduce;
+  animation-duration: .2s;
+  animation-timing-function: ease-in;
+  animation-fill-mode: forwards; }
+
 [data-location="bringup"] {
   animation-name: bringup;
   animation-duration: .1s;
   animation-timing-function: ease-out;
   animation-fill-mode: forwards; }
 
+[data-open-bar="openbar"] {
+  animation-name: openBar;
+  animation-duration: .1s;
+  animation-timing-function: ease-in;
+  animation-fill-mode: forwards; }
+
+@keyframes sizeReduce {
+  from {
+    width: 90vw; }
+  to {
+    width: 69.6666666666666vw; } }
 @keyframes minimiseNav {
   from {
     width: 40%; }
@@ -447,5 +469,10 @@ body #bible-body .bible-home-screen .bible-note {
     padding-left: 1em; }
   100% {
     padding-left: -1em; } }
+@keyframes openBar {
+  from {
+    margin-left: -5em; }
+  to {
+    margin-left: 0.1em; } }
 
 /*# sourceMappingURL=app.css.map */
