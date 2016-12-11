@@ -8,6 +8,11 @@ class Concord {
 		let close = document.querySelector('.bible-close');
 		let search = document.querySelector('.bible-start-search');
 		let bibleInput = document.querySelector('.bible-search-concord');
+		
+		let saveSearch = new Map();
+
+		this.saveSearch = () => saveSearch;
+
 		this.concord = () => concord;
 		this.concordModal = () => concordModal;
 		this.bibleCover = () => bibleCover;
@@ -31,22 +36,67 @@ class Concord {
 		})
 		return this;
 	}
-	prom(inputValue, arg) {
-		return new Promise((resolve, reject) => {
-			try {
+	searchText(concord) {
 
-				//resolve(Concord.check(inputValue,splitText));
-			} catch(ex) {}
+		let q = 0;
+		for ( let [index,nameOfLocation] of objectEntries(concord) ) {
 
-		})
-	}
-	static check(inputValue,splitText) {
+			nameOfLocation = nameOfLocation.replace(/\s/g, "");
+			let getLocationConcord = new GetJson(`js/jsons/${nameOfLocation}.json`);
+			
 
-		for ( let text of splitText ) {
-			console.log(text);
+			getLocationConcord.loadJson().then((concord) => {
+
+				let {book, chapters} = concord;
+
+				let ifFound = false;
+
+				let searchChapters = document.querySelector('.bible-search-chapters');
+
+				searchChapters.innerHTML = `Searching ${book}`;
+
+				for ( let [index,versesValue] of objectEntries(chapters) ) {
+
+					let {chapter,verses} = versesValue;
+					
+					let userInput = this.bibleInput().value;
+					let userInpuRegex = new RegExp(userInput, "igm");
+
+					Array.from(verses, (v) => {
+
+							// since v is an object, get the first key
+							// actually there is only one key
+							
+							
+							let verseNum = Object.keys(v)[0];
+							let text = v[verseNum];
+
+							if ( userInpuRegex.test(text) ) {
+								
+								this.saveSearch().set(book,`${chapter} ${verseNum}`);
+
+								ifFound = true;
+
+							}
+					});
+
+				}
+
+				
+				
+				if ( ifFound ) {
+					searchChapters.innerHTML += ` found`
+				} else {
+					searchChapters.innerHTML += ` not found`
+				}
+
+
+			})
 		}
+
 	}
 	searchConcord() {
+
 		this.search().addEventListener('click', (e) => {
 
 			e.preventDefault();
@@ -57,42 +107,70 @@ class Concord {
 
 			this.concordModal().setAttribute('data-location', 'bringup');
 
-			setTimeout(() => {
+
 				this.bibleCover().setAttribute('data-display', 'none');
 				this.concordModal().style["display"] = "none";
 				let getConcord = new GetJson("js/jsons/oldtestament.json");
 				getConcord.loadJson().then((concord) => {
-					let q = 0;
-					for ( let [index,nameOfLocation] of objectEntries(concord) ) {
-
-						let getLocationConcord = new GetJson(`js/jsons/${nameOfLocation}.json`);
-
-						getLocationConcord.loadJson().then((concord) => {
-
-							let {book, chapters} = concord
-
-							for ( let [index,versesValue] of objectEntries(chapters) ) {
-
-								let {chapter,verses} = versesValue;
-
-								let text = 1;
-								let userInput = this.bibleInput().value;
-								let userInpuRegex = new RegExp(userInput, "igm")
-
-								Array.from(verses, (v) => {
-
-										if ( userInpuRegex.test(v[text]) ) {
-											console.log(v[text]);
-										}
-										text = 1 + text
-								})
-							}
-						})
-					}
-				})
-			}, 50);
+					this.bibleCover().removeAttribute('data-display');
+					Concord.StyleProp("oldtestament", this.bibleInput().value)
+					new Concord().searchText(concord);
+					return new GetJson("js/jsons/newtestament.json");
+				}).then((nt) => {
+					nt.loadJson().then((concord) => {
+						this.bibleCover().removeAttribute('data-display');
+						Concord.StyleProp("newtestament", this.bibleInput().value)
+						new Concord().searchText(concord);
+					});
+				});
+				// this.applySearch()
 
 		})
+		return this;
+	}
+	static StyleProp(testament, value){
+		
+		if ( Boolean(document.querySelector('.bible-loading')) ) {
+			console.log('hi');
+			let loadingText = document.querySelector('.bible-loading-text');
+			loadingText.innerHTML = `Searching ${testament} for "${value}"`;
+			return ;
+		}
+
+		let gifLoading = new Image();
+
+		let loadingParent = document.createElement('div');
+		
+		loadingParent.setAttribute('class', 'bible bible-loading');
+
+
+		let searchingChapters = document.createElement('p');
+		searchingChapters.setAttribute('class', 'bible bible-search-chapters')
+
+		let loadingText = document.createElement('p');
+		loadingText.innerHTML = `Searching ${testament} for "${value}"`;
+		loadingText.setAttribute('class', 'bible bible-loading-text');
+		
+
+		let loadingImageParent = document.createElement('div');
+
+		loadingImageParent.setAttribute('class', 'bible bible-loading-image');
+
+
+		gifLoading.onload = () => {
+			loadingImageParent.appendChild(gifLoading);
+			loadingParent.appendChild(loadingText);
+			loadingParent.appendChild(searchingChapters);
+		};
+
+		gifLoading.src = '../img/loading.gif';
+
+		loadingParent.appendChild(loadingImageParent);
+
+		document.body.appendChild(loadingParent);
+	}
+	applySearch() {
+		console.log(this.saveSearch());
 	}
 }
 
