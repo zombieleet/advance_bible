@@ -5,5 +5,5 @@ platforms/
 plugins/
 .vscode
 jsconfig.json
-www/.sass-cache/
-www/css/*.css*
+.sass-cache/
+css/*.css*
