@@ -379,6 +379,23 @@ body #bible-body .bible-home-screen .bible-note {
 .bible-audio-ctrlers .audioctrlers button:first-of-type {
   margin-left: 0; }
 
+.bible-loading {
+  position: absolute;
+  width: 100vw;
+  background-color: white;
+  padding: 7em;
+  top: 5em;
+  opacity: .75; }
+.bible-loading .bible-loading-image {
+  display: flex;
+  justify-content: center; }
+.bible-loading .bible-loading-image img {
+  height: 20%;
+  width: 20%; }
+.bible-loading p {
+  text-align: center;
+  line-height: 3em; }
+
 @keyframes incrWidthOfBibleUnderline {
   from {
     width: 1%; }
