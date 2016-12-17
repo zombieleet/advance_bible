@@ -1,8 +1,14 @@
-@import "reset.scss";
-@import "mixin.scss";
 $text-color: #190545;
 $margin-top-bible-body: .3em;
 $bg-color:lighten($text-color, 5%);
+
+
+@import "reset.scss";
+@import "mixin.scss";
+@import "keyframes.scss";
+@import "dataAttribs.scss";
+@import "standalone.scss";
+
 body {
   box-sizing: border-box;
   width: 100vw;
@@ -35,6 +41,18 @@ body {
       .bible-nav-list {
         padding: .5em;
         width: 100%;
+        .concord-nav {
+          .bible-nav-concord {
+            display: none;
+            font-weight: bolder;
+          }
+          .bible-nav-item {
+            margin-left: -0.5em;
+            &:hover {
+              color: lighten($text-color, 5%);
+            }
+          }
+        }
         .bible-nav-item {
           list-style: none;
           display: block;
@@ -217,262 +235,4 @@ body {
   }
 
 }
-.bible-cover {
-  background-color: darkgrey;
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  opacity: .8;
-}
-.bible-color-list {
- background-color: red;
- display: inline-block;
-}
-#BibleConcord {
-  display: none;
-  //border: 1px solid lighten($text-color, 50%);
-  width: 280px;
-  padding: 1.5em;
-  position: absolute;
-  top: 8em;
-  left: 9.5em;
-  background-color: white;
-  // border-radius: .3em;
-  box-shadow: 0 0 1em  $bg-color;
-  label {
-    color: lighten($text-color, 50%);
-    font-style: italic;
-    font-weight: bolder;
-    font-size: .9em;
-  }
-  @at-root {
-    .bible-close {
-      position: absolute;
-      cursor: pointer;
-      left: 16em;
-      top: .5em;
-      color: lighten($text-color, 50%);
-    }
-  }
-  .bible-search-concord {
-    padding: .5em;
-    margin-top: 1.5em;
-    // margin-left: -7em;
-    border: .1em solid lighten($text-color, 50%);
-    font-weight: bolder;
-  }
-  .bible-start-search {
-      border: 1px solid lighten($text-color, 50%);
-      background-color: lighten($text-color, 50%);
-      font-weight: bolder;
-      color: white;
-      cursor: pointer;
-      padding: 0em;
-      border-radius:none;
-  }
-}
-.bible-getChapters {
-  background-color: white;
-  border: 1px solid lighten($text-color, 1%);
-  border-radius: 1%;
-  position: absolute;
-  width: 280px;
-  top: 8em;
-  left: 9.5em;
-  padding: 1.5em;
-  box-shadow: 0 0 1em  $bg-color;
-  .bible-getChapters-chaptersParent {
-    text-align: center;
-    li {
-      display: inline-block;
-      list-style: none;
-      margin-left: .5em;
-      margin-top: .5em;
-      border: 1px solid lighten($text-color, 50%);
-      border-radius: 3%;
-      box-shadow: 0.5px 0.5px rgba(0.242, 0.093, 0.896, .75) inset;
-      padding: .1em;
-      font-weight: bolder;
-      cursor: pointer;
-      p:last-of-type {
-        margin-top: .3em;
-      }
-    }
-  }
-}
-.bible {
-  color: $text-color;
-  font-size: 1em;
-  font-weight: bold;
-}
-.bible-audio-ctrlers {
-  position: fixed;
-  left: 45%;
-  progress {
-    height: .1em;
-  }
-  .audioctrlers {
-    button {
-      margin-left: 1em;
-    }
-    button:first-of-type {
-      margin-left: 0;
-    }
-  }
-}
-.bible-loading {
-    position: absolute;
-    // height: 100vh;
-    width: 100vw;
-    background-color: white;
-    padding: 7em;
-    top: 5em;
-    opacity: .75;
-    .bible-loading-image {
-      display: flex;
-      justify-content: center;
-      img {
-        height: 20%;
-        width: 20%;
-      }
 
-    }
-    p {
-      text-align: center;
-      line-height: 3em;
-  }
-}
-
-@keyframes incrWidthOfBibleUnderline {
-  from {
-      width: 1%;
-  }
-  to {
-      width: 100%;
-  }
-}
-[data-minmax="minimise"] {
-  animation-name: minimiseNav;
-  animation-duration: .3s;
-  animation-timing-function: ease-out;
-  animation-fill-mode: forwards;
-}
-[data-minmax="maximise"] {
-  animation-name: maximiseNav;
-  animation-duration: .3s;
-  animation-timing-function: ease-in;
-  animation-fill-mode: forwards;
-}
-[data-animate="paddingAnimateIncrease"] {
-  animation-name: increasePadding;
-  animation-duration: .3s;
-  animation-timing-function: ease-in;
-  animation-fill-mode: forwards;
-}
-[data-animate="paddingAnimateDecrease"] {
-  animation-name: decrasePadding;
-  animation-duration: .3s;
-  animation-timing-function: ease-in;
-  animation-fill-mode: forwards;
-}
-[data-display="none"] {
-  display: none;
-}
-[data-location="bringdown"] {
-  // animation-name: bringdown;
-  // animation-duration: .3s;
-  // animation-timing-function: ease-in;
-  // animation-fill-mode: forwards;
-  // animation-delay: .8s;
-  top: 10em;
-}
-[data-reduce-size="reducesize"] {
-  animation-name: sizeReduce;
-  animation-duration: .2s;
-  animation-timing-function: ease-in;
-  animation-fill-mode: forwards;
-} 
-[data-location="bringup"] {
-  animation-name: bringup;
-  animation-duration: .1s;
-  animation-timing-function: ease-out;
-  animation-fill-mode: forwards;
-}
-[data-open-bar="openbar"] {
-  animation-name: openBar;
-  animation-duration: .1s;
-  animation-timing-function: ease-in;
-  animation-fill-mode: forwards;
-}
-
-@keyframes sizeReduce {
-  from {
-    width: 90vw;
-  }
-  to {
-    width: 69.6666666666666vw;
-  }
-}
-
-@keyframes minimiseNav {
-  from {
-    width: 40%;
-  }
-  to {
-    width: 15%;
-  }
-}
-@keyframes maximise {
-  from {
-    width: 15%;
-  }
-  to {
-    width: 10%;
-  }
-}
-@keyframes increasePadding {
-  0% {
-    padding-left: -1em;
-  }
-  50% {
-    padding-left: 1em;
-  }
-  60% {
-    padding-left: 1.5em;
-  }
-  80% {
-    padding-left: 2em;
-  }
-  100% {
-    padding-left: 2.5em;
-  }
-}
-@keyframes paddingAnimateDecrease {
-  0% {
-    padding-left: 2.5em;
-  }
-  50% {
-    padding-left: 2em;
-  }
-  60% {
-    padding-left: 1.5em;
-  }
-  80% {
-    padding-left: 1em;
-  }
-  100% {
-    padding-left: -1em;
-  }
-}
-@keyframes openBar {
-  from {
-    margin-left: -5em;
-  }
-  to {
-    margin-left: 0.1em;
-  }
-}
