@@ -214,7 +214,7 @@ $traceurRuntime.registerModule("../traceur/concord.trace", [], function() {
       var close = document.querySelector('.bible-close');
       var search = document.querySelector('.bible-start-search');
       var bibleInput = document.querySelector('.bible-search-concord');
-      var saveSearch = new Map();
+      var saveSearch = new Set();
       this.saveSearch = function() {
         return saveSearch;
       };
@@ -299,7 +299,7 @@ $traceurRuntime.registerModule("../traceur/concord.trace", [], function() {
                         var verseNum = Object.getOwnPropertyNames(v);
                         var text = v[verseNum];
                         if (userInpuRegex.test(text)) {
-                          $__1.saveSearch().set(book, (chapter + " " + verseNum));
+                          $__1.saveSearch().add((book + " -- " + chapter + " " + verseNum));
                           ifFound = true;
                         }
                       });
@@ -346,6 +346,7 @@ $traceurRuntime.registerModule("../traceur/concord.trace", [], function() {
             }
           }
         }
+        this.applySearch();
       },
       searchConcord: function() {
         var $__1 = this;
@@ -369,7 +370,6 @@ $traceurRuntime.registerModule("../traceur/concord.trace", [], function() {
                 $__1.bibleCover().removeAttribute('data-display');
                 Concord.StyleProp("newtestament", $__1.bibleInput().value);
                 $__1.searchText(concord);
-                $__1.applySearch();
               });
             });
           }, 1000);
@@ -377,31 +377,6 @@ $traceurRuntime.registerModule("../traceur/concord.trace", [], function() {
       },
       applySearch: function() {
         console.log(this.saveSearch());
-        var $__5 = true;
-        var $__6 = false;
-        var $__7 = undefined;
-        try {
-          for (var $__3 = void 0,
-              $__2 = (this.saveSearch())[Symbol.iterator](); !($__5 = ($__3 = $__2.next()).done); $__5 = true) {
-            var i = $__3.value;
-            {
-              console.log(i);
-            }
-          }
-        } catch ($__8) {
-          $__6 = true;
-          $__7 = $__8;
-        } finally {
-          try {
-            if (!$__5 && $__2.return != null) {
-              $__2.return();
-            }
-          } finally {
-            if ($__6) {
-              throw $__7;
-            }
-          }
-        }
       }
     }, {StyleProp: function(testament, value) {
         if (Boolean(document.querySelector('.bible-loading'))) {
@@ -419,12 +394,10 @@ $traceurRuntime.registerModule("../traceur/concord.trace", [], function() {
         loadingText.setAttribute('class', 'bible bible-loading-text');
         var loadingImageParent = document.createElement('div');
         loadingImageParent.setAttribute('class', 'bible bible-loading-image');
-        gifLoading.onload = function() {
-          loadingImageParent.appendChild(gifLoading);
-          loadingParent.appendChild(loadingText);
-          loadingParent.appendChild(searchingChapters);
-        };
         gifLoading.src = '../img/loading.gif';
+        loadingImageParent.appendChild(gifLoading);
+        loadingParent.appendChild(loadingText);
+        loadingParent.appendChild(searchingChapters);
         loadingParent.appendChild(loadingImageParent);
         document.body.appendChild(loadingParent);
       }});
