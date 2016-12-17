@@ -570,8 +570,8 @@ $traceurRuntime.registerModule("../traceur/nav.traceur", [], function() {
         return bibleChapters;
       },
       PlaceLocationInDom: function(testament, bibleType) {
-        var $__10,
-            $__11;
+        var $__11,
+            $__12;
         var bibleChoice = document.querySelector(bibleType);
         var homeScreen = document.querySelector('.bible-home-screen');
         var testaMentParent = document.createElement('div');
@@ -583,15 +583,15 @@ $traceurRuntime.registerModule("../traceur/nav.traceur", [], function() {
             removeTestamentParent.remove();
           }
           homeScreen.appendChild(testaMentParent);
-          var $__5 = true;
-          var $__6 = false;
-          var $__7 = undefined;
+          var $__6 = true;
+          var $__7 = false;
+          var $__8 = undefined;
           try {
-            for (var $__3 = void 0,
-                $__2 = (objectEntries(testament))[Symbol.iterator](); !($__5 = ($__3 = $__2.next()).done); $__5 = true) {
-              var $__9 = $__3.value,
-                  otKey = ($__10 = $__9[Symbol.iterator](), ($__11 = $__10.next()).done ? void 0 : $__11.value),
-                  otValue = ($__11 = $__10.next()).done ? void 0 : $__11.value;
+            for (var $__4 = void 0,
+                $__3 = (objectEntries(testament))[Symbol.iterator](); !($__6 = ($__4 = $__3.next()).done); $__6 = true) {
+              var $__10 = $__4.value,
+                  otKey = ($__11 = $__10[Symbol.iterator](), ($__12 = $__11.next()).done ? void 0 : $__12.value),
+                  otValue = ($__12 = $__11.next()).done ? void 0 : $__12.value;
               {
                 var location = document.createElement('p');
                 ;
@@ -600,17 +600,17 @@ $traceurRuntime.registerModule("../traceur/nav.traceur", [], function() {
                 testaMentParent.appendChild(location);
               }
             }
-          } catch ($__8) {
-            $__6 = true;
-            $__7 = $__8;
+          } catch ($__9) {
+            $__7 = true;
+            $__8 = $__9;
           } finally {
             try {
-              if (!$__5 && $__2.return != null) {
-                $__2.return();
+              if (!$__6 && $__3.return != null) {
+                $__3.return();
               }
             } finally {
-              if ($__6) {
-                throw $__7;
+              if ($__7) {
+                throw $__8;
               }
             }
           }
@@ -620,6 +620,30 @@ $traceurRuntime.registerModule("../traceur/nav.traceur", [], function() {
   }();
   var navigationNavigate = new NavNavigation();
   navigationNavigate.navigate();
+  var ToggleConcord = function() {
+    function ToggleConcord() {
+      var concordNav = document.querySelector('.concord-nav');
+      this.concordNav = function() {
+        return concordNav;
+      };
+    }
+    return ($traceurRuntime.createClass)(ToggleConcord, {toggleConcord: function() {
+        this.concordNav().addEventListener('click', function(e) {
+          var target = e.target;
+          var bibleNavConcord = document.querySelector('.bible-nav-concord');
+          if (!target.classList.toString().includes("bible-nav-item")) {
+            if (bibleNavConcord.hasAttribute('style')) {
+              bibleNavConcord.removeAttribute('style');
+              return;
+            }
+            bibleNavConcord.setAttribute('style', 'display: block');
+            return;
+          }
+        });
+      }}, {});
+  }();
+  var toggleC = new ToggleConcord();
+  toggleC.toggleConcord();
   return {};
 });
 $traceurRuntime.getModule("../traceur/nav.traceur" + '');
