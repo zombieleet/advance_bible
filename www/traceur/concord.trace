@@ -11,10 +11,12 @@ class Concord {
 		let search = document.querySelector('.bible-start-search');
 		let bibleInput = document.querySelector('.bible-search-concord');
 
-		let saveSearch = new Map();
+		// let saveSearch = new Map();
+		// this.saveSearch = () => saveSearch;
 
-
+		let saveSearch = new Set();
 		this.saveSearch = () => saveSearch;
+
 
 		this.concord = () => concord;
 		this.concordModal = () => concordModal;
@@ -46,6 +48,7 @@ class Concord {
 		for ( let [index,nameOfLocation] of objectEntries(concord) ) {
 
 			nameOfLocation = nameOfLocation.replace(/\s/g, "");
+			
 			let getLocationConcord = new GetJson(`js/jsons/${nameOfLocation}.json`);
 
 
@@ -76,8 +79,9 @@ class Concord {
 							let text = v[verseNum];
 
 							if ( userInpuRegex.test(text) ) {
-								this.saveSearch().set(book,`${chapter} ${verseNum}`);
+								// this.saveSearch().set(book,`${chapter} ${verseNum}`);
 
+								this.saveSearch().add(`${book} -- ${chapter} ${verseNum}`);
 								ifFound = true;
 
 							}
@@ -97,6 +101,7 @@ class Concord {
 
 			});
 		}
+
 		this.applySearch();
 	}
 	searchConcord() {
@@ -125,7 +130,7 @@ class Concord {
 				}).then((nt) => {
 					nt.loadJson().then((concord) => {
 						this.bibleCover().removeAttribute('data-display');
-						Concord.StyleProp("newtestament", this.bibleInput().value)
+							Concord.StyleProp("newtestament", this.bibleInput().value)
 						this.searchText(concord);
 					});
 				});
@@ -161,14 +166,14 @@ class Concord {
 
 		loadingImageParent.setAttribute('class', 'bible bible-loading-image');
 
-
-		gifLoading.onload = () => {
-			loadingImageParent.appendChild(gifLoading);
-			loadingParent.appendChild(loadingText);
-			loadingParent.appendChild(searchingChapters);
-		};
-
 		gifLoading.src = '../img/loading.gif';
+
+		// gifLoading.addEventListener('load', () => {
+		loadingImageParent.appendChild(gifLoading);
+		loadingParent.appendChild(loadingText);
+		loadingParent.appendChild(searchingChapters);
+		// })
+
 
 		loadingParent.appendChild(loadingImageParent);
 
@@ -178,10 +183,15 @@ class Concord {
 		// this.saveSearch().forEach((findConcord) => {
 		// 	console.log(findConcord);
 		// })
-		console.log(this.saveSearch());		
-		for ( let i of this.saveSearch() ) {
-			console.log(i);
-		}
+		// console.log(this.saveSearch());		
+		// for ( let i of this.saveSearch() ) {
+		// 	console.log(i);
+		// }
+
+		console.log(this.saveSearch());
+		// for ( let i of this.saveSearch().entries() ) {
+		// 	console.log(i);
+		// }		
 	}
 }
 
