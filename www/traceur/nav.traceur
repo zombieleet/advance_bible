@@ -135,3 +135,33 @@ class ToggleConcord {
 var toggleC = new ToggleConcord();
 
 toggleC.toggleConcord();
+
+class SetActive {
+  constructor() {
+    let bibleNavList = document.querySelector('.bible-nav-list');
+    this.bibleNavList = () => bibleNavList
+  }
+  active() {
+    this.bibleNavList().addEventListener('click', (e) => {
+      let target = e.target;
+      let nodeName = e.target.nodeName.toLowerCase();
+      // console.log(nodeName)
+      // if ( (nodeName === 'li') || (nodeName === 'span') ) {
+      target = ( nodeName === 'li' ) ? target : target.parentNode;
+      if ( target.parentNode.className.includes("bible-nav-concord") ) {
+          target.parentNode.parentNode.setAttribute('data-override', 'true');
+          return ;
+      }
+      Array.from(this.bibleNavList().children, (element) => {
+        if ( element.hasAttribute('data-active-click') ) {
+            element.removeAttribute('data-active-click');
+            if ( element.hasAttribute('data-override') ) element.removeAttribute('data-override');
+        }
+        target.setAttribute('data-active-click', 'true');
+      });
+    })
+  }
+}
+var ss = new SetActive();
+
+ss.active();
