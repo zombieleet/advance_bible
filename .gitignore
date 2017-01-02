@@ -1,9 +1,9 @@
 www/audios/
+www/.sass-cache/
+www/css/app.css.map
 config.xml
 hooks/
 platforms/
 plugins/
 .vscode
 jsconfig.json
-www/.sass-cache/
-www/css/*.css*
