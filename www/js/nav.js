@@ -570,8 +570,8 @@ $traceurRuntime.registerModule("../traceur/nav.traceur", [], function() {
         return bibleChapters;
       },
       PlaceLocationInDom: function(testament, bibleType) {
-        var $__11,
-            $__12;
+        var $__13,
+            $__14;
         var bibleChoice = document.querySelector(bibleType);
         var homeScreen = document.querySelector('.bible-home-screen');
         var testaMentParent = document.createElement('div');
@@ -583,15 +583,15 @@ $traceurRuntime.registerModule("../traceur/nav.traceur", [], function() {
             removeTestamentParent.remove();
           }
           homeScreen.appendChild(testaMentParent);
-          var $__6 = true;
-          var $__7 = false;
-          var $__8 = undefined;
+          var $__8 = true;
+          var $__9 = false;
+          var $__10 = undefined;
           try {
-            for (var $__4 = void 0,
-                $__3 = (objectEntries(testament))[Symbol.iterator](); !($__6 = ($__4 = $__3.next()).done); $__6 = true) {
-              var $__10 = $__4.value,
-                  otKey = ($__11 = $__10[Symbol.iterator](), ($__12 = $__11.next()).done ? void 0 : $__12.value),
-                  otValue = ($__12 = $__11.next()).done ? void 0 : $__12.value;
+            for (var $__6 = void 0,
+                $__5 = (objectEntries(testament))[Symbol.iterator](); !($__8 = ($__6 = $__5.next()).done); $__8 = true) {
+              var $__12 = $__6.value,
+                  otKey = ($__13 = $__12[Symbol.iterator](), ($__14 = $__13.next()).done ? void 0 : $__14.value),
+                  otValue = ($__14 = $__13.next()).done ? void 0 : $__14.value;
               {
                 var location = document.createElement('p');
                 ;
@@ -600,17 +600,17 @@ $traceurRuntime.registerModule("../traceur/nav.traceur", [], function() {
                 testaMentParent.appendChild(location);
               }
             }
-          } catch ($__9) {
-            $__7 = true;
-            $__8 = $__9;
+          } catch ($__11) {
+            $__9 = true;
+            $__10 = $__11;
           } finally {
             try {
-              if (!$__6 && $__3.return != null) {
-                $__3.return();
+              if (!$__8 && $__5.return != null) {
+                $__5.return();
               }
             } finally {
-              if ($__7) {
-                throw $__8;
+              if ($__9) {
+                throw $__10;
               }
             }
           }
@@ -644,6 +644,36 @@ $traceurRuntime.registerModule("../traceur/nav.traceur", [], function() {
   }();
   var toggleC = new ToggleConcord();
   toggleC.toggleConcord();
+  var SetActive = function() {
+    function SetActive() {
+      var bibleNavList = document.querySelector('.bible-nav-list');
+      this.bibleNavList = function() {
+        return bibleNavList;
+      };
+    }
+    return ($traceurRuntime.createClass)(SetActive, {active: function() {
+        var $__4 = this;
+        this.bibleNavList().addEventListener('click', function(e) {
+          var target = e.target;
+          var nodeName = e.target.nodeName.toLowerCase();
+          target = (nodeName === 'li') ? target : target.parentNode;
+          if (target.parentNode.className.includes("bible-nav-concord")) {
+            target.parentNode.parentNode.setAttribute('data-override', 'true');
+            return;
+          }
+          Array.from($__4.bibleNavList().children, function(element) {
+            if (element.hasAttribute('data-active-click')) {
+              element.removeAttribute('data-active-click');
+              if (element.hasAttribute('data-override'))
+                element.removeAttribute('data-override');
+            }
+            target.setAttribute('data-active-click', 'true');
+          });
+        });
+      }}, {});
+  }();
+  var ss = new SetActive();
+  ss.active();
   return {};
 });
 $traceurRuntime.getModule("../traceur/nav.traceur" + '');
