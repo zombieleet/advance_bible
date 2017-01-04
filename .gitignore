@@ -8,3 +8,4 @@ platforms/
 plugins/
 .vscode
 jsconfig.json
+*.bash
