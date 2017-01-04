@@ -200,10 +200,10 @@ $traceurRuntime.registerModule("loadRequested.js", [], function() {
     }
   };
 });
-$traceurRuntime.registerModule("../traceur/concord.trace", [], function() {
+$traceurRuntime.registerModule("../traceur/concord.es6", [], function() {
   "use strict";
-  var __moduleName = "../traceur/concord.trace";
-  var $__19 = $traceurRuntime.getModule($traceurRuntime.normalizeModuleName("loadRequested.js", "../traceur/concord.trace")),
+  var __moduleName = "../traceur/concord.es6";
+  var $__19 = $traceurRuntime.getModule($traceurRuntime.normalizeModuleName("loadRequested.js", "../traceur/concord.es6")),
       GetJson = $__19.GetJson,
       objectEntries = $__19.objectEntries;
   var Concord = function() {
@@ -214,10 +214,9 @@ $traceurRuntime.registerModule("../traceur/concord.trace", [], function() {
       var close = document.querySelector('.bible-close');
       var search = document.querySelector('.bible-start-search');
       var bibleInput = document.querySelector('.bible-search-concord');
-      var saveSearch = new Set();
-      this.saveSearch = function() {
-        return saveSearch;
-      };
+      var bibleHomeScreen = document.querySelector('.bible-home-screen');
+      var renderOnPageParent = document.createElement('div');
+      renderOnPageParent.setAttribute('class', 'bible-rendered-on-page');
       this.concord = function() {
         return concord;
       };
@@ -236,174 +235,180 @@ $traceurRuntime.registerModule("../traceur/concord.trace", [], function() {
       this.bibleInput = function() {
         return bibleInput;
       };
+      this.bibleHomeScreen = function() {
+        return bibleHomeScreen;
+      };
+      this.renderOnPageParent = function() {
+        return renderOnPageParent;
+      };
     }
     return ($traceurRuntime.createClass)(Concord, {
       showConcord: function() {
-        var $__1 = this;
+        var $__2 = this;
         this.concord().addEventListener('click', function(e) {
-          $__1.concordModal().style["display"] = "flex";
-          $__1.concordModal().setAttribute('data-location', 'bringdown');
-          $__1.bibleCover().removeAttribute('data-display');
+          $__2.concordModal().style["display"] = "flex";
+          $__2.concordModal().setAttribute('data-location', 'bringdown');
+          $__2.bibleCover().removeAttribute('data-display');
         });
         return this;
       },
       closeModal: function() {
-        var $__1 = this;
+        var $__2 = this;
         this.close().addEventListener('click', function(e) {
-          $__1.bibleCover().setAttribute('data-display', 'none');
-          $__1.concordModal().style["display"] = "none";
+          $__2.bibleCover().setAttribute('data-display', 'none');
+          $__2.concordModal().style["display"] = "none";
         });
         return this;
       },
       searchText: function(concord) {
-        var $__10,
-            $__11;
-        var $__1 = this;
+        var $__11,
+            $__12;
+        var $__2 = this;
         var q = 0;
-        var $__5 = true;
-        var $__6 = false;
-        var $__7 = undefined;
+        var $__6 = true;
+        var $__7 = false;
+        var $__8 = undefined;
         try {
-          for (var $__3 = void 0,
-              $__2 = (objectEntries(concord))[Symbol.iterator](); !($__5 = ($__3 = $__2.next()).done); $__5 = true) {
-            var $__9 = $__3.value,
-                index = ($__10 = $__9[Symbol.iterator](), ($__11 = $__10.next()).done ? void 0 : $__11.value),
-                nameOfLocation = ($__11 = $__10.next()).done ? void 0 : $__11.value;
+          for (var $__4 = void 0,
+              $__3 = (objectEntries(concord))[Symbol.iterator](); !($__6 = ($__4 = $__3.next()).done); $__6 = true) {
+            var $__10 = $__4.value,
+                index = ($__11 = $__10[Symbol.iterator](), ($__12 = $__11.next()).done ? void 0 : $__12.value),
+                nameOfLocation = ($__12 = $__11.next()).done ? void 0 : $__12.value;
             {
               nameOfLocation = nameOfLocation.replace(/\s/g, "");
               var getLocationConcord = new GetJson(("js/jsons/" + nameOfLocation + ".json"));
               getLocationConcord.loadJson().then(function(concord) {
-                var $__14,
-                    $__15;
-                var $__12 = concord,
-                    book = $__12.book,
-                    chapters = $__12.chapters;
+                var $__15,
+                    $__16;
+                var $__13 = concord,
+                    book = $__13.book,
+                    chapters = $__13.chapters;
                 var ifFound = false;
-                var searchChapters = document.querySelector('.bible-search-chapters');
-                searchChapters.innerHTML = ("Searching " + book);
-                var $__5 = true;
-                var $__6 = false;
-                var $__7 = undefined;
+                var $__6 = true;
+                var $__7 = false;
+                var $__8 = undefined;
                 try {
-                  var $__17 = function() {
-                    var $__13 = $__3.value,
-                        index = ($__14 = $__13[Symbol.iterator](), ($__15 = $__14.next()).done ? void 0 : $__15.value),
-                        versesValue = ($__15 = $__14.next()).done ? void 0 : $__15.value;
+                  var $__18 = function() {
+                    var $__14 = $__4.value,
+                        index = ($__15 = $__14[Symbol.iterator](), ($__16 = $__15.next()).done ? void 0 : $__16.value),
+                        versesValue = ($__16 = $__15.next()).done ? void 0 : $__16.value;
                     {
-                      var $__16 = versesValue,
-                          chapter = $__16.chapter,
-                          verses = $__16.verses;
-                      var userInput = $__1.bibleInput().value;
+                      var $__17 = versesValue,
+                          chapter = $__17.chapter,
+                          verses = $__17.verses;
+                      var userInput = $__2.bibleInput().value;
                       var userInpuRegex = new RegExp(userInput, "igm");
                       Array.from(verses, function(v) {
                         var verseNum = Object.getOwnPropertyNames(v);
                         var text = v[verseNum];
                         if (userInpuRegex.test(text)) {
-                          $__1.saveSearch().add((book + " -- " + chapter + " " + verseNum));
+                          $__2.renderSearch({
+                            book: book,
+                            chapter: chapter,
+                            verseNum: verseNum,
+                            text: text
+                          });
                           ifFound = true;
                         }
                       });
                     }
                   };
-                  for (var $__3 = void 0,
-                      $__2 = (objectEntries(chapters))[Symbol.iterator](); !($__5 = ($__3 = $__2.next()).done); $__5 = true) {
-                    $__17();
+                  for (var $__4 = void 0,
+                      $__3 = (objectEntries(chapters))[Symbol.iterator](); !($__6 = ($__4 = $__3.next()).done); $__6 = true) {
+                    $__18();
                   }
-                } catch ($__8) {
-                  $__6 = true;
-                  $__7 = $__8;
+                } catch ($__9) {
+                  $__7 = true;
+                  $__8 = $__9;
                 } finally {
                   try {
-                    if (!$__5 && $__2.return != null) {
-                      $__2.return();
+                    if (!$__6 && $__3.return != null) {
+                      $__3.return();
                     }
                   } finally {
-                    if ($__6) {
-                      throw $__7;
+                    if ($__7) {
+                      throw $__8;
                     }
                   }
                 }
-                if (ifFound) {
-                  searchChapters.innerHTML += " found";
-                  ifFound = false;
-                } else {
-                  searchChapters.innerHTML += " not found";
-                }
+                ifFound = (ifFound ? false : ifFound);
               });
             }
           }
-        } catch ($__8) {
-          $__6 = true;
-          $__7 = $__8;
+        } catch ($__9) {
+          $__7 = true;
+          $__8 = $__9;
         } finally {
           try {
-            if (!$__5 && $__2.return != null) {
-              $__2.return();
+            if (!$__6 && $__3.return != null) {
+              $__3.return();
             }
           } finally {
-            if ($__6) {
-              throw $__7;
+            if ($__7) {
+              throw $__8;
             }
           }
         }
-        this.applySearch();
       },
       searchConcord: function() {
-        var $__1 = this;
+        var $__2 = this;
         this.search().addEventListener('click', function(e) {
           e.preventDefault();
-          if ($__1.bibleInput().value.length === 0) {
+          if ($__2.bibleInput().value.length === 0) {
             return false;
           }
-          $__1.concordModal().setAttribute('data-location', 'bringup');
-          $__1.bibleCover().setAttribute('data-display', 'none');
-          $__1.concordModal().style["display"] = "none";
+          $__2.concordModal().setAttribute('data-location', 'bringup');
+          $__2.bibleCover().setAttribute('data-display', 'none');
+          $__2.concordModal().style["display"] = "none";
           var getConcord = new GetJson("js/jsons/oldtestament.json");
           setTimeout(function() {
             getConcord.loadJson().then(function(concord) {
-              $__1.bibleCover().removeAttribute('data-display');
-              Concord.StyleProp("oldtestament", $__1.bibleInput().value);
-              $__1.searchText(concord);
+              $__2.bibleCover().removeAttribute('data-display');
+              $__2.searchText(concord);
               return new GetJson("js/jsons/newtestament.json");
             }).then(function(nt) {
               nt.loadJson().then(function(concord) {
-                $__1.bibleCover().removeAttribute('data-display');
-                Concord.StyleProp("newtestament", $__1.bibleInput().value);
-                $__1.searchText(concord);
+                $__2.bibleCover().removeAttribute('data-display');
+                $__2.searchText(concord);
               });
             });
           }, 1000);
         });
       },
-      applySearch: function() {
-        console.log(this.saveSearch());
-      }
-    }, {StyleProp: function(testament, value) {
-        if (Boolean(document.querySelector('.bible-loading'))) {
-          var loadingText$__18 = document.querySelector('.bible-loading-text');
-          loadingText$__18.innerHTML = ("Searching " + testament + " for \"" + value + "\"");
+      renderSearch: function() {
+        var foundSearch = arguments[0] !== (void 0) ? arguments[0] : {};
+        if (Object.keys(foundSearch).length !== 0) {
+          var $__10 = foundSearch,
+              book = $__10.book,
+              chapter = $__10.chapter,
+              verseNum = $__10.verseNum,
+              text = $__10.text;
+          var rndPage = document.querySelector('.bible-rendered-on-page');
+          if (Boolean(rndPage) === false) {
+            Array.from(this.bibleHomeScreen().children, function(ch) {
+              if (!ch.hasAttribute('data-display')) {
+                ch.setAttribute('data-display', 'none');
+              }
+            });
+            this.bibleHomeScreen().appendChild(this.renderOnPageParent());
+          }
+          var renderOnPage = document.createElement('div');
+          var renderBookOnPage = document.createElement('p');
+          renderBookOnPage.setAttribute('class', 'bible-location');
+          renderBookOnPage.innerHTML = (book + " " + chapter + " vs " + verseNum[0]);
+          var hideText = document.createElement('p');
+          hideText.innerHTML = text;
+          hideText.setAttribute('data-display', 'none');
+          renderOnPage.appendChild(renderBookOnPage);
+          renderOnPage.appendChild(hideText);
+          this.renderOnPageParent().appendChild(renderOnPage);
           return;
         }
-        var gifLoading = new Image();
-        var loadingParent = document.createElement('div');
-        loadingParent.setAttribute('class', 'bible bible-loading');
-        var searchingChapters = document.createElement('p');
-        searchingChapters.setAttribute('class', 'bible bible-search-chapters');
-        var loadingText = document.createElement('p');
-        loadingText.innerHTML = ("Searching " + testament + " for \"" + value + "\"");
-        loadingText.setAttribute('class', 'bible bible-loading-text');
-        var loadingImageParent = document.createElement('div');
-        loadingImageParent.setAttribute('class', 'bible bible-loading-image');
-        gifLoading.src = '../img/loading.gif';
-        loadingImageParent.appendChild(gifLoading);
-        loadingParent.appendChild(loadingText);
-        loadingParent.appendChild(searchingChapters);
-        loadingParent.appendChild(loadingImageParent);
-        document.body.appendChild(loadingParent);
-      }});
+      }
+    }, {StyleProp: function(testament, value) {}});
   }();
   var q = new Concord();
   q.showConcord().closeModal().searchConcord();
   return {};
 });
-$traceurRuntime.getModule("../traceur/concord.trace" + '');
+$traceurRuntime.getModule("../traceur/concord.es6" + '');
