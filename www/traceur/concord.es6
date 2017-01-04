@@ -10,13 +10,14 @@ class Concord {
 		let close = document.querySelector('.bible-close');
 		let search = document.querySelector('.bible-start-search');
 		let bibleInput = document.querySelector('.bible-search-concord');
+		let bibleHomeScreen = document.querySelector('.bible-home-screen');
+			/*				*\
 
-		// let saveSearch = new Map();
-		// this.saveSearch = () => saveSearch;
-
-		let saveSearch = new Set();
-		this.saveSearch = () => saveSearch;
-
+		This Element should be created in this constructor to avoid creating it more than once
+			in renderSearch method since renderOnPageParent will be created ones
+			\*				*/
+		let renderOnPageParent = document.createElement('div');
+				renderOnPageParent.setAttribute('class', 'bible-rendered-on-page');
 
 		this.concord = () => concord;
 		this.concordModal = () => concordModal;
@@ -24,6 +25,8 @@ class Concord {
 		this.close = () => close;
 		this.search = () => search;
 		this.bibleInput = () => bibleInput;
+		this.bibleHomeScreen =  () => bibleHomeScreen;
+		this.renderOnPageParent = () => renderOnPageParent;
 	}
 	showConcord() {
 		this.concord().addEventListener('click', (e) => {
@@ -48,7 +51,7 @@ class Concord {
 		for ( let [index,nameOfLocation] of objectEntries(concord) ) {
 
 			nameOfLocation = nameOfLocation.replace(/\s/g, "");
-			
+
 			let getLocationConcord = new GetJson(`js/jsons/${nameOfLocation}.json`);
 
 
@@ -58,9 +61,9 @@ class Concord {
 
 				let ifFound = false;
 
-				let searchChapters = document.querySelector('.bible-search-chapters');
+				// let searchChapters = document.querySelector('.bible-search-chapters');
 
-				searchChapters.innerHTML = `Searching ${book}`;
+				// searchChapters.innerHTML = `Searching ${book}`;
 
 				for ( let [index,versesValue] of objectEntries(chapters) ) {
 
@@ -71,17 +74,17 @@ class Concord {
 
 					Array.from(verses, (v) => {
 
-							// since v is an object, get the first key
-							// actually there is only one key
-
-
 							let verseNum = Object.getOwnPropertyNames(v);
 							let text = v[verseNum];
 
 							if ( userInpuRegex.test(text) ) {
-								// this.saveSearch().set(book,`${chapter} ${verseNum}`);
-
-								this.saveSearch().add(`${book} -- ${chapter} ${verseNum}`);
+								// this.saveSearch().add(`${book} -- ${chapter} ${verseNum} -- ${text}`);
+								this.renderSearch({
+									book,
+									chapter,
+									verseNum,
+									text
+								})
 								ifFound = true;
 
 							}
@@ -89,20 +92,10 @@ class Concord {
 
 				}
 
-
-
-				if ( ifFound ) {
-					searchChapters.innerHTML += ` found`
-					ifFound = false;
-				} else {
-					searchChapters.innerHTML += ` not found`
-				}
-
+				ifFound = ( ifFound ? false : ifFound);
 
 			});
 		}
-
-		this.applySearch();
 	}
 	searchConcord() {
 
@@ -120,78 +113,102 @@ class Concord {
 			this.bibleCover().setAttribute('data-display', 'none');
 			this.concordModal().style["display"] = "none";
 			let getConcord = new GetJson("js/jsons/oldtestament.json");
+
 			setTimeout(() => {
-				
 				getConcord.loadJson().then((concord) => {
 					this.bibleCover().removeAttribute('data-display');
-					Concord.StyleProp("oldtestament", this.bibleInput().value)
+					// Concord.StyleProp("oldtestament", this.bibleInput().value)
 					this.searchText(concord);
 					return new GetJson("js/jsons/newtestament.json");
 				}).then((nt) => {
 					nt.loadJson().then((concord) => {
 						this.bibleCover().removeAttribute('data-display');
-							Concord.StyleProp("newtestament", this.bibleInput().value)
+							// Concord.StyleProp("newtestament", this.bibleInput().value)
 						this.searchText(concord);
 					});
 				});
-				
+
 			}, 1000);
 
 		})
 	}
 	static StyleProp(testament, value){
 
-		if ( Boolean(document.querySelector('.bible-loading')) ) {
-			let loadingText = document.querySelector('.bible-loading-text');
-			loadingText.innerHTML = `Searching ${testament} for "${value}"`;
-			return ;
-		}
-
-		let gifLoading = new Image();
-
-		let loadingParent = document.createElement('div');
-
-		loadingParent.setAttribute('class', 'bible bible-loading');
-
-
-		let searchingChapters = document.createElement('p');
-		searchingChapters.setAttribute('class', 'bible bible-search-chapters')
-
-		let loadingText = document.createElement('p');
-		loadingText.innerHTML = `Searching ${testament} for "${value}"`;
-		loadingText.setAttribute('class', 'bible bible-loading-text');
-
-
-		let loadingImageParent = document.createElement('div');
-
-		loadingImageParent.setAttribute('class', 'bible bible-loading-image');
-
-		gifLoading.src = '../img/loading.gif';
-
-		// gifLoading.addEventListener('load', () => {
-		loadingImageParent.appendChild(gifLoading);
-		loadingParent.appendChild(loadingText);
-		loadingParent.appendChild(searchingChapters);
-		// })
-
-
-		loadingParent.appendChild(loadingImageParent);
-
-		document.body.appendChild(loadingParent);
-	}
-	applySearch() {
-		// this.saveSearch().forEach((findConcord) => {
-		// 	console.log(findConcord);
-		// })
-		// console.log(this.saveSearch());		
-		// for ( let i of this.saveSearch() ) {
-		// 	console.log(i);
+		// if ( Boolean(document.querySelector('.bible-loading')) ) {
+		// 	let loadingText = document.querySelector('.bible-loading-text');
+		// 	loadingText.innerHTML = `Searching ${testament} for "${value}"`;
+		// 	return ;
 		// }
 
-		console.log(this.saveSearch());
-		// for ( let i of this.saveSearch().entries() ) {
-		// 	console.log(i);
-		// }		
+		// let gifLoading = new Image();
+
+		// let loadingParent = document.createElement('div');
+
+		// loadingParent.setAttribute('class', 'bible bible-loading');
+
+
+		// let searchingChapters = document.createElement('p');
+		// searchingChapters.setAttribute('class', 'bible bible-search-chapters')
+
+		// let loadingText = document.createElement('p');
+		// loadingText.innerHTML = `Searching ${testament} for "${value}"`;
+		// loadingText.setAttribute('class', 'bible bible-loading-text');
+
+
+		// let loadingImageParent = document.createElement('div');
+
+		// loadingImageParent.setAttribute('class', 'bible bible-loading-image');
+
+		// gifLoading.src = '../img/loading.gif';
+
+		// loadingImageParent.appendChild(gifLoading);
+		// loadingParent.appendChild(loadingText);
+		// loadingParent.appendChild(searchingChapters);
+
+
+		// loadingParent.appendChild(loadingImageParent);
+		// document.body.appendChild(loadingParent);
+	}
+	renderSearch(foundSearch = {}) {
+
+			if ( Object.keys(foundSearch).length !== 0 ) {
+				
+				let {book,chapter,verseNum,text} = foundSearch;
+
+				let rndPage = document.querySelector('.bible-rendered-on-page');
+				
+				if ( Boolean(rndPage) === false ) {
+					Array.from(this.bibleHomeScreen().children, (ch) => {
+						if ( ! ch.hasAttribute('data-display') ) {
+							ch.setAttribute('data-display', 'none');
+						}
+					})
+					this.bibleHomeScreen().appendChild(this.renderOnPageParent());
+				}
+
+
+				let renderOnPage = document.createElement('div');
+				let renderBookOnPage = document.createElement('p');
+						renderBookOnPage.setAttribute('class', 'bible-location');
+						renderBookOnPage.innerHTML = `${book} ${chapter} vs ${verseNum[0]}`
+				
+				let hideText = document.createElement('p');
+						hideText.innerHTML = text;
+						hideText.setAttribute('data-display', 'none');		
+				
+				renderOnPage.appendChild(renderBookOnPage);
+				renderOnPage.appendChild(hideText);
+
+
+				this.renderOnPageParent().appendChild(renderOnPage);
+
+
+				
+				return ;
+			}
+
+
+		
 	}
 }
 
