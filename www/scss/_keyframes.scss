@@ -1,0 +1,84 @@
+@keyframes sizeReduce {
+  from {
+    width: 90vw;
+  }
+  to {
+    width: 69.6666666666666vw;
+  }
+}
+
+@keyframes minimiseNav {
+  from {
+    width: 40%;
+  }
+  to {
+    width: 15%;
+  }
+}
+@keyframes maximise {
+  from {
+    width: 15%;
+  }
+  to {
+    width: 10%;
+  }
+}
+@keyframes increasePadding {
+  0% {
+    padding-left: -1em;
+  }
+  50% {
+    padding-left: 1em;
+  }
+  60% {
+    padding-left: 1.5em;
+  }
+  80% {
+    padding-left: 2em;
+  }
+  100% {
+    padding-left: 2.5em;
+  }
+}
+@keyframes paddingAnimateDecrease {
+  0% {
+    padding-left: 2.5em;
+  }
+  50% {
+    padding-left: 2em;
+  }
+  60% {
+    padding-left: 1.5em;
+  }
+  80% {
+    padding-left: 1em;
+  }
+  100% {
+    padding-left: -1em;
+  }
+}
+@keyframes openBar {
+  from {
+    margin-left: -5em;
+  }
+  to {
+    margin-left: 0.1em;
+  }
+}
+@keyframes incrWidthOfBibleUnderline {
+  from {
+      width: 1%;
+  }
+  to {
+      width: 100%;
+  }
+}
+
+@keyframes openConcord {
+    from {
+        height: 1%;
+    }
+    to { 
+        height: 10%;
+    }
+}

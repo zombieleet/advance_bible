@@ -1,0 +1,54 @@
+
+[data-minmax="minimise"] {
+  animation-name: minimiseNav;
+  animation-duration: .3s;
+  animation-timing-function: ease-out;
+  animation-fill-mode: forwards;
+}
+[data-minmax="maximise"] {
+  animation-name: maximiseNav;
+  animation-duration: .3s;
+  animation-timing-function: ease-in;
+  animation-fill-mode: forwards;
+}
+[data-animate="paddingAnimateIncrease"] {
+  animation-name: increasePadding;
+  animation-duration: .3s;
+  animation-timing-function: ease-in;
+  animation-fill-mode: forwards;
+}
+[data-animate="paddingAnimateDecrease"] {
+  animation-name: decrasePadding;
+  animation-duration: .3s;
+  animation-timing-function: ease-in;
+  animation-fill-mode: forwards;
+}
+[data-display="none"] {
+  display: none;
+}
+[data-location="bringdown"] {
+  // animation-name: bringdown;
+  // animation-duration: .3s;
+  // animation-timing-function: ease-in;
+  // animation-fill-mode: forwards;
+  // animation-delay: .8s;
+  top: 10em;
+}
+[data-reduce-size="reducesize"] {
+  animation-name: sizeReduce;
+  animation-duration: .2s;
+  animation-timing-function: ease-in;
+  animation-fill-mode: forwards;
+} 
+[data-location="bringup"] {
+  animation-name: bringup;
+  animation-duration: .1s;
+  animation-timing-function: ease-out;
+  animation-fill-mode: forwards;
+}
+[data-open-bar="openbar"] {
+  animation-name: openBar;
+  animation-duration: .1s;
+  animation-timing-function: ease-in;
+  animation-fill-mode: forwards;
+}
