@@ -73,32 +73,7 @@ export class Modal {
       qq.setAttribute('data-display', 'none');
     })
   }
-            // static createDomNodes(bname) {
-            //   let getChaptersParent = document.createElement('div');
-            //   getChaptersParent.setAttribute('class', 'bible-getChapters');
-            //   let bookName = document.createElement('h4');
-            //   bookName.setAttribute('class', 'bible-getChapters-book');
-            //   bookName.textContent = bname
-            //   let close = document.createElement('span');
-            //   close.setAttribute('class', 'fa fa-close fa-pull-right bible-close')
-            //   let chaptersParent = document.createElement('ul');
-            //   chaptersParent.setAttribute('class', 'bible-getChapters-chaptersParent');
-            //   getChaptersParent.appendChild(bookName)
-            //   getChaptersParent.appendChild(close);
-            //   getChaptersParent.appendChild(document.createElement("hr"))
-            //   getChaptersParent.appendChild(chaptersParent)
-            //   {
-            //     let removeThis = document.querySelector('.bible-getChapters')
-            //     if ( removeThis ) return false ;
-            //   }
-            //   document.body.appendChild(getChaptersParent);
-            //   close.addEventListener('click', () => {
-            //     let qq = document.querySelector('.bible-cover');
-            //     getChaptersParent.remove();
-            //     qq.setAttribute('data-display', 'none');
-            //   })
-            //   return chaptersParent;
-            // }
+    
   static searchJson(testament) {
     let getChapters = new GetJson(`js/jsons/${testament}.json`);
     getChapters.loadJson().then((ch) => {
