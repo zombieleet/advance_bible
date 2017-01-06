@@ -38,40 +38,36 @@ export class JumpToChapter {
       let bibleGetChapters = document.querySelector('.bible-getChapters');
       this.bibleGetChapters = () => bibleGetChapters;
     }
-    moveTo() {
-      this.bibleGetChapters().addEventListener('click', (e) => {
-        let target = e.target;
-        let match = target.textContent.match(/\d+/g) || target.textContent.match(/CH\./);
-        if ( match && (target.nodeName.toLowerCase() === "p") ) {
-            if ( match[0] === "CH." ) {
-              target = target.nextElementSibling;
-            }
-
-        }
-      })
+    el() {
+      return this.bibleGetChapters();
     }
 }
+
 export class Modal {
   static extended(callback) {
-    let qq = document.querySelector('.bible-cover');
-    let modalChapters = document.querySelector('#bible-body');
-    modalChapters.addEventListener('click', (e) => {
-      let target = e.target;
-      if ( target.classList.toString().includes("bible-location")) {
-          //callback(target.textContent.replace(/\s+/g, ""));
-          Modal.searchJson(target.textContent.replace(/\s+/g, ""))
-          qq.removeAttribute('data-display');
-      }
-    });
-    let getChaptersParent  = document.querySelector('.bible-getChapters');
-    let close = getChaptersParent.getElementsByClassName('bible-close')[0];
-    close.addEventListener('click', () => {
-      let chaptersParent = document.querySelector('.bible-getChapters-chaptersParent');
+
       let qq = document.querySelector('.bible-cover');
-      if ( !! chaptersParent ) chaptersParent.remove() ;
-      getChaptersParent.setAttribute("data-display", "none");
-      qq.setAttribute('data-display', 'none');
-    })
+      let modalChapters = document.querySelector('#bible-body');
+
+      modalChapters.addEventListener('click', (e) => {
+        let target = e.target;
+
+        if ( target.classList.toString().includes("bible-location")) {
+            Modal.searchJson(target.textContent.replace(/\s+/g, ""))
+            qq.removeAttribute('data-display');
+        }
+      });
+
+      let getChaptersParent  = document.querySelector('.bible-getChapters');
+      let close = getChaptersParent.getElementsByClassName('bible-close')[0];
+      
+      close.addEventListener('click', () => {
+        let chaptersParent = document.querySelector('.bible-getChapters-chaptersParent');
+        let qq = document.querySelector('.bible-cover');
+        if ( !! chaptersParent ) chaptersParent.remove() ;
+        getChaptersParent.setAttribute("data-display", "none");
+        qq.setAttribute('data-display', 'none');
+      })
   }
     
   static searchJson(testament) {
