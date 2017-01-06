@@ -8,7 +8,7 @@ $bg-color:lighten($text-color, 5%);
 @import "keyframes.scss";
 @import "dataAttribs.scss";
 @import "standalone.scss";
-
+@import "colorVariables.scss";
 body {
   box-sizing: border-box;
   width: 100vw;
