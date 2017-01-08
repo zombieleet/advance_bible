@@ -15,6 +15,7 @@
     width: 15%;
   }
 }
+
 @keyframes maximise {
   from {
     width: 15%;
@@ -23,6 +24,7 @@
     width: 10%;
   }
 }
+
 @keyframes increasePadding {
   0% {
     padding-left: -1em;
@@ -40,6 +42,7 @@
     padding-left: 2.5em;
   }
 }
+
 @keyframes paddingAnimateDecrease {
   0% {
     padding-left: 2.5em;
@@ -67,18 +70,18 @@
 }
 @keyframes incrWidthOfBibleUnderline {
   from {
-      width: 1%;
+    width: 1%;
   }
   to {
-      width: 100%;
+    width: 100%;
   }
 }
 
 @keyframes openConcord {
-    from {
-        height: 1%;
-    }
-    to { 
-        height: 10%;
-    }
+  from {
+    height: 1%;
+  }
+  to {
+    height: 10%;
+  }
 }
