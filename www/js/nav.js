@@ -132,7 +132,12 @@ $traceurRuntime.registerModule("loadRequested.js", [], function() {
         modalChapters.addEventListener('click', function(e) {
           var target = e.target;
           if (target.classList.toString().includes("bible-location")) {
+            console.log('true');
             Modal.searchJson(target.textContent.replace(/\s+/g, ""));
+            qq.removeAttribute('data-display');
+          } else if (target.classList.toString().includes("bible-label-chapter")) {
+            var currentOpenLocation = document.querySelector('.bible-book-name').innerHTML;
+            Modal.searchJson(currentOpenLocation.replace(/\s+/g, ""));
             qq.removeAttribute('data-display');
           }
         });
@@ -195,11 +200,11 @@ $traceurRuntime.registerModule("loadRequested.js", [], function() {
 $traceurRuntime.registerModule("bible.js", [], function() {
   "use strict";
   var __moduleName = "bible.js";
-  var $__20 = $traceurRuntime.getModule($traceurRuntime.normalizeModuleName("loadRequested.js", "bible.js")),
-      JumpToChapter = $__20.JumpToChapter,
-      objectEntries = $__20.objectEntries,
-      GetJson = $__20.GetJson,
-      Modal = $__20.Modal;
+  var $__21 = $traceurRuntime.getModule($traceurRuntime.normalizeModuleName("loadRequested.js", "bible.js")),
+      JumpToChapter = $__21.JumpToChapter,
+      objectEntries = $__21.objectEntries,
+      GetJson = $__21.GetJson,
+      Modal = $__21.Modal;
   var Audio = function() {
     function Audio() {}
     return ($traceurRuntime.createClass)(Audio, {}, {
@@ -211,9 +216,9 @@ $traceurRuntime.registerModule("bible.js", [], function() {
           throw new Error("Link is Undefined");
         }
         if (HTMLAudioElement[Symbol.hasInstance](audio)) {
-          var $__17 = info,
-              book = $__17.book,
-              chapter = $__17.chapter;
+          var $__18 = info,
+              book = $__18.book,
+              chapter = $__18.chapter;
           var parent = document.querySelector('.bible-read-text');
           audio.setAttribute('src', link);
           Audio.CreateControls(parent, audio, book, chapter);
@@ -232,15 +237,14 @@ $traceurRuntime.registerModule("bible.js", [], function() {
         bar.setAttribute('class', 'progress progress-bar-success');
         bar.setAttribute('value', audio.currentTime);
         bar.setAttribute('max', 300);
-        divbtn.setAttribute('class', 'bible-audio-ctrlers');
+        divbtn.setAttribute('class', 'bible-audio-ctrlers pull-right');
         ctrlBtn.setAttribute('class', 'audioctrlers');
         ctrlBtn.appendChild(playbtn);
         ctrlBtn.appendChild(pausebtn);
         ctrlBtn.appendChild(stopbtn);
-        divbtn.appendChild(bar);
         divbtn.appendChild(ctrlBtn);
         divbtn.appendChild(audio);
-        parent.insertBefore(divbtn, parent.firstElementChild);
+        document.querySelector('header').appendChild(divbtn);
         var ctrlers = document.querySelectorAll('.bible-audio-ctrlers');
         if (ctrlers.length > 1) {
           ctrlers[ctrlers.length - 1].remove();
@@ -256,11 +260,11 @@ $traceurRuntime.registerModule("bible.js", [], function() {
         bar.setAttribute('value', audio.currentTime);
       },
       ControlsListener: function(audio, btnlisteners, book, chapter) {
-        var $__17 = btnlisteners,
-            playbtn = $__17.playbtn,
-            pausebtn = $__17.pausebtn,
-            stopbtn = $__17.stopbtn,
-            bar = $__17.bar;
+        var $__18 = btnlisteners,
+            playbtn = $__18.playbtn,
+            pausebtn = $__18.pausebtn,
+            stopbtn = $__18.stopbtn,
+            bar = $__18.bar;
         playbtn.addEventListener('click', function(evt) {
           var target = evt.target;
           if (target.disabled) {
@@ -299,6 +303,44 @@ $traceurRuntime.registerModule("bible.js", [], function() {
             pausebtn.setAttribute('class', pausebtn.getAttribute('class').replace('disabled', ''));
           }
         });
+      }
+    });
+  }();
+  var HeaderButtons = function() {
+    function HeaderButtons() {}
+    return ($traceurRuntime.createClass)(HeaderButtons, {}, {
+      render: function() {
+        var header = document.querySelector('.bible-read-text');
+        var header_btnGroup = document.createElement('div');
+        header.appendChild(header_btnGroup);
+        header_btnGroup.setAttribute('class', 'btn-group bible-label-group');
+        header_btnGroup.appendChild(HeaderButtons.createOpenChapterBtn());
+        header_btnGroup.appendChild(HeaderButtons.createSelectVersion());
+        header_btnGroup.appendChild(HeaderButtons.createSelectLanguage());
+      },
+      createOpenChapterBtn: function() {
+        var openChapterModalDiv = document.createElement('div');
+        var openChapterModal = document.createElement('button');
+        openChapterModalDiv.setAttribute('class', 'col-xs-4');
+        openChapterModalDiv.appendChild(openChapterModal);
+        openChapterModal.setAttribute('class', 'btn btn-primary label bible-label bible-label-chapter');
+        openChapterModal.innerHTML = 'Select Chapter';
+        openChapterModal.addEventListener('click', function() {
+          Modal.extended();
+        });
+        return openChapterModalDiv;
+      },
+      createSelectVersion: function() {
+        var selectVersionDropDown = document.createElement('div');
+        selectVersionDropDown.setAttribute('class', 'col-xs-4');
+        selectVersionDropDown.innerHTML = "\n\t\t\t\t<button class=\"btn label dropdown-toggle bible-label\" \n\t\t\t\t\t\ttype=\"button\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">\n\t\t\t\t\t\t\n\t\t\t\t\tchoose version <span class=\"bible-current-version\"></span> \n\t\t\t\t\t<span class=\"caret\"></span>\n\t\t\t\t</button>\n\t\t\t\t<ul class=\"dropdown-menu list-group bible-label-list\">\n\t\t\t\t\t<li class=\"list-group-item\">KJV</li>\n\t\t\t\t\t<li class=\"list-group-item\">KJV</li>\n\t\t\t\t\t<li class=\"list-group-item\">KJV</li>\n\t\t\t\t\t<li class=\"list-group-item\">KJV</li>\n\t\t\t\t\t<li class=\"list-group-item\">KJV</li>\n\t\t\t\t\t<li class=\"list-group-item\">KJV</li>\n\t\t\t\t</ul>\t\t\t\t\n\t\t";
+        return selectVersionDropDown;
+      },
+      createSelectLanguage: function() {
+        var selectLanguageDropdown = document.createElement('div');
+        selectLanguageDropdown.setAttribute('class', 'col-xs-4');
+        selectLanguageDropdown.innerHTML = "\n\t\t\t\t<button class=\"btn label dropdown-toggle bible-label\" \n\t\t\t\t\ttype=\"button\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">\n\n\t\t\t\t\tselect langauge \n\t\t\t\t\t<span class=\"caret\"></span>\n\t\t\t\t\t<span class=\"bible-current-langauge\"></span>\n\t\t\t\t</button>\n\t\t\t\t<ul class=\"dropdown-menu list-group bible-label-list\">\n\t\t\t\t\t<li class=\"list-group-item\">English</li>\n\t\t\t\t\t<li class=\"list-group-item\">Pigin</li>\n\t\t\t\t\t<li class=\"list-group-item\">Korean</li>\n\t\t\t\t\t<li class=\"list-group-item\">Mandarine</li>\n\t\t\t\t\t<li class=\"list-group-item\">Arabic</li>\n\t\t\t\t\t<li class=\"list-group-item\">Hebrew</li>\n\t\t\t\t</ul>\t\t\t\t\t\t\t\n\t\t";
+        return selectLanguageDropdown;
       }
     });
   }();
@@ -350,7 +392,7 @@ $traceurRuntime.registerModule("bible.js", [], function() {
         });
       },
       getBible: function() {
-        var $__2 = this;
+        var $__3 = this;
         this.bibleTestament().addEventListener('click', function(e) {
           var target = e.target;
           var homeScreen = document.querySelector('.bible-home-screen');
@@ -368,7 +410,7 @@ $traceurRuntime.registerModule("bible.js", [], function() {
             bibleChapters.loadJson().then(function(bc) {
               var i = 0;
               GetBible.StyleBible(bc["book"], bc.chapters[i]);
-              $__2.navigateChapters(bc, i);
+              $__3.navigateChapters(bc, i);
               var el = new JumpToChapter();
               el.el().addEventListener('click', function(e) {
                 var target = e.target;
@@ -398,8 +440,8 @@ $traceurRuntime.registerModule("bible.js", [], function() {
         };
       },
       StyleBible: function(book, chapter) {
-        var $__18,
-            $__19;
+        var $__19,
+            $__20;
         var homeScreen = document.querySelector('.bible-home-screen');
         var bibleReadText = document.createElement('div');
         bibleReadText.setAttribute('class', 'bible-read-text');
@@ -414,15 +456,12 @@ $traceurRuntime.registerModule("bible.js", [], function() {
         var bookParent = document.createElement('div');
         var bookName = document.createElement('h3');
         var bookChapter = document.createElement('h5');
-        var openChapterModal = document.createElement('button');
-        openChapterModal.setAttribute('class', 'btn btn-primary');
-        openChapterModal.addEventListener('click', function() {
-          Modal.extended();
-        });
+        HeaderButtons.render();
         backward.setAttribute('class', 'fa fa-arrow-left bible-go-left');
         forward.setAttribute('class', 'fa fa-arrow-right bible-go-right');
         bookName.textContent = book;
         bookChapter.textContent = ("Chapter " + chapter["chapter"]);
+        bookName.setAttribute('class', 'bible-book-name');
         parent.appendChild(backward);
         parent.appendChild(forward);
         parent.appendChild(bookParent);
@@ -433,23 +472,23 @@ $traceurRuntime.registerModule("bible.js", [], function() {
         parent.style["font-family"] = bibleSettingsValues.fontStyle;
         parent.style["color"] = bibleSettingsValues.textcolor;
         parent.style["background-color"] = bibleSettingsValues.bgcolor;
-        var $__13 = true;
-        var $__14 = false;
-        var $__15 = undefined;
+        var $__14 = true;
+        var $__15 = false;
+        var $__16 = undefined;
         try {
-          for (var $__11 = void 0,
-              $__10 = (chapter["verses"])[Symbol.iterator](); !($__13 = ($__11 = $__10.next()).done); $__13 = true) {
-            var verses = $__11.value;
+          for (var $__12 = void 0,
+              $__11 = (chapter["verses"])[Symbol.iterator](); !($__14 = ($__12 = $__11.next()).done); $__14 = true) {
+            var verses = $__12.value;
             {
-              var $__6 = true;
-              var $__7 = false;
-              var $__8 = undefined;
+              var $__7 = true;
+              var $__8 = false;
+              var $__9 = undefined;
               try {
-                for (var $__4 = void 0,
-                    $__3 = (objectEntries(verses))[Symbol.iterator](); !($__6 = ($__4 = $__3.next()).done); $__6 = true) {
-                  var $__17 = $__4.value,
-                      versenum = ($__18 = $__17[Symbol.iterator](), ($__19 = $__18.next()).done ? void 0 : $__19.value),
-                      versetext = ($__19 = $__18.next()).done ? void 0 : $__19.value;
+                for (var $__5 = void 0,
+                    $__4 = (objectEntries(verses))[Symbol.iterator](); !($__7 = ($__5 = $__4.next()).done); $__7 = true) {
+                  var $__18 = $__5.value,
+                      versenum = ($__19 = $__18[Symbol.iterator](), ($__20 = $__19.next()).done ? void 0 : $__20.value),
+                      versetext = ($__20 = $__19.next()).done ? void 0 : $__20.value;
                   {
                     var readParent = document.createElement('div');
                     readParent.setAttribute('class', 'bible-verse-text');
@@ -462,33 +501,33 @@ $traceurRuntime.registerModule("bible.js", [], function() {
                     parent.appendChild(readParent);
                   }
                 }
-              } catch ($__9) {
-                $__7 = true;
-                $__8 = $__9;
+              } catch ($__10) {
+                $__8 = true;
+                $__9 = $__10;
               } finally {
                 try {
-                  if (!$__6 && $__3.return != null) {
-                    $__3.return();
+                  if (!$__7 && $__4.return != null) {
+                    $__4.return();
                   }
                 } finally {
-                  if ($__7) {
-                    throw $__8;
+                  if ($__8) {
+                    throw $__9;
                   }
                 }
               }
             }
           }
-        } catch ($__16) {
-          $__14 = true;
-          $__15 = $__16;
+        } catch ($__17) {
+          $__15 = true;
+          $__16 = $__17;
         } finally {
           try {
-            if (!$__13 && $__10.return != null) {
-              $__10.return();
+            if (!$__14 && $__11.return != null) {
+              $__11.return();
             }
           } finally {
-            if ($__14) {
-              throw $__15;
+            if ($__15) {
+              throw $__16;
             }
           }
         }
