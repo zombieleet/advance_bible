@@ -37,7 +37,7 @@ class Audio {
     bar.setAttribute('value', audio.currentTime)
     bar.setAttribute('max', 300)
 
-		divbtn.setAttribute('class', 'bible-audio-ctrlers');
+	divbtn.setAttribute('class', 'bible-audio-ctrlers pull-right');
 
     ctrlBtn.setAttribute('class', 'audioctrlers')
 
@@ -46,16 +46,16 @@ class Audio {
     ctrlBtn.appendChild(stopbtn)
 
 
-    divbtn.appendChild(bar);
+    // divbtn.appendChild(bar);
     divbtn.appendChild(ctrlBtn);
     divbtn.appendChild(audio);
-		parent.insertBefore(divbtn, parent.firstElementChild);
+		// parent.insertBefore(divbtn, parent.firstElementChild);
+	document.querySelector('header').appendChild(divbtn);
+	let ctrlers = document.querySelectorAll('.bible-audio-ctrlers');
 
-		let ctrlers = document.querySelectorAll('.bible-audio-ctrlers');
-
-		if ( ctrlers.length > 1 ) {
-			ctrlers[ctrlers.length - 1].remove();
-		}
+	if ( ctrlers.length > 1 ) {
+		ctrlers[ctrlers.length - 1].remove();
+	}
 
     Audio.ControlsListener(audio, { playbtn, pausebtn, stopbtn, bar}, book, chapter)
   }
@@ -109,6 +109,81 @@ class Audio {
   }
 }
 //export { Audio }
+class HeaderButtons {
+	static render() {
+
+		let header = document.querySelector('.bible-read-text');
+		let header_btnGroup = document.createElement('div');
+		header.appendChild(header_btnGroup);
+		header_btnGroup.setAttribute('class', 'btn-group bible-label-group');
+		header_btnGroup.appendChild(HeaderButtons.createOpenChapterBtn());
+		header_btnGroup.appendChild(HeaderButtons.createSelectVersion());
+		header_btnGroup.appendChild(HeaderButtons.createSelectLanguage());
+
+	}
+	static createOpenChapterBtn() {
+			let openChapterModalDiv = document.createElement('div');
+
+			let openChapterModal = document.createElement('button');
+
+			openChapterModalDiv.setAttribute('class', 'col-xs-4')
+			openChapterModalDiv.appendChild(openChapterModal);
+			
+			openChapterModal.setAttribute('class', 'btn btn-primary label bible-label bible-label-chapter')
+			openChapterModal.innerHTML = 'Select Chapter';	
+			openChapterModal.addEventListener('click', () => {
+				Modal.extended()
+			});
+			return openChapterModalDiv;
+	}
+
+	static createSelectVersion() {
+		let selectVersionDropDown = document.createElement('div');
+		selectVersionDropDown.setAttribute('class', 'col-xs-4')
+		selectVersionDropDown.innerHTML = `
+				<button class="btn label dropdown-toggle bible-label" 
+						type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						
+					choose version <span class="bible-current-version"></span> 
+					<span class="caret"></span>
+				</button>
+				<ul class="dropdown-menu list-group bible-label-list">
+					<li class="list-group-item">KJV</li>
+					<li class="list-group-item">KJV</li>
+					<li class="list-group-item">KJV</li>
+					<li class="list-group-item">KJV</li>
+					<li class="list-group-item">KJV</li>
+					<li class="list-group-item">KJV</li>
+				</ul>				
+		`
+		return selectVersionDropDown
+	}
+	static createSelectLanguage() {	
+		let selectLanguageDropdown = document.createElement('div');
+
+		selectLanguageDropdown.setAttribute('class', 'col-xs-4')
+
+		selectLanguageDropdown.innerHTML = `
+				<button class="btn label dropdown-toggle bible-label" 
+					type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+
+					select langauge 
+					<span class="caret"></span>
+					<span class="bible-current-langauge"></span>
+				</button>
+				<ul class="dropdown-menu list-group bible-label-list">
+					<li class="list-group-item">English</li>
+					<li class="list-group-item">Pigin</li>
+					<li class="list-group-item">Korean</li>
+					<li class="list-group-item">Mandarine</li>
+					<li class="list-group-item">Arabic</li>
+					<li class="list-group-item">Hebrew</li>
+				</ul>							
+		`
+		return selectLanguageDropdown;
+	}
+}
+
 
 export class GetBible {
 	constructor() {
@@ -147,18 +222,16 @@ export class GetBible {
 		let bookName = document.createElement('h3');
 		let bookChapter = document.createElement('h5');
 
-		let openChapterModal = document.createElement('button');
 
-		openChapterModal.setAttribute('class', 'btn btn-primary')
 
-		openChapterModal.addEventListener('click', () => {
-			Modal.extended()
-		})
+		HeaderButtons.render();
 
 		backward.setAttribute('class', 'fa fa-arrow-left bible-go-left');
 		forward.setAttribute('class', 'fa fa-arrow-right bible-go-right');
 		bookName.textContent = book;
 		bookChapter.textContent = `Chapter ${chapter["chapter"]}`;
+		bookName.setAttribute('class', 'bible-book-name')
+
 		parent.appendChild(backward)
 		parent.appendChild(forward)
 		parent.appendChild(bookParent);
@@ -260,6 +333,8 @@ export class GetBible {
 			let target = e.target;
 			let homeScreen = document.querySelector('.bible-home-screen');
 			if ( target.classList.toString().includes("bible-location") ) {
+
+
 				// if you see a whitespace take it out
 				let textContent = target.textContent.replace(/\s+/g, "");
 				let bibleChapters = new GetJson(`js/jsons/${textContent}.json`);
@@ -276,7 +351,8 @@ export class GetBible {
 
 				/* 																		*\
 					A CHAPTER MUST ALREADY BE RENDERED
-				\* 																		*/					
+				\* 																		*/	
+
 					let i = 0;				
 					GetBible.StyleBible(bc["book"],bc.chapters[i]);
 					this.navigateChapters(bc,i);

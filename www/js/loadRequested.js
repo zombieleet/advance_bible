@@ -53,9 +53,15 @@ export class Modal {
         let target = e.target;
 
         if ( target.classList.toString().includes("bible-location")) {
+            console.log('true');
             Modal.searchJson(target.textContent.replace(/\s+/g, ""))
             qq.removeAttribute('data-display');
+        } else if ( target.classList.toString().includes("bible-label-chapter") ) {
+          let currentOpenLocation = document.querySelector('.bible-book-name').innerHTML;
+          Modal.searchJson(currentOpenLocation.replace(/\s+/g, ""));
+          qq.removeAttribute('data-display');
         }
+
       });
 
       let getChaptersParent  = document.querySelector('.bible-getChapters');
