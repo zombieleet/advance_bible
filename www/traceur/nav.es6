@@ -4,29 +4,63 @@ import {GetBible as GetBible } from "bible.js";;
 class IconBar {
   constructor() {
     let iconBar = document.querySelector('.fa-bars');
+    let noDisplay = document.querySelector('.bible-cover');
+    let bibleNavItemParent = document.querySelector('.bible-nav');
+    let homeScreen = document.querySelector('.bible-home-screen');
+
+    noDisplay.addEventListener('click', ( e ) => {
+
+        let target = e.target;
+        target.setAttribute('data-display', 'none');
+
+        homeScreen.removeAttribute('data-reduce-size');
+
+        this.bibleNavItemParent().removeAttribute('data-open-bar');
+        this.bibleNavItemParent().setAttribute('data-close-bar', 'closebar');     
+        
+    }); 
+
     this.iconBar = () => iconBar;
+    this.noDisplay = () => noDisplay;
+
+    this.homeScreen = () => homeScreen;
+    this.bibleNavItemParent = () => bibleNavItemParent;
+
   }
+
   openIconBar() {
+
     this.iconBar().addEventListener('click', (e) => {
+
       let target = e.target;
       let bibleNavItemParent = document.querySelector('.bible-nav');
       let homeScreen = document.querySelector('.bible-home-screen');
       
       if ( ! bibleNavItemParent.hasAttribute('data-open-bar') ) {
-          homeScreen.setAttribute('data-reduce-size','reducesize');
+
+          this.noDisplay().removeAttribute('data-display');
+          this.homeScreen().setAttribute('data-reduce-size','reducesize');
+
           bibleNavItemParent.setAttribute('data-open-bar', 'openbar')
+          bibleNavItemParent.removeAttribute('data-close-bar');
           return ;
+
       }
 
-      homeScreen.removeAttribute('data-reduce-size');
+      this.noDisplay().setAttribute('data-display', 'none');
 
-      bibleNavItemParent.removeAttribute('data-open-bar');
-      bibleNavItemParent.setAttribute('data-close-bar', 'closebar');      
+      this.homeScreen().removeAttribute('data-reduce-size');
+
+      this.bibleNavItemParent().removeAttribute('data-open-bar');
+      this.bibleNavItemParent().setAttribute('data-close-bar', 'closebar');
+
     });
   }
 }
+
 let icBar = new IconBar();
 icBar.openIconBar();
+
 class NavNavigation {
   constructor() {
     let bibleNavItemParent = document.querySelector('.bible-nav-list');
@@ -74,7 +108,7 @@ class NavNavigation {
 
         if ( homeScreenChild.hasAttribute('data-display') ) {
             Array.from(homeScreen.children, (children) => {
-                if ( ! children.hasAttribute('data-display') ) {
+                if ( ! children.hasAttribute('data-display') && ! HTMLImageElement[Symbol.hasInstance](children) ) {
                   children.setAttribute('data-display', 'none');
                 }
 
