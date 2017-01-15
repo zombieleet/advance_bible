@@ -16,8 +16,9 @@ class Concord {
 		This Element should be created in this constructor to avoid creating it more than once
 			in renderSearch method since renderOnPageParent will be created ones
 			\*				*/
-		let renderOnPageParent = document.createElement('div');
-				renderOnPageParent.setAttribute('class', 'bible-rendered-on-page');
+			// console.log('sss');
+		// let renderOnPageParent = document.createElement('div');
+		// 		renderOnPageParent.setAttribute('class', 'bible-rendered-on-page');
 
 		this.concord = () => concord;
 		this.concordModal = () => concordModal;
@@ -26,13 +27,12 @@ class Concord {
 		this.search = () => search;
 		this.bibleInput = () => bibleInput;
 		this.bibleHomeScreen =  () => bibleHomeScreen;
-		this.renderOnPageParent = () => renderOnPageParent;
 	}
 	showConcord() {
 		this.concord().addEventListener('click', (e) => {
 			this.concordModal().style["display"] = "flex";
 			this.concordModal().setAttribute('data-location', 'bringdown');
-			this.bibleCover().removeAttribute('data-display');
+			// this.bibleCover().removeAttribute('data-display');
 
 		});
 		return this;
@@ -47,6 +47,22 @@ class Concord {
 	searchText(concord) {
 
 		let q = 0;
+		/////////////////////////////////////////
+		/* if the bible-rendered-on-page class is already mapped on the dom 
+		remove it
+		*/
+				let qq = document.querySelector('.bible-rendered-on-page')
+				if ( qq ) {
+					qq.remove();
+				}
+
+		/////////////////////////////////////////////
+
+
+		let renderOnPageParent = document.createElement('div');
+		renderOnPageParent.setAttribute('class', 'bible-rendered-on-page');
+
+		this.renderOnPageParent = () => renderOnPageParent;
 
 		for ( let [index,nameOfLocation] of objectEntries(concord) ) {
 
@@ -109,20 +125,19 @@ class Concord {
 
 			this.concordModal().setAttribute('data-location', 'bringup');
 
-
-			this.bibleCover().setAttribute('data-display', 'none');
+			// this.bibleCover().setAttribute('data-display', 'none')
 			this.concordModal().style["display"] = "none";
 			let getConcord = new GetJson("js/jsons/oldtestament.json");
 
 			setTimeout(() => {
 				getConcord.loadJson().then((concord) => {
-					this.bibleCover().removeAttribute('data-display');
+					// this.bibleCover().removeAttribute('data-display');
 					// Concord.StyleProp("oldtestament", this.bibleInput().value)
 					this.searchText(concord);
 					return new GetJson("js/jsons/newtestament.json");
 				}).then((nt) => {
 					nt.loadJson().then((concord) => {
-						this.bibleCover().removeAttribute('data-display');
+						// this.bibleCover().removeAttribute('data-display');
 							// Concord.StyleProp("newtestament", this.bibleInput().value)
 						this.searchText(concord);
 					});
@@ -189,13 +204,14 @@ class Concord {
 
 				let renderOnPage = document.createElement('div');
 				let renderBookOnPage = document.createElement('p');
-						renderBookOnPage.setAttribute('class', 'bible-location');
+						// renderBookOnPage.setAttribute('class', 'bible-location');
 						renderBookOnPage.innerHTML = `${book} ${chapter} vs ${verseNum[0]}`
 				
 				let hideText = document.createElement('p');
 						hideText.innerHTML = text;
 						hideText.setAttribute('data-display', 'none');		
 				
+				renderOnPage.setAttribute('class', 'bible-location');
 				renderOnPage.appendChild(renderBookOnPage);
 				renderOnPage.appendChild(hideText);
 

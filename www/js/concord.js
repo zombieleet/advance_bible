@@ -119,16 +119,8 @@ $traceurRuntime.registerModule("loadRequested.js", [], function() {
         return bibleGetChapters;
       };
     }
-    return ($traceurRuntime.createClass)(JumpToChapter, {moveTo: function() {
-        this.bibleGetChapters().addEventListener('click', function(e) {
-          var target = e.target;
-          var match = target.textContent.match(/\d+/g) || target.textContent.match(/CH\./);
-          if (match && (target.nodeName.toLowerCase() === "p")) {
-            if (match[0] === "CH.") {
-              target = target.nextElementSibling;
-            }
-          }
-        });
+    return ($traceurRuntime.createClass)(JumpToChapter, {el: function() {
+        return this.bibleGetChapters();
       }}, {});
   }();
   var Modal = function() {
@@ -140,7 +132,12 @@ $traceurRuntime.registerModule("loadRequested.js", [], function() {
         modalChapters.addEventListener('click', function(e) {
           var target = e.target;
           if (target.classList.toString().includes("bible-location")) {
+            console.log('true');
             Modal.searchJson(target.textContent.replace(/\s+/g, ""));
+            qq.removeAttribute('data-display');
+          } else if (target.classList.toString().includes("bible-label-chapter")) {
+            var currentOpenLocation = document.querySelector('.bible-book-name').innerHTML;
+            Modal.searchJson(currentOpenLocation.replace(/\s+/g, ""));
             qq.removeAttribute('data-display');
           }
         });
@@ -215,8 +212,6 @@ $traceurRuntime.registerModule("../traceur/concord.es6", [], function() {
       var search = document.querySelector('.bible-start-search');
       var bibleInput = document.querySelector('.bible-search-concord');
       var bibleHomeScreen = document.querySelector('.bible-home-screen');
-      var renderOnPageParent = document.createElement('div');
-      renderOnPageParent.setAttribute('class', 'bible-rendered-on-page');
       this.concord = function() {
         return concord;
       };
@@ -238,9 +233,6 @@ $traceurRuntime.registerModule("../traceur/concord.es6", [], function() {
       this.bibleHomeScreen = function() {
         return bibleHomeScreen;
       };
-      this.renderOnPageParent = function() {
-        return renderOnPageParent;
-      };
     }
     return ($traceurRuntime.createClass)(Concord, {
       showConcord: function() {
@@ -248,7 +240,6 @@ $traceurRuntime.registerModule("../traceur/concord.es6", [], function() {
         this.concord().addEventListener('click', function(e) {
           $__2.concordModal().style["display"] = "flex";
           $__2.concordModal().setAttribute('data-location', 'bringdown');
-          $__2.bibleCover().removeAttribute('data-display');
         });
         return this;
       },
@@ -265,6 +256,15 @@ $traceurRuntime.registerModule("../traceur/concord.es6", [], function() {
             $__12;
         var $__2 = this;
         var q = 0;
+        var qq = document.querySelector('.bible-rendered-on-page');
+        if (qq) {
+          qq.remove();
+        }
+        var renderOnPageParent = document.createElement('div');
+        renderOnPageParent.setAttribute('class', 'bible-rendered-on-page');
+        this.renderOnPageParent = function() {
+          return renderOnPageParent;
+        };
         var $__6 = true;
         var $__7 = false;
         var $__8 = undefined;
@@ -358,17 +358,14 @@ $traceurRuntime.registerModule("../traceur/concord.es6", [], function() {
             return false;
           }
           $__2.concordModal().setAttribute('data-location', 'bringup');
-          $__2.bibleCover().setAttribute('data-display', 'none');
           $__2.concordModal().style["display"] = "none";
           var getConcord = new GetJson("js/jsons/oldtestament.json");
           setTimeout(function() {
             getConcord.loadJson().then(function(concord) {
-              $__2.bibleCover().removeAttribute('data-display');
               $__2.searchText(concord);
               return new GetJson("js/jsons/newtestament.json");
             }).then(function(nt) {
               nt.loadJson().then(function(concord) {
-                $__2.bibleCover().removeAttribute('data-display');
                 $__2.searchText(concord);
               });
             });
@@ -394,11 +391,11 @@ $traceurRuntime.registerModule("../traceur/concord.es6", [], function() {
           }
           var renderOnPage = document.createElement('div');
           var renderBookOnPage = document.createElement('p');
-          renderBookOnPage.setAttribute('class', 'bible-location');
           renderBookOnPage.innerHTML = (book + " " + chapter + " vs " + verseNum[0]);
           var hideText = document.createElement('p');
           hideText.innerHTML = text;
           hideText.setAttribute('data-display', 'none');
+          renderOnPage.setAttribute('class', 'bible-location');
           renderOnPage.appendChild(renderBookOnPage);
           renderOnPage.appendChild(hideText);
           this.renderOnPageParent().appendChild(renderOnPage);
