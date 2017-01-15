@@ -383,7 +383,7 @@ $traceurRuntime.registerModule("../traceur/concord.es6", [], function() {
           var rndPage = document.querySelector('.bible-rendered-on-page');
           if (Boolean(rndPage) === false) {
             Array.from(this.bibleHomeScreen().children, function(ch) {
-              if (!ch.hasAttribute('data-display')) {
+              if (!ch.hasAttribute('data-display') && !HTMLImageElement[Symbol.hasInstance](ch)) {
                 ch.setAttribute('data-display', 'none');
               }
             });

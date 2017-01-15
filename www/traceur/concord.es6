@@ -194,7 +194,7 @@ class Concord {
 				
 				if ( Boolean(rndPage) === false ) {
 					Array.from(this.bibleHomeScreen().children, (ch) => {
-						if ( ! ch.hasAttribute('data-display') ) {
+						if ( ! ch.hasAttribute('data-display') && ! HTMLImageElement[Symbol.hasInstance](ch) ) {
 							ch.setAttribute('data-display', 'none');
 						}
 					})
