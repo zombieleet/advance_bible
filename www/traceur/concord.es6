@@ -161,43 +161,6 @@ class Concord {
 
 		})
 	}
-	static StyleProp(testament, value){
-
-		// if ( Boolean(document.querySelector('.bible-loading')) ) {
-		// 	let loadingText = document.querySelector('.bible-loading-text');
-		// 	loadingText.innerHTML = `Searching ${testament} for "${value}"`;
-		// 	return ;
-		// }
-
-		// let gifLoading = new Image();
-
-		// let loadingParent = document.createElement('div');
-
-		// loadingParent.setAttribute('class', 'bible bible-loading');
-
-
-		// let searchingChapters = document.createElement('p');
-		// searchingChapters.setAttribute('class', 'bible bible-search-chapters')
-
-		// let loadingText = document.createElement('p');
-		// loadingText.innerHTML = `Searching ${testament} for "${value}"`;
-		// loadingText.setAttribute('class', 'bible bible-loading-text');
-
-
-		// let loadingImageParent = document.createElement('div');
-
-		// loadingImageParent.setAttribute('class', 'bible bible-loading-image');
-
-		// gifLoading.src = '../img/loading.gif';
-
-		// loadingImageParent.appendChild(gifLoading);
-		// loadingParent.appendChild(loadingText);
-		// loadingParent.appendChild(searchingChapters);
-
-
-		// loadingParent.appendChild(loadingImageParent);
-		// document.body.appendChild(loadingParent);
-	}
 	renderSearch(foundSearch = {}) {
 
 			if ( Object.keys(foundSearch).length !== 0 ) {
@@ -228,20 +191,65 @@ class Concord {
 				renderOnPage.setAttribute('class', 'bible-location');
 				renderOnPage.appendChild(renderBookOnPage);
 				renderOnPage.appendChild(hideText);
-
-
 				this.renderOnPageParent().appendChild(renderOnPage);
+				return;
+			}
+	}
 
+	openMd() {
 
-				
-				return ;
+		this.bibleHomeScreen().addEventListener('click', e => {
+			let target = e.target;
+			
+			if ( target.parentNode.className.includes('bible-location') || target.parentNode.className.includes('bible-location') ) {
+
+				let t = (target.className.includes('bible-location')) 
+								? target.children[1] 
+										: target.nextElementSibling;
+
+				Concord.ReadModal(t.innerHTML);
 			}
 
+		});
+		return this;
+	}	
 
-		
+	static ReadModal(text) {
+		// let renderedOnPage = document.querySelector('.bible-rendered-on-page');
+		let bibleCover = document.querySelector('.bible-cover');
+		let bibleHeadCover = document.querySelector('.bible-head-cover');
+
+		let mdParent = document.createElement('div');
+		mdParent.setAttribute('data-read-modal', 'read-modal');
+
+		let mdClose = document.createElement('span');
+		mdClose.setAttribute('class', 'fa fa-close bible-close pull-right');
+
+		mdClose.addEventListener('click', e => {
+			
+			mdParent.remove();
+			bibleCover.setAttribute('data-display', 'none');
+			bibleHeadCover.setAttribute('data-display', 'none')
+			
+		})
+
+		let readTextParent = document.createElement('div');
+		let readText = document.createElement('p');
+		readText.setAttribute('class','read-search-text');
+		readText.innerHTML = text;
+
+		readTextParent.appendChild(readText);
+
+		mdParent.appendChild(mdClose);
+		mdParent.appendChild(readTextParent);
+
+		document.body.appendChild(mdParent);
+
+		bibleCover.removeAttribute('data-display');
+		bibleHeadCover.removeAttribute('data-display');
 	}
 }
 
 var q = new Concord();
 
-q.showConcord().closeModal().searchConcord();
+q.showConcord().openMd().closeModal().searchConcord();

@@ -415,11 +415,43 @@ $traceurRuntime.registerModule("../traceur/concord.es6", [], function() {
           this.renderOnPageParent().appendChild(renderOnPage);
           return;
         }
+      },
+      openMd: function() {
+        this.bibleHomeScreen().addEventListener('click', function(e) {
+          var target = e.target;
+          if (target.parentNode.className.includes('bible-location') || target.parentNode.className.includes('bible-location')) {
+            var t = (target.className.includes('bible-location')) ? target.children[1] : target.nextElementSibling;
+            Concord.ReadModal(t.innerHTML);
+          }
+        });
+        return this;
       }
-    }, {StyleProp: function(testament, value) {}});
+    }, {ReadModal: function(text) {
+        var bibleCover = document.querySelector('.bible-cover');
+        var bibleHeadCover = document.querySelector('.bible-head-cover');
+        var mdParent = document.createElement('div');
+        mdParent.setAttribute('data-read-modal', 'read-modal');
+        var mdClose = document.createElement('span');
+        mdClose.setAttribute('class', 'fa fa-close bible-close pull-right');
+        mdClose.addEventListener('click', function(e) {
+          mdParent.remove();
+          bibleCover.setAttribute('data-display', 'none');
+          bibleHeadCover.setAttribute('data-display', 'none');
+        });
+        var readTextParent = document.createElement('div');
+        var readText = document.createElement('p');
+        readText.setAttribute('class', 'read-search-text');
+        readText.innerHTML = text;
+        readTextParent.appendChild(readText);
+        mdParent.appendChild(mdClose);
+        mdParent.appendChild(readTextParent);
+        document.body.appendChild(mdParent);
+        bibleCover.removeAttribute('data-display');
+        bibleHeadCover.removeAttribute('data-display');
+      }});
   }();
   var q = new Concord();
-  q.showConcord().closeModal().searchConcord();
+  q.showConcord().openMd().closeModal().searchConcord();
   return {};
 });
 $traceurRuntime.getModule("../traceur/concord.es6" + '');
