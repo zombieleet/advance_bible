@@ -11,6 +11,7 @@ class Concord {
 		let search = document.querySelector('.bible-start-search');
 		let bibleInput = document.querySelector('.bible-search-concord');
 		let bibleHomeScreen = document.querySelector('.bible-home-screen');
+		let bibleHeadCover = document.querySelector('.bible-head-cover');
 			/*				*\
 
 		This Element should be created in this constructor to avoid creating it more than once
@@ -27,13 +28,14 @@ class Concord {
 		this.search = () => search;
 		this.bibleInput = () => bibleInput;
 		this.bibleHomeScreen =  () => bibleHomeScreen;
+		this.bibleHeadCover = () => bibleHeadCover;
 	}
 	showConcord() {
 		this.concord().addEventListener('click', (e) => {
 			this.concordModal().style["display"] = "flex";
 			this.concordModal().setAttribute('data-location', 'bringdown');
 			// this.bibleCover().removeAttribute('data-display');
-
+			this.bibleHeadCover().removeAttribute('data-display');
 		});
 		return this;
 	}
@@ -41,6 +43,7 @@ class Concord {
 		this.close().addEventListener('click', (e) => {
 			this.bibleCover().setAttribute('data-display', 'none');
 			this.concordModal().style["display"] = "none";
+			this.bibleHeadCover().setAttribute('data-display', 'none');
 		})
 		return this;
 	}
@@ -118,14 +121,25 @@ class Concord {
 		this.search().addEventListener('click', (e) => {
 
 			e.preventDefault();
-
+			
 			if ( this.bibleInput().value.length === 0 ) {
 				return false;
 			}
 
-			this.concordModal().setAttribute('data-location', 'bringup');
 
-			// this.bibleCover().setAttribute('data-display', 'none')
+			let bibleNavItemParent = document.querySelector('.bible-nav');
+
+
+
+			this.bibleHomeScreen().removeAttribute('data-reduce-size');
+
+			bibleNavItemParent.removeAttribute('data-open-bar');
+			bibleNavItemParent.setAttribute('data-close-bar', 'closebar');
+
+			this.bibleHeadCover().setAttribute('data-display', 'none');
+			this.concordModal().setAttribute('data-location', 'bringup');
+			this.bibleCover().setAttribute('data-display', 'none')
+
 			this.concordModal().style["display"] = "none";
 			let getConcord = new GetJson("js/jsons/oldtestament.json");
 

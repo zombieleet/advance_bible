@@ -131,14 +131,16 @@ $traceurRuntime.registerModule("loadRequested.js", [], function() {
         var modalChapters = document.querySelector('#bible-body');
         modalChapters.addEventListener('click', function(e) {
           var target = e.target;
+          var bibleHeadCover = document.querySelector('.bible-head-cover');
           if (target.classList.toString().includes("bible-location")) {
-            console.log('true');
             Modal.searchJson(target.textContent.replace(/\s+/g, ""));
             qq.removeAttribute('data-display');
+            bibleHeadCover.removeAttribute('data-display');
           } else if (target.classList.toString().includes("bible-label-chapter")) {
             var currentOpenLocation = document.querySelector('.bible-book-name').innerHTML;
             Modal.searchJson(currentOpenLocation.replace(/\s+/g, ""));
             qq.removeAttribute('data-display');
+            bibleHeadCover.removeAttribute('data-display');
           }
         });
         var getChaptersParent = document.querySelector('.bible-getChapters');
@@ -212,6 +214,7 @@ $traceurRuntime.registerModule("../traceur/concord.es6", [], function() {
       var search = document.querySelector('.bible-start-search');
       var bibleInput = document.querySelector('.bible-search-concord');
       var bibleHomeScreen = document.querySelector('.bible-home-screen');
+      var bibleHeadCover = document.querySelector('.bible-head-cover');
       this.concord = function() {
         return concord;
       };
@@ -233,6 +236,9 @@ $traceurRuntime.registerModule("../traceur/concord.es6", [], function() {
       this.bibleHomeScreen = function() {
         return bibleHomeScreen;
       };
+      this.bibleHeadCover = function() {
+        return bibleHeadCover;
+      };
     }
     return ($traceurRuntime.createClass)(Concord, {
       showConcord: function() {
@@ -240,6 +246,7 @@ $traceurRuntime.registerModule("../traceur/concord.es6", [], function() {
         this.concord().addEventListener('click', function(e) {
           $__2.concordModal().style["display"] = "flex";
           $__2.concordModal().setAttribute('data-location', 'bringdown');
+          $__2.bibleHeadCover().removeAttribute('data-display');
         });
         return this;
       },
@@ -248,6 +255,7 @@ $traceurRuntime.registerModule("../traceur/concord.es6", [], function() {
         this.close().addEventListener('click', function(e) {
           $__2.bibleCover().setAttribute('data-display', 'none');
           $__2.concordModal().style["display"] = "none";
+          $__2.bibleHeadCover().setAttribute('data-display', 'none');
         });
         return this;
       },
@@ -357,7 +365,13 @@ $traceurRuntime.registerModule("../traceur/concord.es6", [], function() {
           if ($__2.bibleInput().value.length === 0) {
             return false;
           }
+          var bibleNavItemParent = document.querySelector('.bible-nav');
+          $__2.bibleHomeScreen().removeAttribute('data-reduce-size');
+          bibleNavItemParent.removeAttribute('data-open-bar');
+          bibleNavItemParent.setAttribute('data-close-bar', 'closebar');
+          $__2.bibleHeadCover().setAttribute('data-display', 'none');
           $__2.concordModal().setAttribute('data-location', 'bringup');
+          $__2.bibleCover().setAttribute('data-display', 'none');
           $__2.concordModal().style["display"] = "none";
           var getConcord = new GetJson("js/jsons/oldtestament.json");
           setTimeout(function() {

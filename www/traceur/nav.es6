@@ -35,7 +35,7 @@ class IconBar {
       let target = e.target;
       let bibleNavItemParent = document.querySelector('.bible-nav');
       let homeScreen = document.querySelector('.bible-home-screen');
-      
+
       if ( ! bibleNavItemParent.hasAttribute('data-open-bar') ) {
 
           this.noDisplay().removeAttribute('data-display');
@@ -43,6 +43,7 @@ class IconBar {
 
           bibleNavItemParent.setAttribute('data-open-bar', 'openbar')
           bibleNavItemParent.removeAttribute('data-close-bar');
+
           return ;
 
       }
