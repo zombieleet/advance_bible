@@ -131,14 +131,16 @@ $traceurRuntime.registerModule("loadRequested.js", [], function() {
         var modalChapters = document.querySelector('#bible-body');
         modalChapters.addEventListener('click', function(e) {
           var target = e.target;
+          var bibleHeadCover = document.querySelector('.bible-head-cover');
           if (target.classList.toString().includes("bible-location")) {
-            console.log('true');
             Modal.searchJson(target.textContent.replace(/\s+/g, ""));
             qq.removeAttribute('data-display');
+            bibleHeadCover.removeAttribute('data-display');
           } else if (target.classList.toString().includes("bible-label-chapter")) {
             var currentOpenLocation = document.querySelector('.bible-book-name').innerHTML;
             Modal.searchJson(currentOpenLocation.replace(/\s+/g, ""));
             qq.removeAttribute('data-display');
+            bibleHeadCover.removeAttribute('data-display');
           }
         });
         var getChaptersParent = document.querySelector('.bible-getChapters');
@@ -563,30 +565,48 @@ $traceurRuntime.registerModule("../traceur/nav.es6", [], function() {
   ;
   var IconBar = function() {
     function IconBar() {
+      var $__4 = this;
       var iconBar = document.querySelector('.fa-bars');
+      var noDisplay = document.querySelector('.bible-cover');
+      var bibleNavItemParent = document.querySelector('.bible-nav');
+      var homeScreen = document.querySelector('.bible-home-screen');
+      noDisplay.addEventListener('click', function(e) {
+        var target = e.target;
+        target.setAttribute('data-display', 'none');
+        homeScreen.removeAttribute('data-reduce-size');
+        $__4.bibleNavItemParent().removeAttribute('data-open-bar');
+        $__4.bibleNavItemParent().setAttribute('data-close-bar', 'closebar');
+      });
       this.iconBar = function() {
         return iconBar;
       };
+      this.noDisplay = function() {
+        return noDisplay;
+      };
+      this.homeScreen = function() {
+        return homeScreen;
+      };
+      this.bibleNavItemParent = function() {
+        return bibleNavItemParent;
+      };
     }
     return ($traceurRuntime.createClass)(IconBar, {openIconBar: function() {
+        var $__4 = this;
         this.iconBar().addEventListener('click', function(e) {
           var target = e.target;
           var bibleNavItemParent = document.querySelector('.bible-nav');
-          var bibleCover = document.querySelector('.bible-cover');
           var homeScreen = document.querySelector('.bible-home-screen');
-          var clonedBibleCover = bibleCover.cloneNode();
-          clonedBibleCover.setAttribute('js-remove', 'remove');
-          clonedBibleCover.removeAttribute('data-display');
           if (!bibleNavItemParent.hasAttribute('data-open-bar')) {
-            homeScreen.appendChild(clonedBibleCover);
+            $__4.noDisplay().removeAttribute('data-display');
+            $__4.homeScreen().setAttribute('data-reduce-size', 'reducesize');
             bibleNavItemParent.setAttribute('data-open-bar', 'openbar');
+            bibleNavItemParent.removeAttribute('data-close-bar');
             return;
           }
-          console.log('hi');
-          document.querySelector('[js-remove]').remove();
-          clonedBibleCover = undefined;
-          bibleNavItemParent.removeAttribute('data-open-bar');
-          bibleNavItemParent.setAttribute('data-close-bar', 'closebar');
+          $__4.noDisplay().setAttribute('data-display', 'none');
+          $__4.homeScreen().removeAttribute('data-reduce-size');
+          $__4.bibleNavItemParent().removeAttribute('data-open-bar');
+          $__4.bibleNavItemParent().setAttribute('data-close-bar', 'closebar');
         });
       }}, {});
   }();
@@ -612,7 +632,7 @@ $traceurRuntime.registerModule("../traceur/nav.es6", [], function() {
               return;
             if (homeScreenChild.hasAttribute('data-display')) {
               Array.from(homeScreen.children, function(children) {
-                if (!children.hasAttribute('data-display') && !children.hasAttribute('js-remove')) {
+                if (!children.hasAttribute('data-display') && !HTMLImageElement[Symbol.hasInstance](children)) {
                   children.setAttribute('data-display', 'none');
                 }
               });

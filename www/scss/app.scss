@@ -90,7 +90,7 @@ body {
       color: #a0a0a0;
       padding: 1em 0 0 0;
       
-      .bible-choice,.bible-read-text,.bible-testament,.bible-settings,.bible-rendered-on-page
+      .bible-choice,.bible-read-text,.bible-testament,.bible-settings,
       .bible-favourites {
         position: absolute;
         .bible-choice-select {
@@ -129,6 +129,7 @@ body {
       }
       .bible-testament,.bible-rendered-on-page  {
         align-self: flex-start;
+        position: absolute;
         .bible-location {
           float: left;
           margin: .5em .5em;

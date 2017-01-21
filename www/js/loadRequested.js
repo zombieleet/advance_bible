@@ -51,15 +51,16 @@ export class Modal {
 
       modalChapters.addEventListener('click', (e) => {
         let target = e.target;
-
+        let bibleHeadCover = document.querySelector('.bible-head-cover');
         if ( target.classList.toString().includes("bible-location")) {
-            console.log('true');
             Modal.searchJson(target.textContent.replace(/\s+/g, ""))
             qq.removeAttribute('data-display');
+            bibleHeadCover.removeAttribute('data-display');
         } else if ( target.classList.toString().includes("bible-label-chapter") ) {
           let currentOpenLocation = document.querySelector('.bible-book-name').innerHTML;
           Modal.searchJson(currentOpenLocation.replace(/\s+/g, ""));
           qq.removeAttribute('data-display');
+          bibleHeadCover.removeAttribute('data-display');
         }
 
       });

@@ -131,14 +131,16 @@ $traceurRuntime.registerModule("loadRequested.js", [], function() {
         var modalChapters = document.querySelector('#bible-body');
         modalChapters.addEventListener('click', function(e) {
           var target = e.target;
+          var bibleHeadCover = document.querySelector('.bible-head-cover');
           if (target.classList.toString().includes("bible-location")) {
-            console.log('true');
             Modal.searchJson(target.textContent.replace(/\s+/g, ""));
             qq.removeAttribute('data-display');
+            bibleHeadCover.removeAttribute('data-display');
           } else if (target.classList.toString().includes("bible-label-chapter")) {
             var currentOpenLocation = document.querySelector('.bible-book-name').innerHTML;
             Modal.searchJson(currentOpenLocation.replace(/\s+/g, ""));
             qq.removeAttribute('data-display');
+            bibleHeadCover.removeAttribute('data-display');
           }
         });
         var getChaptersParent = document.querySelector('.bible-getChapters');
