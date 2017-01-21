@@ -572,10 +572,14 @@ $traceurRuntime.registerModule("../traceur/nav.es6", [], function() {
       var homeScreen = document.querySelector('.bible-home-screen');
       noDisplay.addEventListener('click', function(e) {
         var target = e.target;
+        var rmModal = document.querySelector("[data-remove-modal='remove']");
         target.setAttribute('data-display', 'none');
         homeScreen.removeAttribute('data-reduce-size');
         $__4.bibleNavItemParent().removeAttribute('data-open-bar');
         $__4.bibleNavItemParent().setAttribute('data-close-bar', 'closebar');
+        Array.from(document.querySelectorAll("[data-remove-modal='remove']"), function(tt) {
+          console.log(tt);
+        });
       });
       this.iconBar = function() {
         return iconBar;

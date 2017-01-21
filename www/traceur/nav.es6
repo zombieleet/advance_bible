@@ -11,12 +11,18 @@ class IconBar {
     noDisplay.addEventListener('click', ( e ) => {
 
         let target = e.target;
+        let rmModal = document.querySelector("[data-remove-modal='remove']");
+        
         target.setAttribute('data-display', 'none');
 
         homeScreen.removeAttribute('data-reduce-size');
 
         this.bibleNavItemParent().removeAttribute('data-open-bar');
         this.bibleNavItemParent().setAttribute('data-close-bar', 'closebar');     
+        
+        Array.from(document.querySelectorAll("[data-remove-modal='remove']"), tt => {
+            console.log(tt);
+        });
         
     }); 
 
