@@ -9,16 +9,20 @@ class Settings {
       if ( target.getAttribute('class').includes("bible-on-of-Parent") ) {
         let elChild = target.children[0];
         if ( target.getAttribute('data-color')  === "darkgrey" ) {
-          target.setAttribute('data-color', "darkblue");
+
+          target.setAttribute('data-color', "black");
           target.setAttribute("data-current", "yes");
-          target.setAttribute('data-animate', "paddingAnimateIncrease")
+          
+          elChild.setAttribute('data-change-state', 'settings-state')
+
           target.style["background-color"] = target.getAttribute('data-color');
           localStorage.setItem("sound-state", target.getAttribute('data-current'))
           return ;
+
         }
         target.setAttribute('data-color',"darkgrey");
         target.setAttribute('data-current', "no");
-        target.setAttribute('data-animate', "paddingAnimateDecrease")
+        elChild.removeAttribute('data-change-state');
         target.style["background-color"] = target.getAttribute('data-color');
         localStorage.setItem("sound-state", target.getAttribute('data-current'))
         return ;
