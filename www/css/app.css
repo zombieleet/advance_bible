@@ -59,28 +59,6 @@ table {
     width: 15%; }
   to {
     width: 10%; } }
-@keyframes increasePadding {
-  0% {
-    padding-left: -1em; }
-  50% {
-    padding-left: 1em; }
-  60% {
-    padding-left: 1.5em; }
-  80% {
-    padding-left: 2em; }
-  100% {
-    padding-left: 2.5em; } }
-@keyframes paddingAnimateDecrease {
-  0% {
-    padding-left: 2.5em; }
-  50% {
-    padding-left: 2em; }
-  60% {
-    padding-left: 1.5em; }
-  80% {
-    padding-left: 1em; }
-  100% {
-    padding-left: -1em; } }
 @keyframes openBar {
   from {
     margin-left: -5em; }
@@ -143,6 +121,24 @@ table {
 
 [data-override="true"] {
   background-color: black; }
+
+[data-read-modal="read-modal"] {
+  position: absolute;
+  background-color: black;
+  width: 40%;
+  left: 10em;
+  top: 15em;
+  padding: 1.5em;
+  border-radius: 10px; }
+[data-read-modal="read-modal"] div {
+  line-height: 1.5;
+  border: 1px solid white;
+  padding: 1em; }
+[data-read-modal="read-modal"] div .read-search-text {
+  font-weight: bolder; }
+
+[data-change-state='settings-state'] {
+  margin-left: 26px; }
 
 .bible-cover, .bible-head-cover {
   background-color: black;
@@ -278,7 +274,7 @@ body #bible-body header .bible-title {
   text-align: center; }
 body #bible-body .bible-nav {
   float: left;
-  height: 100vh;
+  height: 100%;
   width: 30vw;
   margin-left: -14em;
   font-weight: bolder;
@@ -443,15 +439,15 @@ body #bible-body .bible-home-screen .bible-settings .bible-settings-list > li .c
   color: #a0a0a0; }
 body #bible-body .bible-home-screen .bible-settings .bible-settings-list > li .bible-on-of-Parent {
   padding-left: -1em;
-  width: 15%;
+  width: 50px;
   border: 1px solid;
   border-radius: 20px;
   background-color: darkgrey; }
 body #bible-body .bible-home-screen .bible-settings .bible-settings-list > li .bible-on-of-Parent > .bible-on-of {
-  padding-left: 1em;
+  padding-left: 1.2em;
   border-radius: 100%;
   border: 1px solid black;
-  background-color: black; }
+  background-color: darkgrey; }
 body #bible-body .bible-home-screen .bible-settings .bible-settings-list > li:hover {
   background-color: #0d0d0d; }
 body #bible-body .bible-home-screen .bible-favourites, body #bible-body .bible-home-screen .bible-newt, body #bible-body .bible-home-screen .bible-ot, body #bible-body .bible-home-screen .bible-hymns, body #bible-body .bible-home-screen .bible-note {

@@ -62,3 +62,27 @@
 [data-override="true"] {
   background-color: black;
 }
+[data-read-modal="read-modal"] {
+  position: absolute;
+  background-color: black;
+  width: 40%;
+
+  left: 10em;
+  top: 15em;
+  padding: 1.5em;
+  border-radius: 10px;
+  div {
+    line-height: 1.5;
+    border: 1px solid white;
+    padding: 1em;
+    .read-search-text {
+      font : {
+        weight: bolder;
+      }
+    }
+  }
+}
+[data-change-state='settings-state'] {
+  // position: relative;
+  margin-left: 26px;
+}

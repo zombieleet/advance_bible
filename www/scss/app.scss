@@ -33,7 +33,7 @@ body {
     }
     .bible-nav {
       float: left;
-      height: 100vh;
+      height: 100%;
       width: 30vw;
       margin-left: -14em;
       font-weight: bolder;
@@ -245,15 +245,15 @@ body {
           }
           .bible-on-of-Parent {
             padding-left: -1em;
-            width: 15%;
+            width: 50px;
             border: 1px solid;
             border-radius: 20px;
             background-color: darkgrey;
             > .bible-on-of {
-              padding-left: 1em;
+              padding-left: 1.2em;
               border-radius: 100%;
               border: 1px solid black;
-              background-color: black;
+              background-color: darkgrey;
             }
           }
           &:hover {
