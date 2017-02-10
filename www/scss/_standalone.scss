@@ -148,3 +148,19 @@
    color: darken($textColor, 50%); 
   }  
 }
+.bible-report {
+  background-color: black;
+  clear: both;
+  width: 50%;
+  padding: .5em;
+  text-align: center;
+  font-weight: bolder;
+  color: $textColor;
+  border-radius: 12px;
+  position: absolute;
+  top: 600px;
+  left: 200px;
+  opacity: .75;
+
+  visibility: hidden;
+}

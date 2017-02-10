@@ -1,4 +1,4 @@
-import {GetJson, objectEntries} from "loadRequested.js"
+import {GetJson, objectEntries} from "../dep/loadRequested.js"
 
 class Concord {
 

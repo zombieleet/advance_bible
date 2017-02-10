@@ -1,7 +1,7 @@
-import {GetJson, objectEntries, Modal} from "loadRequested.js"
+import {GetJson, objectEntries, Modal} from "../dep/loadRequested.js"
 /*import {objectEntries as objectEntries } from "loadRequested.js";
 import {Modal as Modal} from "loadRequested.js";*/
-import {GetBible} from "bible.js";
+import {GetBible} from "../dep/bible.js";
 class Home {
   constructor() {
     let oldTestament = document.querySelector('.bible-oldtestament');

@@ -1,0 +1,24 @@
+[data-shrink='shrink'] {
+    height: 0;
+    padding: 0;
+
+    padding-top: 1em;
+    width: 0%;
+
+    // transform: rotateZ(90deg);
+    margin-top: 3em;
+
+    position: fixed;
+
+    .bible-note-item {    
+        padding: 0 !important;
+        font-size: 1.5em !important;
+        margin-left: 0.3em !important;
+        display: none;
+    }
+    .bible-pushpin {
+        padding: .3em !important;
+        top: -1.8em !important;
+        left: 1.5em !important;
+    }
+} 

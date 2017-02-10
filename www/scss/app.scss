@@ -9,6 +9,9 @@ $bg-color:lighten($text-color, 5%);
 @import "dataAttribs.scss";
 @import "standalone.scss";
 @import "colorVariables.scss";
+@import "note.scss";
+
+@import "pushpin.scss";
 
 body {
   box-sizing: border-box;

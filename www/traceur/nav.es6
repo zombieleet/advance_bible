@@ -1,5 +1,5 @@
-import {GetJson , objectEntries, Modal } from "loadRequested.js"
-import {GetBible as GetBible } from "bible.js";;
+import {GetJson , objectEntries, Modal } from "../dep/loadRequested.js"
+import {GetBible as GetBible } from "../dep/bible.js";;
 
 class IconBar {
   constructor() {
