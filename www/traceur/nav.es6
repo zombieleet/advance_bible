@@ -118,7 +118,8 @@ class NavNavigation {
             Array.from(homeScreen.children, (children) => {
                 if ( ! children.hasAttribute('data-display') && ! HTMLImageElement[Symbol.hasInstance](children) ) {
                   children.setAttribute('data-display', 'none');
-                }
+                  
+                } 
 
             })
             homeScreenChild.removeAttribute('data-display');

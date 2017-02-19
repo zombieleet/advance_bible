@@ -1,4 +1,4 @@
-import {JumpToChapter, objectEntries, GetJson, Modal} from "loadRequested.js";
+import {JumpToChapter, objectEntries, GetJson, Modal} from "./loadRequested.js";
 
 class Audio {
   // constructor() {
@@ -50,7 +50,7 @@ class Audio {
     divbtn.appendChild(ctrlBtn);
     divbtn.appendChild(audio);
 		// parent.insertBefore(divbtn, parent.firstElementChild);
-	document.querySelector('header').appendChild(divbtn);
+	document.querySelector('.bible-read-text').appendChild(divbtn);
 	let ctrlers = document.querySelectorAll('.bible-audio-ctrlers');
 
 	if ( ctrlers.length > 1 ) {
@@ -208,8 +208,8 @@ export class GetBible {
     bibleReadText.setAttribute('class','bible-read-text');
     let removeBibleReadText = homeScreen.getElementsByClassName('bible-read-text')[0];
 		
-    if ( removeBibleReadText ) {
-      removeBibleReadText.remove();
+    if ( removeBibleReadText ) {	
+    	removeBibleReadText.remove();
     }
     homeScreen.appendChild(bibleReadText);
 
@@ -221,8 +221,6 @@ export class GetBible {
 		let bookParent = document.createElement('div');
 		let bookName = document.createElement('h3');
 		let bookChapter = document.createElement('h5');
-
-
 
 		HeaderButtons.render();
 
@@ -240,9 +238,7 @@ export class GetBible {
 
 		
 		let bibleSettingsValues = GetBible.Settings();
-		// for ( let i of objectEntries(bibleSettingsValues)) {
-		// 	console.log(i)
-		// }
+		
 		parent.style["font-size"] = bibleSettingsValues.fontSize + "px";
 		parent.style["font-family"] = bibleSettingsValues.fontStyle;
 
@@ -263,12 +259,14 @@ export class GetBible {
 				readParent.appendChild(verseText);
 				parent.appendChild(readParent);
 			}
+			
 		}
-
+		console.log('should execute ones');
 		if ( bibleSettingsValues.audio === 'yes' ) {
-				let audio = document.querySelectorAll('audio');
+				
 				let audiobook = book.replace(/\s+/,'')
 				let audioBible = fetch(`audios/KJV/${audiobook}/${audiobook}${chapter["chapter"]}.mp3`);
+				
 				audioBible.then((data) => {
 						return data.url
 				}).then((src) => {
@@ -278,9 +276,6 @@ export class GetBible {
 		}
 
 	}
-	// *gen(bc,i) {
-	// 	yield GetBible.StyleBible(bc["book"],bc.chapters[i]);
-	// }
 	navigateChapters(bc,i) {
 		let homeScreen = document.querySelector('.bible-home-screen');
 		homeScreen.addEventListener('click', (e) => {
@@ -301,10 +296,6 @@ export class GetBible {
 						GetBible.StyleBible(bc["book"],bc.chapters[i]);
 						return ;
 					}
-					// if ( (i + 1) === bc.chapters.length ) {
-					// 	console.log(i, 'defined')
-					// 	GetBible.StyleBible(bc["book"],bc.chapters[i]);
-					// }
 
 					GetBible.StyleBible(bc["book"],bc.chapters[i]);
 				} catch(ex) {
@@ -347,6 +338,7 @@ export class GetBible {
 					removeBibleReadText.remove();
 				}
 				homeScreen.appendChild(bibleReadText);
+				
 				bibleChapters.loadJson().then((bc) => {
 
 				/* 																		*\
@@ -355,11 +347,12 @@ export class GetBible {
 
 					let i = 0;				
 					GetBible.StyleBible(bc["book"],bc.chapters[i]);
+					console.log('onessssssssss', 0);
 					this.navigateChapters(bc,i);
+					console.log('onessssssssss', 0);
 
-					var el = new JumpToChapter();
+					var el = new JumpToChapter();					
 					el.el().addEventListener('click',  (e) => {
-																
 							let target = e.target;
 							let match = target.textContent.match(/\d+/g) || target.textContent.match(/CH\./);
 							if ( match && (target.nodeName.toLowerCase() === "p") ) {
