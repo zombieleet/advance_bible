@@ -220,12 +220,37 @@ table {
   font-size: 1em;
   font-weight: bold; }
 
+.bible-audio-ctrlers {
+  position: fixed;
+  left: 23.9em;
+  top: 30em; }
 .bible-audio-ctrlers progress {
   height: .1em; }
 .bible-audio-ctrlers .audioctrlers button {
-  margin-left: 1em; }
+  margin-left: 1em;
+  border-radius: 45%;
+  position: relative;
+  margin-top: 10em;
+  padding: 1em;
+  background: black;
+  color: #a0a0a0;
+  border: none;
+  box-shadow: 1px 2px 2px 2px black;
+  transition: .2s background ease-in, .2s color ease-in; }
 .bible-audio-ctrlers .audioctrlers button:first-of-type {
-  margin-left: 0; }
+  margin-left: 0;
+  left: -7em; }
+.bible-audio-ctrlers .audioctrlers button:nth-of-type(2) {
+  top: -3em; }
+.bible-audio-ctrlers .audioctrlers button:nth-of-type(3) {
+  right: -7em; }
+.bible-audio-ctrlers .audioctrlers button:hover {
+  background-color: #a0a0a0;
+  color: black; }
+.bible-audio-ctrlers .audioctrlers button:focus {
+  outline: none;
+  background-color: #a0a0a0;
+  color: black; }
 
 .bible-loading {
   position: absolute;
