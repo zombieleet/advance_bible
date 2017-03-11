@@ -190,7 +190,8 @@
   padding: .5em;
   text-align: center;
   font-weight: bolder;
-  color: $textColor;
+  // color: $textColor;
+  color: white;
   border-radius: 12px;
   position: absolute;
   top: 600px;
@@ -198,4 +199,5 @@
   opacity: .75;
 
   visibility: hidden;
+
 }

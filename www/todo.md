@@ -1,0 +1,1 @@
+1. Make StatusMessage a global function

@@ -13,6 +13,8 @@ $bg-color:lighten($text-color, 5%);
 
 @import "pushpin.scss";
 
+@import "bible_todo.scss";
+
 body {
   box-sizing: border-box;
   width: 100vw;
@@ -83,6 +85,9 @@ body {
     }
     .bible-home-screen {
       // background: url('../img/torn_bible.jpg') no-repeat;
+
+      background-color: $bgColor;
+
       opacity: .75;
       float: right;
       display: inline-flex;
@@ -94,7 +99,7 @@ body {
       padding: 1em 0 0 0;
       
       .bible-choice,.bible-read-text,.bible-testament,.bible-settings,
-      .bible-favourites {
+      .bible-favourites,.bible-todo,.bible-bookmark {
         position: absolute;
         .bible-choice-select {
           font-size: 0.8em;
@@ -246,13 +251,13 @@ body {
               color: #a0a0a0;
             }
           }
-          .bible-on-of-Parent {
+          .bible-on-of-Parent,.bible-notification-Parent {
             padding-left: -1em;
             width: 50px;
             border: 1px solid;
             border-radius: 20px;
             background-color: darkgrey;
-            > .bible-on-of {
+            > .bible-on-of,.bible-notification {
               padding-left: 1.2em;
               border-radius: 100%;
               border: 1px solid black;

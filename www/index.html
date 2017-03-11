@@ -52,7 +52,7 @@
     </header>
 
     <section class="bible-home-screen col-xs-8">
-      <img src="img/torn_bible.jpg" height="100%" width="100%"  draggable="false" />
+      <!--<img src="img/torn_bible.jpg" height="100%" width="100%"  draggable="false" />-->
       <div class="bible-choice">
         <button class="btn btn-default bible-choice-select bible-choice-language">SELECT LANGUAGE</button>
 
@@ -107,6 +107,11 @@
           <li class="list-group-item">Audio
             <span class="pull-right bible-on-of-Parent" data-color="darkgrey" data-current="no">
                     <span class="bible-on-of"></span>
+            </span>
+          </li>
+          <li class="list-group-item">Notification
+            <span class="pull-right bible-notification-Parent" data-color="darkgrey" data-current="no">
+              <span class="bible-notification"></span>
             </span>
           </li>
           <li class="list-group-item">Audio Language
@@ -182,12 +187,25 @@
       <div class="bible-favourites" data-display="none">
         FAVOURITES
       </div>
+      <div class="bible-bookmark" data-display="none">
+        BOOKMARK
+      </div>
       <div class="bible-newt" data-display="none" data-modal="newt-chapter">
       </div>
       <div class="bible-ot" data-display="none" data-modal="ot-chapter">
       </div>
       <div class="bible-hymns" data-display="none">
         HYMNS
+      </div>
+      <div class="bible-todo" data-display="none">
+        <div class="bible-todo-parent">
+          <div class="bible-add-todo">
+            Add Todo
+          </div>
+          <div class="bible-view-todo">
+            View Todo
+          </div>
+        </div>
       </div>
     </section>
 
@@ -245,6 +263,28 @@
     </div>
 
 
+  <div class="todo-add-parent">
+
+    <span class="fa fa-close fa-pull-right todo-bible-close" data-remove="todo-add-parent"></span>
+
+    <div class="todo-add-date-time">
+      <div class="todo-add-date">
+          Date:- <input type="date"/>
+      </div>
+      <div class="todo-add-time">
+          Time:- <input type="time"/>
+      </div>
+      <div class="todo-add-todo">
+          <!-- copied from bible-add-note -->
+          <textarea rows="8" cols="37" class="bible-add-note-content"></textarea> 
+      </div>
+      <div class="todo-button-add">
+          <button type="submit" class="todo-add-button fa fa-thumbs-up">   Add Todo</button>   
+      </div>
+    </div>
+  </div>
+  
+
 
 
     <div class="bible-cover" data-display="none">
@@ -261,6 +301,9 @@
         </li>
         <li class="fa fa-heart bible-nav-item" data-target="bible-favourites"><span>Favourites</span>
           <p class="bible-underline"></p>
+        </li>
+        <li class="fa fa-bookmark bible-nav-item" data-target="bible-bookmark"><span>Bookmarks</span>
+        <p class="bible-underline"></p>
         </li>
         <li class="fa fa-book bible-nav-item" data-target="bible-newt" data-modal="ot-chapter"><span>New Testament</span>
           <p class="bible-underline"></p>
@@ -289,7 +332,7 @@
         <li class="fa fa-music bible-nav-item" data-target="bible-hymns"><span>Hymns</span>
           <p class="bible-underline"></p>
         </li>
-        <li class="fa fa-sticky-note bible-nav-item" data-target="bible-note"><span>Note</span>
+        <li class="fa fa-sticky-note bible-nav-item" data-target="bible-todo"><span>Todo</span>
           <p class="bible-underline"></p>
         </li>
         <li class="fa fa-cloud-download bible-nav-item"><span>Update</span>
@@ -300,6 +343,7 @@
     </nav>
     <div class="bible-report"></div>
   </div>
+  
   <div id="BibleConcord">
     <form class="form">
       <p class="fa fa-close bible-close"></p>
@@ -318,6 +362,8 @@
     <span class="fa fa-close fa-pull-right bible-close"></span>
 
   </div>
+
+
   <script type="application/javascript">
               window.addEventListener("DOMContentLoaded", (e) => {
                     let s = document.querySelectorAll('[data-type]');
@@ -328,6 +374,19 @@
                       el.setAttribute('data-current', item);
                       el.textContent = item;
                     });
+                    
+                    // if ( localStorage.getItem("___TODO___")) {
+                    //   let __todo__ = localStorage.getItem("___TODO___");
+
+                    //   let workerThread = new Worker('./thread/todo_worker.js');
+
+                    //   workerThread.postMessage(__todo__)
+
+                    //   workerThread.addEventListener('message', notification => {
+                    //     console.log(notification.data);
+                    //   })
+                      
+                    // }
               });
         </script>
   <!-- <script type="text/javascript" src="cordova.js"></script> -->
@@ -342,6 +401,8 @@
   <script src="js/concord.js"></script>
   <script src="js/handle_close.js"></script>
   <script src="js/notes.js"></script>
+  <script src="js/todo.js"></script>
+  <script src="js/bible_notification.js"></script>
   <script src="libs/jquery.js"></script>
   <script src="libs/bootstrap.min.js"></script>
   <!-- <script src="js/modalChapters.js"></script> -->

@@ -78,15 +78,14 @@ cc.triggerClicks();
 
 
 
-class AddNote /*extends NoteListener*/ {
+class AddNote  {
 
     constructor() {
         // super()
         let addNote = document.querySelector('.add-note');
         this.addNote = () => addNote;
     }
-    static SetNoteStatus(msg) {
-
+    static  SetStatusMessage(msg) {
         if ((typeof msg) !== 'string') {
             throw Error(`expected a string as an argument but got ${(typeof msg)}`);
         }
@@ -100,7 +99,6 @@ class AddNote /*extends NoteListener*/ {
         setTimeout(() => {
             bibleRep.removeAttribute('style');
         }, 3000);
-
     }
     showNote({page_title, fireEditNote, title}) {
 
@@ -148,12 +146,12 @@ class AddNote /*extends NoteListener*/ {
 
                 if (noteTitle.value.length < 10) {
 
-                    AddNote.SetNoteStatus('Note title should not be less than 10 characters');
+                    AddNote.SetStatusMessage('Note title should not be less than 10 characters');
                     return;
 
                 } else if (noteContent.value.length < 40) {
 
-                    AddNote.SetNoteStatus('Note Content should not be less than 40 characters');
+                    AddNote.SetStatusMessage('Note Content should not be less than 40 characters');
                     return;
                 }
 
@@ -190,7 +188,7 @@ class AddNote /*extends NoteListener*/ {
             Object.assign(noteInfo, obj)
             localStorage.setItem('___BIBLE-NOTE___',
                 JSON.stringify(noteInfo));
-            AddNote.SetNoteStatus('note has been succefully saved');
+            AddNote.SetStatusMessage('note has been succefully saved');
             this.addNote().removeAttribute('style');
             return;
 
@@ -199,7 +197,7 @@ class AddNote /*extends NoteListener*/ {
         Object.assign(noteInfo, getPrevItem, obj)
         localStorage.setItem('___BIBLE-NOTE___',
             JSON.stringify(noteInfo));
-        AddNote.SetNoteStatus('note has been succefully saved');
+        AddNote.SetStatusMessage('note has been succefully saved');
         this.addNote().removeAttribute('style');
 
     }
@@ -222,7 +220,7 @@ class ViewNote {
 
 
         if (!this.SavedNotes()) {
-            AddNote.SetNoteStatus('No Note has been added yet');
+            AddNote.SetStatusMessage('No Note has been added yet');
             return;
         }
 

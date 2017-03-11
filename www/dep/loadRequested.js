@@ -9,6 +9,22 @@ export function* objectEntries(obj) {
         yield [propKey, obj[propKey]];
     }
 }
+
+export function SetStatusMessage(msg) {
+    if ((typeof msg) !== 'string') {
+        throw Error(`expected a string as an argument but got ${(typeof msg)}`);
+    }
+
+    let bibleRep = document.querySelector(".bible-report");
+
+    bibleRep.innerHTML = msg;
+
+    bibleRep.setAttribute('style', 'visibility: visible');
+
+    setTimeout(() => {
+        bibleRep.removeAttribute('style');
+    }, 3000);
+}
 export class GetJson {
   constructor(url) {
     if ( ! url ) throw Error("An Argument is required");

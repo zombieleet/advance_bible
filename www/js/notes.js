@@ -88,6 +88,17 @@ $traceurRuntime.registerModule("../dep/loadRequested.js", [], function() {
         }
     }, $__12, this);
   }
+  function SetStatusMessage(msg) {
+    if (((typeof msg === 'undefined' ? 'undefined' : $traceurRuntime.typeof(msg))) !== 'string') {
+      throw Error(("expected a string as an argument but got " + ((typeof msg === 'undefined' ? 'undefined' : $traceurRuntime.typeof(msg)))));
+    }
+    var bibleRep = document.querySelector(".bible-report");
+    bibleRep.innerHTML = msg;
+    bibleRep.setAttribute('style', 'visibility: visible');
+    setTimeout(function() {
+      bibleRep.removeAttribute('style');
+    }, 3000);
+  }
   var GetJson = function() {
     function GetJson(url) {
       if (!url)
@@ -187,6 +198,9 @@ $traceurRuntime.registerModule("../dep/loadRequested.js", [], function() {
   return {
     get objectEntries() {
       return objectEntries;
+    },
+    get SetStatusMessage() {
+      return SetStatusMessage;
     },
     get GetJson() {
       return GetJson;
@@ -310,10 +324,10 @@ $traceurRuntime.registerModule("../traceur/notes.es6", [], function() {
             $__3.addNote().removeAttribute('style');
           } else if (className.includes('bible-add-note-btn')) {
             if (noteTitle.value.length < 10) {
-              AddNote.SetNoteStatus('Note title should not be less than 10 characters');
+              AddNote.SetStatusMessage('Note title should not be less than 10 characters');
               return;
             } else if (noteContent.value.length < 40) {
-              AddNote.SetNoteStatus('Note Content should not be less than 40 characters');
+              AddNote.SetStatusMessage('Note Content should not be less than 40 characters');
               return;
             }
             if (page_title === 'Add Note') {
@@ -342,16 +356,16 @@ $traceurRuntime.registerModule("../traceur/notes.es6", [], function() {
         if (!isTrueFalse) {
           Object.assign(noteInfo, obj);
           localStorage.setItem('___BIBLE-NOTE___', JSON.stringify(noteInfo));
-          AddNote.SetNoteStatus('note has been succefully saved');
+          AddNote.SetStatusMessage('note has been succefully saved');
           this.addNote().removeAttribute('style');
           return;
         }
         Object.assign(noteInfo, getPrevItem, obj);
         localStorage.setItem('___BIBLE-NOTE___', JSON.stringify(noteInfo));
-        AddNote.SetNoteStatus('note has been succefully saved');
+        AddNote.SetStatusMessage('note has been succefully saved');
         this.addNote().removeAttribute('style');
       }
-    }, {SetNoteStatus: function(msg) {
+    }, {SetStatusMessage: function(msg) {
         if (((typeof msg === 'undefined' ? 'undefined' : $traceurRuntime.typeof(msg))) !== 'string') {
           throw Error(("expected a string as an argument but got " + ((typeof msg === 'undefined' ? 'undefined' : $traceurRuntime.typeof(msg)))));
         }
@@ -382,7 +396,7 @@ $traceurRuntime.registerModule("../traceur/notes.es6", [], function() {
       showNote: function() {
         var options = arguments[0] !== (void 0) ? arguments[0] : {};
         if (!this.SavedNotes()) {
-          AddNote.SetNoteStatus('No Note has been added yet');
+          AddNote.SetStatusMessage('No Note has been added yet');
           return;
         }
         this.viewNote().setAttribute('style', 'visibility:visible;');
