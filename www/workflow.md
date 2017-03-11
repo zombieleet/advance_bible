@@ -7,9 +7,9 @@
 	
 	[1]: If you make small commits on `newFeature` branch
 
-		[2]: squash all the commits with `git rebase --interactive`
+		[1]: squash all the commits with `git rebase --interactive`
 
-		[3]: then make a single commit message with this message `"new feature implemented to support cool stuff"`
+		[2]: then make a single commit message with this message `"new feature implemented to support cool stuff"`
 
 	[2]: If you want to make commit after implementing the feature, the commit message should be `"new feature implemented to support cool stuff"` 
 
