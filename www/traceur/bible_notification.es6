@@ -27,7 +27,7 @@ const GetNotified = {
 
 				this.getTodo(( { todo_content , todo_date } = obj) => {
 
-					navigator.vibrate([200]);
+					navigator.vibrate([100,50,20,10]);
 
 					// there is vibrate property for __n 
 					// but i decided to use navigator
@@ -41,7 +41,20 @@ const GetNotified = {
 					}, 4000);
 
 					__n.addEventListener('click', e => {
-						console.log(e);
+						let moveToTodo = document.querySelector('.bible-view-todo'),
+							todoList = moveToTodo.querySelector('.todo-list'),
+							target = e.target;
+
+						moveToTodo.click();
+
+						Array.from(todoList.children, (el) => {
+							let content = el.innerHTML;
+							let data = target.data.replace(/\n/g,'');
+							el.setAttribute('style', 'border: 12px solid red;');
+							if ( content === data ) {
+								
+							}
+						});
 						__n.close();
 					});
 

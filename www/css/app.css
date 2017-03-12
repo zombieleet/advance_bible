@@ -339,7 +339,7 @@ table {
   display: block;
   margin-top: 1em; }
 
-.view-note {
+.view-note, .view-todo {
   position: absolute;
   background: #333333;
   height: 65vh;
@@ -349,25 +349,25 @@ table {
   border-radius: 12px;
   height: 100%;
   width: 100%; }
-.view-note .bible-close {
+.view-note .bible-close, .view-todo .bible-close {
   font-size: 2em;
   position: relative;
   left: 0;
   top: 2em; }
-.view-note .bible-view-note-parent .bible-view-note-list {
+.view-note .bible-view-note-parent .bible-view-note-list, .view-note .bible-view-note-parent .todo-list, .view-note .bible-view-todo-parent .bible-view-note-list, .view-note .bible-view-todo-parent .todo-list, .view-todo .bible-view-note-parent .bible-view-note-list, .view-todo .bible-view-note-parent .todo-list, .view-todo .bible-view-todo-parent .bible-view-note-list, .view-todo .bible-view-todo-parent .todo-list {
   padding-top: 5em; }
-.view-note .bible-view-note-parent .bible-view-note-list .bible-view-note-item {
+.view-note .bible-view-note-parent .bible-view-note-list .bible-view-note-item, .view-note .bible-view-note-parent .bible-view-note-list .todo-view-item, .view-note .bible-view-note-parent .todo-list .bible-view-note-item, .view-note .bible-view-note-parent .todo-list .todo-view-item, .view-note .bible-view-todo-parent .bible-view-note-list .bible-view-note-item, .view-note .bible-view-todo-parent .bible-view-note-list .todo-view-item, .view-note .bible-view-todo-parent .todo-list .bible-view-note-item, .view-note .bible-view-todo-parent .todo-list .todo-view-item, .view-todo .bible-view-note-parent .bible-view-note-list .bible-view-note-item, .view-todo .bible-view-note-parent .bible-view-note-list .todo-view-item, .view-todo .bible-view-note-parent .todo-list .bible-view-note-item, .view-todo .bible-view-note-parent .todo-list .todo-view-item, .view-todo .bible-view-todo-parent .bible-view-note-list .bible-view-note-item, .view-todo .bible-view-todo-parent .bible-view-note-list .todo-view-item, .view-todo .bible-view-todo-parent .todo-list .bible-view-note-item, .view-todo .bible-view-todo-parent .todo-list .todo-view-item {
   color: #a0a0a0;
   background-color: #4d4d4d;
   padding: .3em;
   font-size: 5em;
   margin: 0.5em 0.5em 0 0.5em; }
-.view-note .bible-view-note-parent .bible-view-note-list .bible-view-note-item p {
+.view-note .bible-view-note-parent .bible-view-note-list .bible-view-note-item p, .view-note .bible-view-note-parent .bible-view-note-list .todo-view-item p, .view-note .bible-view-note-parent .todo-list .bible-view-note-item p, .view-note .bible-view-note-parent .todo-list .todo-view-item p, .view-note .bible-view-todo-parent .bible-view-note-list .bible-view-note-item p, .view-note .bible-view-todo-parent .bible-view-note-list .todo-view-item p, .view-note .bible-view-todo-parent .todo-list .bible-view-note-item p, .view-note .bible-view-todo-parent .todo-list .todo-view-item p, .view-todo .bible-view-note-parent .bible-view-note-list .bible-view-note-item p, .view-todo .bible-view-note-parent .bible-view-note-list .todo-view-item p, .view-todo .bible-view-note-parent .todo-list .bible-view-note-item p, .view-todo .bible-view-note-parent .todo-list .todo-view-item p, .view-todo .bible-view-todo-parent .bible-view-note-list .bible-view-note-item p, .view-todo .bible-view-todo-parent .bible-view-note-list .todo-view-item p, .view-todo .bible-view-todo-parent .todo-list .bible-view-note-item p, .view-todo .bible-view-todo-parent .todo-list .todo-view-item p {
   font-size: 0.2em;
   font-weight: bolder; }
-.view-note .bible-view-note-parent .bible-view-note-list .note-content {
+.view-note .bible-view-note-parent .bible-view-note-list .note-content, .view-note .bible-view-note-parent .bible-view-note-list .todo-content, .view-note .bible-view-note-parent .todo-list .note-content, .view-note .bible-view-note-parent .todo-list .todo-content, .view-note .bible-view-todo-parent .bible-view-note-list .note-content, .view-note .bible-view-todo-parent .bible-view-note-list .todo-content, .view-note .bible-view-todo-parent .todo-list .note-content, .view-note .bible-view-todo-parent .todo-list .todo-content, .view-todo .bible-view-note-parent .bible-view-note-list .note-content, .view-todo .bible-view-note-parent .bible-view-note-list .todo-content, .view-todo .bible-view-note-parent .todo-list .note-content, .view-todo .bible-view-note-parent .todo-list .todo-content, .view-todo .bible-view-todo-parent .bible-view-note-list .note-content, .view-todo .bible-view-todo-parent .bible-view-note-list .todo-content, .view-todo .bible-view-todo-parent .todo-list .note-content, .view-todo .bible-view-todo-parent .todo-list .todo-content {
   display: none; }
-.view-note .bible-view-note-modal {
+.view-note .bible-view-note-modal, .view-todo .bible-view-note-modal {
   display: none;
   background: #4d4d4d;
   padding: 5em;
@@ -379,13 +379,13 @@ table {
   overflow-y: scroll;
   font-weight: bolder;
   font-size: 1.2em; }
-.view-note .bible-view-note-modal .bible-close {
+.view-note .bible-view-note-modal .bible-close, .view-todo .bible-view-note-modal .bible-close {
   top: 0; }
-.view-note .bible-view-note-modal div {
+.view-note .bible-view-note-modal div, .view-todo .bible-view-note-modal div {
   margin-top: 1em; }
-.view-note .bible-view-note-modal div p {
+.view-note .bible-view-note-modal div p, .view-todo .bible-view-note-modal div p {
   line-height: 2; }
-.view-note .bible-view-note-modal div:first-of-type {
+.view-note .bible-view-note-modal div:first-of-type, .view-todo .bible-view-note-modal div:first-of-type {
   margin-top: 3em; }
 
 .bible-note-delete {
@@ -506,6 +506,19 @@ table {
 .todo-add-parent .todo-add-todo {
   margin-top: 1em; }
 .todo-add-parent .todo-button-add {
+  margin-top: 1em; }
+
+.todo-delete-todo {
+  background-color: black;
+  color: #545454;
+  border: 1px solid #545454;
+  border-radius: 3px;
+  padding: .3em;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: bolder; }
+
+._todo-content {
   margin-top: 1em; }
 
 body {

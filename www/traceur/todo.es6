@@ -4,7 +4,7 @@ class Todo {
 
         todoParent.addEventListener('click', e => {
             let target = e.target;
-
+            console.log(target.className);
             switch(target.className) {
                 case "bible-add-todo":
 
@@ -32,6 +32,7 @@ class Todo {
 
                     break;
                 case "bible-view-todo":
+                    this.viewTodo();
                     break;
                 default:
             }
@@ -106,7 +107,88 @@ class Todo {
         parent.removeAttribute('style');
 
     }
-    removeTodo() {
+    viewTodo() {
+
+        let todo_Obj,
+            todoViewParent = document.querySelector(".view-todo"),
+            todoView = document.querySelector(".todo-list");
+
+        if ( (todo_Obj = localStorage.getItem('___TODO___') )) {
+
+            todo_Obj = JSON.parse(todo_Obj);
+            todoViewParent.setAttribute('style', 'visibility: visible;');
+            for ( let _j of Object.keys(todo_Obj) ) {
+                let { todo_date, todo_time, todo_content } = todo_Obj[_j];
+
+                let listElement = document.createElement('li'),
+                    dateElement = document.createElement('p'),
+                    timeElement = document.createElement('p'),
+                    contentElement = document.createElement('p'),
+                    deleteTodo = document.createElement('span');
+
+                dateElement.innerHTML = todo_date,
+                timeElement.innerHTML = todo_time,
+                contentElement.innerHTML = todo_content,
+                deleteTodo.innerHTML = "Delete";
+
+                listElement.setAttribute('class', 'todo-view-item');
+                dateElement.setAttribute('class', 'todo-date');
+                deleteTodo.setAttribute('class', 'fa todo-delete-todo pull-right');
+                timeElement.setAttribute('class', 'todo-time');
+                contentElement.setAttribute('class', '_todo-content');
+
+                listElement.appendChild(dateElement);
+                listElement.appendChild(timeElement);
+                listElement.appendChild(contentElement)
+                listElement.appendChild(deleteTodo);
+                todoView.appendChild(listElement);
+            }
+        } else {
+            Todo.SetStatusMessage("No Todo has been added yet");
+            return ;
+        }
+
+       todoViewParent.addEventListener('click', (e) => {
+            let target = e.target;
+            if ( target.getAttribute('class').includes('bible-close') ) {
+                todoViewParent.removeAttribute('style');
+                Array.from(todoView.children, (el) => {
+                    el.remove();
+                });
+            } else if ( target.getAttribute('class').includes('todo-delete-todo') ) {
+                this.removeTodo(target)
+            }
+        });
+    }
+
+    removeTodo(target) {
+        let pNode = target.parentNode;
+        let contEl = pNode.querySelector('._todo-content');
+        let todoRenderedList = pNode.parentNode;
+
+        let __todo__ = JSON.parse(localStorage.getItem("___TODO___"));
+        for ( let miniObj of Object.keys(__todo__)) {
+            let { todo_date, todo_time , todo_content } = __todo__[miniObj];
+            todo_content = todo_content.substring(0,30);
+            if ( todo_content === contEl.innerHTML.substring(0,30) ) {
+                delete __todo__[miniObj];
+                localStorage.removeItem("___TODO___");
+                localStorage.setItem("___TODO___", JSON.stringify(__todo__));
+                pNode.remove();
+
+                if ( todoRenderedList.children.length === 0 ) {
+                    todoRenderedList.parentNode.parentNode.removeAttribute('style');
+                }
+                break ;
+            }
+
+        }
+
+        if ( Object.keys(__todo__).length === 0 ) {
+            localStorage.removeItem("___TODO___");
+            return ;
+        }
+
 
     }
 }

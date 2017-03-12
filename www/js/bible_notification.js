@@ -36,6 +36,10 @@ $traceurRuntime.registerModule("../traceur/bible_notification.es6", [], function
             __n.close();
           }, 4000);
           __n.addEventListener('click', function(e) {
+            var moveToTodo = document.querySelector('.bible-view-todo'),
+                todoList = moveToTodo.querySelector('.todo-list');
+            var target = e.target;
+            moveToTodo.click();
             console.log(e);
             __n.close();
           });

@@ -1,4 +1,4 @@
-.view-note {
+.view-note,.view-todo {
     @include NoteStyles;
     height: 100%;
     width: 100%;
@@ -12,10 +12,10 @@
         left: 0;
         top: 2em;
     }
-    .bible-view-note-parent {
-        .bible-view-note-list {
+    .bible-view-note-parent,.bible-view-todo-parent {
+        .bible-view-note-list,.todo-list {
             padding-top: 5em;
-            .bible-view-note-item {
+            .bible-view-note-item,.todo-view-item {
                 color: $textColor;
                 background-color: lighten($bgColor, 30%);
                 padding: .3em;
@@ -29,7 +29,7 @@
                 }
 
             }
-            .note-content {
+            .note-content,.todo-content {
                 display: none;
             }
         }

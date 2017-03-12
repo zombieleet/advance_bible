@@ -103,3 +103,21 @@
         margin-top: 1em;
     }
 }
+
+.todo-delete-todo {
+    // font-size: 13px;
+    background-color: $bgColor;
+    color: darken($textColor,30%);
+    border: 1px solid darken($textColor, 30%);
+    border-radius: 3px;
+    padding: .3em;
+    cursor: pointer;
+    // font-weight: bolder;
+    font: {
+        size: 13px;
+        weight: bolder;
+    }
+}
+._todo-content {
+    margin-top: 1em;
+}
