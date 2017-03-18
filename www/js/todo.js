@@ -101,18 +101,29 @@ $traceurRuntime.registerModule("../traceur/todo.es6", [], function() {
                     dateElement = document.createElement('p'),
                     timeElement = document.createElement('p'),
                     contentElement = document.createElement('p'),
-                    deleteTodo = document.createElement('span');
+                    deleteTodo = document.createElement('span'),
+                    markCompleted = document.createElement('span');
                 dateElement.innerHTML = todo_date, timeElement.innerHTML = todo_time, contentElement.innerHTML = todo_content, deleteTodo.innerHTML = "Delete";
                 listElement.setAttribute('class', 'todo-view-item');
                 dateElement.setAttribute('class', 'todo-date');
                 deleteTodo.setAttribute('class', 'fa todo-delete-todo pull-right');
                 timeElement.setAttribute('class', 'todo-time');
                 contentElement.setAttribute('class', '_todo-content');
+                markCompleted.setAttribute('class', 'fa fa-check-circle pull-right todo-check');
                 listElement.appendChild(dateElement);
                 listElement.appendChild(timeElement);
                 listElement.appendChild(contentElement);
                 listElement.appendChild(deleteTodo);
+                listElement.appendChild(markCompleted);
                 todoView.appendChild(listElement);
+                markCompleted.addEventListener('click', function(e) {
+                  var target = e.target;
+                  var parent = target.parentNode;
+                  if (parent.getAttribute('data-completed') === 'completed') {
+                    return false;
+                  }
+                  parent.setAttribute('data-completed', 'completed');
+                });
               }
             }
           } catch ($__11) {

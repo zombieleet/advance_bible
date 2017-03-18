@@ -121,3 +121,15 @@
 ._todo-content {
     margin-top: 1em;
 }
+.todo-check {
+    font-size: 20px;
+    color: $bgColor;
+    cursor: pointer;
+    transition: .2s color ease-in-out;
+    &:hover {
+        color: lighten($bgColor, 10%);
+    }
+}
+[data-completed="completed"] {
+    background-color: green;
+}

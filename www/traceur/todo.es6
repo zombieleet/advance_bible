@@ -124,7 +124,8 @@ class Todo {
                     dateElement = document.createElement('p'),
                     timeElement = document.createElement('p'),
                     contentElement = document.createElement('p'),
-                    deleteTodo = document.createElement('span');
+                    deleteTodo = document.createElement('span'),
+                    markCompleted = document.createElement('span');
 
                 dateElement.innerHTML = todo_date,
                 timeElement.innerHTML = todo_time,
@@ -136,12 +137,24 @@ class Todo {
                 deleteTodo.setAttribute('class', 'fa todo-delete-todo pull-right');
                 timeElement.setAttribute('class', 'todo-time');
                 contentElement.setAttribute('class', '_todo-content');
+                markCompleted.setAttribute('class', 'fa fa-check-circle pull-right todo-check')
 
                 listElement.appendChild(dateElement);
                 listElement.appendChild(timeElement);
                 listElement.appendChild(contentElement)
                 listElement.appendChild(deleteTodo);
+                listElement.appendChild(markCompleted);
                 todoView.appendChild(listElement);
+
+                markCompleted.addEventListener('click', e => {
+                    let target = e.target;
+                    let parent = target.parentNode;
+
+                    if ( parent.getAttribute('data-completed') === 'completed' ) {
+                        return false;
+                    }
+                    parent.setAttribute('data-completed', 'completed')
+                })
             }
         } else {
             Todo.SetStatusMessage("No Todo has been added yet");
