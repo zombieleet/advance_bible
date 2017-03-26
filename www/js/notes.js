@@ -300,9 +300,9 @@ $traceurRuntime.registerModule("../traceur/notes.es6", [], function() {
             noteTitle = document.querySelector('.bible-add-note-title'),
             noteContent = document.querySelector('.bible-add-note-content');
         pageTitle.innerHTML = page_title;
-        pageButton.innerHTML = page_title;
         {
           if (page_title === 'Edit Note') {
+            pageButton.setAttribute('class', pageButton.getAttribute('class') + " fa fa-pencil");
             var noteToEdit = JSON.parse(localStorage.getItem('___BIBLE-NOTE___'))[title];
             var $__15 = noteToEdit,
                 noteTT = $__15.title,
@@ -311,6 +311,7 @@ $traceurRuntime.registerModule("../traceur/notes.es6", [], function() {
             noteContent.value = content;
             noteTitle.setAttribute('disabled', "true");
           } else {
+            pageButton.setAttribute('class', pageButton.getAttribute('class') + " fa fa-plus");
             noteTitle.value = noteContent.value = "";
             if (noteTitle.hasAttribute('disabled'))
               noteTitle.removeAttribute('disabled');

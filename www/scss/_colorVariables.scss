@@ -1,4 +1,10 @@
-$bgColor: darken(black, 100%);
-$borderColor: darken(lightgrey, 20%);
-$textColor: darken(lightgrey, 20%);
+// $bgColor: darken(black, 100%);
+// $borderColor: darken(lightgrey, 20%);
+// $textColor: darken(lightgrey, 20%);
+
 $padding: 0.5em;
+
+$textColor: white;
+$text-color: $textColor;
+$margin-top-bible-body: .3em;
+$bgColor:lighten($text-color, 5%);

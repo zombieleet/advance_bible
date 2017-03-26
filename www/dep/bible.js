@@ -190,6 +190,21 @@ export class GetBible {
 		let bibleTestament = document.querySelector('.bible-testament');
 		this.bibleTestament = () => bibleTestament;
 	}
+	static  SetStatusMessage(msg) {
+        if ((typeof msg) !== 'string') {
+            throw Error(`expected a string as an argument but got ${(typeof msg)}`);
+        }
+
+        let bibleRep = document.querySelector(".bible-report");
+
+        bibleRep.innerHTML = msg;
+
+        bibleRep.setAttribute('style', 'visibility: visible');
+
+        setTimeout(() => {
+            bibleRep.removeAttribute('style');
+        }, 3000);
+    }
 	static Settings() {
 			return {
 				fontSize: localStorage.getItem("font-size"),
@@ -222,6 +237,8 @@ export class GetBible {
 		let bookName = document.createElement('h3');
 		let bookChapter = document.createElement('h5');
 
+		bookParent.setAttribute('class', 'bible-book-parent');
+
 		HeaderButtons.render();
 
 		backward.setAttribute('class', 'fa fa-arrow-left bible-go-left');
@@ -245,36 +262,140 @@ export class GetBible {
 		parent.style["color"] = bibleSettingsValues.textcolor;
 		parent.style["background-color"] = bibleSettingsValues.bgcolor;
 
+		let setState = false;
+
+		const BOOKMARK = JSON.parse(localStorage.getItem('___BIBLE-BOOKMARK___'));
+
 		for ( let verses of chapter["verses"] ) {
+
 			for ( let [versenum,versetext]  of objectEntries(verses) ) {
+
 				let readParent = document.createElement('div');
 				readParent.setAttribute('class', 'bible-verse-text');
+
 				let verseNum = document.createElement('span');
 				let verseText = document.createElement('span');
+				let bookMark = document.createElement('span');
+
+				bookMark.setAttribute('class', 'fa fa-bookmark bible-bookmark-icon bible-not-bookmarked');
 
 				verseNum.textContent = versenum;
 				verseText.textContent = versetext;
-
 				readParent.appendChild(verseNum)
 				readParent.appendChild(verseText);
+				readParent.appendChild(bookMark);
 				parent.appendChild(readParent);
+
+				try { 
+					if ( BOOKMARK ) GetBible.BookMark({bookMark,versenum,versetext,BOOKMARK}) 
+				} catch(ex) {  };
+				
+
+				bookMark.addEventListener('click', e => {
+					let target = e.target;
+
+					if ( target.classList.contains('bible-bookmarked') ) {
+						target.classList.remove('bible-bookmarked');
+						target.classList.add('bible-not-bookmarked');
+						GetBible.UnSaveBookMarked(target.parentNode);
+						return ;
+					}
+					target.classList.remove('bible-not-bookmarked');
+					target.classList.add('bible-bookmarked');
+					GetBible.SaveBookMarked(target.parentNode);
+				})
+
+				if ( ! setState ) {
+					setState = true;
+					readParent.setAttribute('data-set-bg', 'true');
+					continue ;
+				} 
+				setState = false;
+				readParent.setAttribute('data-set-bg', 'false');
 			}
 			
 		}
-		console.log('should execute ones');
+		
 		if ( bibleSettingsValues.audio === 'yes' ) {
-				
-				let audiobook = book.replace(/\s+/,'')
-				let audioBible = fetch(`audios/KJV/${audiobook}/${audiobook}${chapter["chapter"]}.mp3`);
-				
-				audioBible.then((data) => {
-						return data.url
-				}).then((src) => {
-						let audio = document.createElement('audio');
-						Audio.SetAudio(src, audio, {book, chapter});
-				})
+			let audiobook = book.replace(/\s+/,'')
+			let audioBible = fetch(`audios/KJV/${audiobook}/${audiobook}${chapter["chapter"]}.mp3`);
+			
+			audioBible.then((data) => {
+				return data.url
+			}).then((src) => {
+				let audio = document.createElement('audio');
+				Audio.SetAudio(src, audio, {book, chapter});
+			})
 		}
 
+	}
+	static BookMark({bookMark,versenum,versetext,BOOKMARK}) {
+
+		const _p = GetBible.IsBookMarked(BOOKMARK);
+
+		let [value,location] = _p.next().value;
+		
+		while ( value != null ) {
+			const _joinedValue = versenum + versetext.replace(/\s/g, '_');
+			if ( _joinedValue === value ) {
+				bookMark.classList.add('bible-bookmarked');
+				bookMark.classList.remove('bible-not-bookmarked');
+			}
+
+			[value,location] = _p.next().value;
+		}	
+	}
+	static SaveBookMarked(newbookmark) {
+		
+        let getPrevItem = JSON.parse(localStorage.getItem('___BIBLE-BOOKMARK___'));
+        let isTrueFalse = (getPrevItem) ? true : false;
+        let bookmark = {};
+       
+        let { textContent } = newbookmark;
+        const ____ = [
+	        textContent.match(/^\d+/)[0],
+	        textContent.replace(/^\d+/,''),
+	        newbookmark.parentElement.querySelector('h3').textContent + " " + newbookmark.parentElement.querySelector('h5')
+        ];
+
+        let [ verseNum, verseText, location ] = [...____];
+        let obj = {
+            [`${textContent.replace(/\s/g,'_')}`]: {
+            	verseNum,
+            	verseText,
+            	location
+            }
+        }
+
+        if (!isTrueFalse) {
+
+            Object.assign(bookmark, obj)
+            localStorage.setItem('___BIBLE-BOOKMARK___',
+                JSON.stringify(bookmark));
+            GetBible.SetStatusMessage('bookmark has been added');
+            return;
+
+        }
+        
+        Object.assign(bookmark, getPrevItem, obj);
+        
+        localStorage.setItem('___BIBLE-BOOKMARK___',
+            JSON.stringify(bookmark));
+        GetBible.SetStatusMessage('bookmark has been added');
+	}
+	static UnSaveBookMarked(remnewbookmark) {
+		let bookmarkStorage = JSON.parse(localStorage.getItem("___BIBLE-BOOKMARK___"));
+		let { textContent } = remnewbookmark;
+		let name = `${textContent.replace(/\s/g,'_')}`;
+		delete bookmarkStorage[name];
+		localStorage.setItem("___BIBLE-BOOKMARK___", JSON.stringify(bookmarkStorage));
+	}
+	static *IsBookMarked(BOOKMARK) {
+		// let bookmark = JSON.parse(localStorage.getItem('___BIBLE-BOOKMARK___'));
+		for ( let [i,BOOKMARK] of objectEntries(BOOKMARK) ) {
+			let { location } = BOOKMARK;
+			yield [i,location];
+		}
 	}
 	navigateChapters(bc,i) {
 		let homeScreen = document.querySelector('.bible-home-screen');
@@ -298,9 +419,7 @@ export class GetBible {
 					}
 
 					GetBible.StyleBible(bc["book"],bc.chapters[i]);
-				} catch(ex) {
-					console.log(ex);
-				}
+				} catch(ex) {}
 			} else if ( target.classList.toString().includes("bible-go-left") ) {
 
 				if ( document.querySelector('.bible-read-text') ) {
@@ -324,9 +443,6 @@ export class GetBible {
 			let target = e.target;
 			let homeScreen = document.querySelector('.bible-home-screen');
 			if ( target.classList.toString().includes("bible-location") ) {
-
-
-				// if you see a whitespace take it out
 				let textContent = target.textContent.replace(/\s+/g, "");
 				let bibleChapters = new GetJson(`js/jsons/${textContent}.json`);
 				target.parentNode.remove();
@@ -334,36 +450,28 @@ export class GetBible {
 				let bibleReadText = document.createElement('div')
 				bibleReadText.setAttribute('class','bible-read-text');
 				let removeBibleReadText = homeScreen.getElementsByClassName('bible-read-text')[0];
+				// removeBibleReadText = removeBibleReadText[removeBibleReadText.length - 1];
+
 				if ( removeBibleReadText !== undefined ) {
 					removeBibleReadText.remove();
 				}
 				homeScreen.appendChild(bibleReadText);
-				
 				bibleChapters.loadJson().then((bc) => {
-
-				/* 																		*\
-					A CHAPTER MUST ALREADY BE RENDERED
-				\* 																		*/	
-
 					let i = 0;				
 					GetBible.StyleBible(bc["book"],bc.chapters[i]);
-					console.log('onessssssssss', 0);
 					this.navigateChapters(bc,i);
-					console.log('onessssssssss', 0);
 
 					var el = new JumpToChapter();					
 					el.el().addEventListener('click',  (e) => {
-							let target = e.target;
-							let match = target.textContent.match(/\d+/g) || target.textContent.match(/CH\./);
-							if ( match && (target.nodeName.toLowerCase() === "p") ) {
-									if ( match[0] === "CH." ) {
-											target = target.nextElementSibling;
-											console.log(target);
-											i = Number(target.innerHTML) - 1;
-											
-											GetBible.StyleBible(bc["book"],bc.chapters[i]);	
-									}
+						let target = e.target;
+						let match = target.textContent.match(/\d+/g) || target.textContent.match(/CH\./);
+						if ( match && (target.nodeName.toLowerCase() === "p") ) {
+							if ( match[0] === "CH." ) {
+								target = target.nextElementSibling;
+								i = Number(target.innerHTML) - 1;
+								GetBible.StyleBible(bc["book"],bc.chapters[i]);	
 							}
+						}
 				 	})
 
 				})

@@ -1,5 +1,5 @@
 import {GetJson , objectEntries, Modal } from "../dep/loadRequested.js"
-import {GetBible as GetBible } from "../dep/bible.js";;
+import {GetBible as GetBible } from "../dep/bible.js"
 
 class IconBar {
   constructor() {
@@ -82,7 +82,7 @@ class NavNavigation {
   static PlaceLocationInDom(testament, bibleType) {
     let bibleChoice = document.querySelector(bibleType);
     let homeScreen = document.querySelector('.bible-home-screen');
-    let testaMentParent = document.createElement('div');
+    let testaMentParent = document.createElement('ul');
     testaMentParent.setAttribute('class', 'bible-testament');
     if ( bibleChoice ) {
       bibleChoice.setAttribute('data-display', 'none');
@@ -92,7 +92,7 @@ class NavNavigation {
       }
       homeScreen.appendChild(testaMentParent)
       for ( let [otKey, otValue] of objectEntries(testament) ) {
-        let location = document.createElement('p');;
+        let location = document.createElement('li');;
         location.setAttribute('class', 'bible-location');
         location.innerHTML = `${otValue}`;
         testaMentParent.appendChild(location);
@@ -118,11 +118,11 @@ class NavNavigation {
             Array.from(homeScreen.children, (children) => {
                 if ( ! children.hasAttribute('data-display') && ! HTMLImageElement[Symbol.hasInstance](children) ) {
                   children.setAttribute('data-display', 'none');
-                  
                 } 
 
             })
             homeScreenChild.removeAttribute('data-display');
+
             if ( homeScreenChild.getAttribute('class') === "bible-ot" ) {
                 let getOldTestament = new GetJson("js/jsons/oldtestament.json");
                 getOldTestament.loadJson().then((ot) => {
@@ -137,14 +137,12 @@ class NavNavigation {
                 NavNavigation.BibleChapters()
                 Modal.extended();
               })
-            }
+            } 
         }
       }
     })
   }
 }
-// var navigation = new Nav();
-// navigation.minMax()
 
 var navigationNavigate = new NavNavigation()
 navigationNavigate.navigate();
@@ -173,10 +171,6 @@ class ToggleConcord {
   }
 }
 
-var toggleC = new ToggleConcord();
-
-toggleC.toggleConcord();
-
 class SetActive {
   constructor() {
     let bibleNavList = document.querySelector('.bible-nav-list');
@@ -186,13 +180,12 @@ class SetActive {
     this.bibleNavList().addEventListener('click', (e) => {
       let target = e.target;
       let nodeName = e.target.nodeName.toLowerCase();
-      // console.log(nodeName)
-      // if ( (nodeName === 'li') || (nodeName === 'span') ) {
+      
       target = ( nodeName === 'li' ) ? target : target.parentNode;
-      if ( target.parentNode.className.includes("bible-nav-concord") ) {
-          target.parentNode.parentNode.setAttribute('data-override', 'true');
-          return ;
-      }
+      // if ( target.parentNode.className.includes("bible-nav-concord") ) {
+      //     target.parentNode.parentNode.setAttribute('data-override', 'true');
+      //     return ;
+      // }
       Array.from(this.bibleNavList().children, (element) => {
         if ( element.hasAttribute('data-active-click') ) {
             element.removeAttribute('data-active-click');
@@ -203,6 +196,12 @@ class SetActive {
     })
   }
 }
-var ss = new SetActive();
 
-ss.active();
+; ( function () {
+  const ss = new SetActive();
+  ss.active();
+
+  const toggleC = new ToggleConcord();
+  toggleC.toggleConcord();
+
+}());

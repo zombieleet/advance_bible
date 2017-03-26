@@ -37,7 +37,7 @@
         <link rel="stylesheet" type="text/css" href="css/index.css">
         -->
 
-  <link rel="stylesheet" href="font/css/font-awesome.min.css">
+  <link rel="stylesheet" href="font/css/font-awesome.css">
   <link rel="stylesheet" type="text/css" href="libs/bootstrap.min.css">
   <link rel="stylesheet" href="css/app.css">
   <title>Holy Bible</title>
@@ -54,8 +54,7 @@
     <section class="bible-home-screen col-xs-8">
       <!--<img src="img/torn_bible.jpg" height="100%" width="100%"  draggable="false" />-->
       <div class="bible-choice">
-        <button class="btn btn-default bible-choice-select bible-choice-language">SELECT LANGUAGE</button>
-
+<!--         <button class="btn btn-default bible-choice-select bible-choice-language">SELECT LANGUAGE</button> -->
         <div class="bible-testatment-choice">
           <button class="btn btn-default bible-oldtestament bible-choice-select bible-choice-item">
                     OLD TESTAMENT
@@ -184,11 +183,11 @@
           <li class="list-group-item">Language</li>
         </ul>
       </div>
-      <div class="bible-favourites" data-display="none">
+      <!-- <div class="bible-favourites" data-display="none">
         FAVOURITES
-      </div>
+      </div> -->
       <div class="bible-bookmark" data-display="none">
-        BOOKMARK
+        
       </div>
       <div class="bible-newt" data-display="none" data-modal="newt-chapter">
       </div>
@@ -235,8 +234,8 @@
         <p class="bible-close fa fa-close pull-right"> </p>
         <p class="bible-add-note-text"></p>
         
-        <input type="text" class="bible-add-note-title form-control" placeholder="Title Of Note"></input>
-        <textarea rows="8" cols="37" class="bible-add-note-content"></textarea>
+        <input type="text" class="bible-add-note-title" placeholder="Title Of Note"></input>
+        <textarea rows="8" class="bible-add-note-content"></textarea>
         <button type="submit" class="bible-add-note-btn"></button>
 
       </div>
@@ -308,9 +307,9 @@
         <li class="fa fa-gear bible-nav-item" data-target="bible-settings"><span>Settings</span>
           <p class="bible-underline"></p>
         </li>
-        <li class="fa fa-heart bible-nav-item" data-target="bible-favourites"><span>Favourites</span>
+        <!-- <li class="fa fa-heart bible-nav-item" data-target="bible-favourites"><span>Favourites</span>
           <p class="bible-underline"></p>
-        </li>
+        </li> -->
         <li class="fa fa-bookmark bible-nav-item" data-target="bible-bookmark"><span>Bookmarks</span>
         <p class="bible-underline"></p>
         </li>
@@ -412,11 +411,123 @@
   <script src="js/notes.js"></script>
   <script src="js/todo.js"></script>
   <script src="js/bible_notification.js"></script>
+  <script src="js/initializeBookmark.js"></script>
   <script src="libs/jquery.js"></script>
   <script src="libs/bootstrap.min.js"></script>
   <!-- <script src="js/modalChapters.js"></script> -->
   <!-- <script src="js/bible.js"></script> -->
+  <script>
+     ; (function(w, d) {
+    var raf = w.requestAnimationFrame || w.setImmediate || function(c) { return setTimeout(c, 0); };
 
+    function initEl(el) {
+      if (el.hasOwnProperty('data-simple-scrollbar')) return;
+      Object.defineProperty(el, 'data-simple-scrollbar', new SimpleScrollbar(el));
+    }
+
+    // Mouse drag handler
+    function dragDealer(el, context) {
+      var lastPageY;
+
+      el.addEventListener('mousedown', function(e) {
+        lastPageY = e.pageY;
+        el.classList.add('ss-grabbed');
+        d.body.classList.add('ss-grabbed');
+
+        d.addEventListener('mousemove', drag);
+        d.addEventListener('mouseup', stop);
+
+        return false;
+      });
+
+      function drag(e) {
+        var delta = e.pageY - lastPageY;
+        lastPageY = e.pageY;
+
+        raf(function() {
+          context.el.scrollTop += delta / context.scrollRatio;
+        });
+      }
+
+      function stop() {
+        el.classList.remove('ss-grabbed');
+        d.body.classList.remove('ss-grabbed');
+        d.removeEventListener('mousemove', drag);
+        d.removeEventListener('mouseup', stop);
+      }
+    }
+
+    // Constructor
+    function ss(el) {
+      this.target = el;
+      
+      this.bar = '<div class="ss-scroll">';
+
+      this.wrapper = d.createElement('div');
+      this.wrapper.setAttribute('class', 'ss-wrapper');
+
+      this.el = d.createElement('div');
+      this.el.setAttribute('class', 'ss-content');
+
+      this.wrapper.appendChild(this.el);
+
+      while (this.target.firstChild) {
+        this.el.appendChild(this.target.firstChild);
+      }
+      this.target.appendChild(this.wrapper);
+
+      this.target.insertAdjacentHTML('beforeend', this.bar);
+      this.bar = this.target.lastChild;
+
+      dragDealer(this.bar, this);
+      this.moveBar();
+
+      this.el.addEventListener('scroll', this.moveBar.bind(this));
+      this.el.addEventListener('mouseenter', this.moveBar.bind(this));
+
+      this.target.classList.add('ss-container'); 
+        
+      var css = window.getComputedStyle(el);
+      if (css['height'] === '0px' && css['max-height'] !== '0px') {
+        el.style.height = css['max-height'];
+      }
+    }
+
+    ss.prototype = {
+      moveBar: function(e) {
+        var totalHeight = this.el.scrollHeight,
+            ownHeight = this.el.clientHeight,
+            _this = this;
+
+        this.scrollRatio = ownHeight / totalHeight;
+
+        raf(function() {
+          // Hide scrollbar if no scrolling is possible
+          if(_this.scrollRatio >= 1) {
+            _this.bar.classList.add('ss-hidden')
+          } else {
+            _this.bar.classList.remove('ss-hidden')
+            _this.bar.style.cssText = 'height:' + (_this.scrollRatio) * 100 + '%; top:' + (_this.el.scrollTop / totalHeight ) * 100 + '%;right:-' + (_this.target.clientWidth - _this.bar.clientWidth) + 'px;';
+          }
+        });
+      }
+    }
+
+    function initAll() {
+      var nodes = d.querySelectorAll('*[ss-container]');
+
+      for (var i = 0; i < nodes.length; i++) {
+        initEl(nodes[i]);
+      }
+    }
+
+    d.addEventListener('DOMContentLoaded', initAll);
+    ss.initEl = initEl;
+    ss.initAll = initAll;
+
+    w.SimpleScrollbar = ss;
+  })(window, document);
+  </script>
 
 </body>
 

@@ -767,220 +767,116 @@ $traceurRuntime.registerModule("../dep/bible.js", [], function() {
       return GetBible;
     }};
 });
-$traceurRuntime.registerModule("../traceur/nav.es6", [], function() {
+$traceurRuntime.registerModule("../dep/bookmark.js", [], function() {
   "use strict";
-  var __moduleName = "../traceur/nav.es6";
-  var $__15 = $traceurRuntime.getModule($traceurRuntime.normalizeModuleName("../dep/loadRequested.js", "../traceur/nav.es6")),
-      GetJson = $__15.GetJson,
-      objectEntries = $__15.objectEntries,
-      Modal = $__15.Modal;
-  var GetBible = $traceurRuntime.getModule($traceurRuntime.normalizeModuleName("../dep/bible.js", "../traceur/nav.es6")).GetBible;
-  var IconBar = function() {
-    function IconBar() {
-      var $__4 = this;
-      var iconBar = document.querySelector('.fa-bars');
-      var noDisplay = document.querySelector('.bible-cover');
-      var bibleNavItemParent = document.querySelector('.bible-nav');
-      var homeScreen = document.querySelector('.bible-home-screen');
-      noDisplay.addEventListener('click', function(e) {
-        var target = e.target;
-        var rmModal = document.querySelector("[data-remove-modal='remove']");
-        target.setAttribute('data-display', 'none');
-        homeScreen.removeAttribute('data-reduce-size');
-        $__4.bibleNavItemParent().removeAttribute('data-open-bar');
-        $__4.bibleNavItemParent().setAttribute('data-close-bar', 'closebar');
-        Array.from(document.querySelectorAll("[data-remove-modal='remove']"), function(tt) {
-          console.log(tt);
+  var __moduleName = "../dep/bookmark.js";
+  var GetBible = $traceurRuntime.getModule($traceurRuntime.normalizeModuleName("./bible.js", "../dep/bookmark.js")).GetBible;
+  var _bookMark = Object.create({
+    bookmarkStorage: JSON.parse(localStorage.getItem("___BIBLE-BOOKMARK___")),
+    bookmarkElement: function() {
+      return document.querySelector('.bible-bookmark');
+    },
+    init: function() {
+      var $__2 = this;
+      if (this.bookmarkElement().children.length !== 0) {
+        Array.from(this.bookmarkElement().children, function(_) {
+          $__2.bookmarkElement().removeChild(_);
         });
-      });
-      this.iconBar = function() {
-        return iconBar;
-      };
-      this.noDisplay = function() {
-        return noDisplay;
-      };
-      this.homeScreen = function() {
-        return homeScreen;
-      };
-      this.bibleNavItemParent = function() {
-        return bibleNavItemParent;
-      };
-    }
-    return ($traceurRuntime.createClass)(IconBar, {openIconBar: function() {
-        var $__4 = this;
-        this.iconBar().addEventListener('click', function(e) {
-          var target = e.target;
-          var bibleNavItemParent = document.querySelector('.bible-nav');
-          var homeScreen = document.querySelector('.bible-home-screen');
-          if (!bibleNavItemParent.hasAttribute('data-open-bar')) {
-            $__4.noDisplay().removeAttribute('data-display');
-            $__4.homeScreen().setAttribute('data-reduce-size', 'reducesize');
-            bibleNavItemParent.setAttribute('data-open-bar', 'openbar');
-            bibleNavItemParent.removeAttribute('data-close-bar');
-            return;
-          }
-          $__4.noDisplay().setAttribute('data-display', 'none');
-          $__4.homeScreen().removeAttribute('data-reduce-size');
-          $__4.bibleNavItemParent().removeAttribute('data-open-bar');
-          $__4.bibleNavItemParent().setAttribute('data-close-bar', 'closebar');
-        });
-      }}, {});
-  }();
-  var icBar = new IconBar();
-  icBar.openIconBar();
-  var NavNavigation = function() {
-    function NavNavigation() {
-      var bibleNavItemParent = document.querySelector('.bible-nav-list');
-      this.bibleNavItemParent = function() {
-        return bibleNavItemParent;
-      };
-    }
-    return ($traceurRuntime.createClass)(NavNavigation, {navigate: function() {
-        this.bibleNavItemParent().addEventListener('click', function(e) {
-          var target = e.target;
-          var homeScreen = document.querySelector(".bible-home-screen");
-          var targetElement = target.classList.toString().includes("bible-nav-item") || target.parentNode.classList.toString().includes("bible-nav-item");
-          if (targetElement) {
-            var targetEl = target.parentNode.nodeName.toLowerCase() === "li" ? target.parentNode : target;
-            var showElement = targetEl.getAttribute('data-target');
-            var homeScreenChild = homeScreen.getElementsByClassName(showElement)[0];
-            if (!homeScreenChild)
-              return;
-            if (homeScreenChild.hasAttribute('data-display')) {
-              Array.from(homeScreen.children, function(children) {
-                if (!children.hasAttribute('data-display') && !HTMLImageElement[Symbol.hasInstance](children)) {
-                  children.setAttribute('data-display', 'none');
-                }
-              });
-              homeScreenChild.removeAttribute('data-display');
-              if (homeScreenChild.getAttribute('class') === "bible-ot") {
-                var getOldTestament = new GetJson("js/jsons/oldtestament.json");
-                getOldTestament.loadJson().then(function(ot) {
-                  NavNavigation.PlaceLocationInDom(ot, ".bible-ot");
-                  NavNavigation.BibleChapters();
-                  Modal.extended();
-                });
-              } else if (homeScreenChild.getAttribute('class') === "bible-newt") {
-                var getNewTestament = new GetJson("js/jsons/newtestament.json");
-                getNewTestament.loadJson().then(function(nt) {
-                  NavNavigation.PlaceLocationInDom(nt, ".bible-newt");
-                  NavNavigation.BibleChapters();
-                  Modal.extended();
-                });
-              }
-            }
-          }
-        });
-      }}, {
-      BibleChapters: function() {
-        var bible = new GetBible();
-        var bibleChapters = bible.getBible();
-        return bibleChapters;
-      },
-      PlaceLocationInDom: function(testament, bibleType) {
-        var $__13,
-            $__14;
-        var bibleChoice = document.querySelector(bibleType);
-        var homeScreen = document.querySelector('.bible-home-screen');
-        var testaMentParent = document.createElement('ul');
-        testaMentParent.setAttribute('class', 'bible-testament');
-        if (bibleChoice) {
-          bibleChoice.setAttribute('data-display', 'none');
-          var removeTestamentParent = homeScreen.getElementsByClassName('bible-testament')[0];
-          if (removeTestamentParent !== undefined) {
-            removeTestamentParent.remove();
-          }
-          homeScreen.appendChild(testaMentParent);
-          var $__8 = true;
-          var $__9 = false;
-          var $__10 = undefined;
-          try {
-            for (var $__6 = void 0,
-                $__5 = (objectEntries(testament))[Symbol.iterator](); !($__8 = ($__6 = $__5.next()).done); $__8 = true) {
-              var $__12 = $__6.value,
-                  otKey = ($__13 = $__12[Symbol.iterator](), ($__14 = $__13.next()).done ? void 0 : $__14.value),
-                  otValue = ($__14 = $__13.next()).done ? void 0 : $__14.value;
-              {
-                var location = document.createElement('li');
-                ;
-                location.setAttribute('class', 'bible-location');
-                location.innerHTML = ("" + otValue);
-                testaMentParent.appendChild(location);
-              }
-            }
-          } catch ($__11) {
-            $__9 = true;
-            $__10 = $__11;
-          } finally {
-            try {
-              if (!$__8 && $__5.return != null) {
-                $__5.return();
-              }
-            } finally {
-              if ($__9) {
-                throw $__10;
-              }
-            }
-          }
-        }
+        console.log(this.bookmarkElement().children.length);
       }
-    });
-  }();
-  var navigationNavigate = new NavNavigation();
-  navigationNavigate.navigate();
-  var ToggleConcord = function() {
-    function ToggleConcord() {
-      var concordNav = document.querySelector('.concord-nav');
-      this.concordNav = function() {
-        return concordNav;
-      };
-    }
-    return ($traceurRuntime.createClass)(ToggleConcord, {toggleConcord: function() {
-        this.concordNav().addEventListener('click', function(e) {
-          var target = e.target;
-          var bibleNavConcord = document.querySelector('.bible-nav-concord');
-          if (!target.classList.toString().includes("bible-nav-item")) {
-            if (bibleNavConcord.hasAttribute('style')) {
-              bibleNavConcord.removeAttribute('style');
-              return;
-            }
-            bibleNavConcord.setAttribute('style', 'display: block');
-            return;
+      this.checkBookMarkStorage();
+    },
+    bookmarkHtml: function() {
+      this.bookmarkElement().setAttribute('style', ("font-size: " + localStorage.getItem("font-size") + "px;"));
+      return this.bookmarkElement();
+    },
+    checkBookMarkStorage: function() {
+      if (!this.bookmarkStorage) {
+        document.querySelector(".fa.fa-home.bible-nav-item").click();
+        GetBible.SetStatusMessage('Nothing to display here');
+        return false;
+      }
+      this.showBookMark();
+    },
+    showBookMark: function() {
+      var $__4,
+          $__5,
+          $__6,
+          $__7,
+          $__8,
+          $__9,
+          $__10,
+          $__11;
+      try {
+        var _p = GetBible.IsBookMarked(this.bookmarkStorage);
+        var $__3 = _p.next().value,
+            value = ($__4 = $__3[Symbol.iterator](), ($__5 = $__4.next()).done ? void 0 : $__5.value),
+            location = ($__5 = $__4.next()).done ? void 0 : $__5.value;
+        var setBg = false;
+        while (value != null) {
+          if (!setBg) {
+            setBg = true;
+            this.styleBookMark({
+              value: value,
+              setBg: setBg,
+              location: location
+            });
+            ($__6 = _p.next().value, value = ($__7 = $__6[Symbol.iterator](), ($__8 = $__7.next()).done ? void 0 : $__8.value), location = ($__8 = $__7.next()).done ? void 0 : $__8.value, $__6);
+            continue;
           }
-        });
-      }}, {});
-  }();
-  var SetActive = function() {
-    function SetActive() {
-      var bibleNavList = document.querySelector('.bible-nav-list');
-      this.bibleNavList = function() {
-        return bibleNavList;
-      };
-    }
-    return ($traceurRuntime.createClass)(SetActive, {active: function() {
-        var $__4 = this;
-        this.bibleNavList().addEventListener('click', function(e) {
-          var target = e.target;
-          var nodeName = e.target.nodeName.toLowerCase();
-          target = (nodeName === 'li') ? target : target.parentNode;
-          Array.from($__4.bibleNavList().children, function(element) {
-            if (element.hasAttribute('data-active-click')) {
-              element.removeAttribute('data-active-click');
-              if (element.hasAttribute('data-override'))
-                element.removeAttribute('data-override');
-            }
-            target.setAttribute('data-active-click', 'true');
+          setBg = false;
+          this.styleBookMark({
+            value: value,
+            setBg: setBg,
+            location: location
           });
+          ($__9 = _p.next().value, value = ($__10 = $__9[Symbol.iterator](), ($__11 = $__10.next()).done ? void 0 : $__11.value), location = ($__11 = $__10.next()).done ? void 0 : $__11.value, $__9);
+        }
+      } catch (ex) {}
+    },
+    styleBookMark: function($__3) {
+      var $__6,
+          $__7;
+      var $__4 = $__3,
+          value = $__4.value,
+          setBg = $__4.setBg,
+          location = $__4.location;
+      var $__5 = [value.split(/_/).join(" ").match(/\d+/)[0], value.split(/_/).join(" ").replace(/^\d+/, "")],
+          versenum = ($__6 = $__5[Symbol.iterator](), ($__7 = $__6.next()).done ? void 0 : $__7.value),
+          versetext = ($__7 = $__6.next()).done ? void 0 : $__7.value;
+      var readParent = document.createElement('div');
+      readParent.setAttribute('class', 'bible-verse-text');
+      readParent.setAttribute('data-set-bg', setBg.toString());
+      var verseLocation = document.createElement('p');
+      var verseNum = document.createElement('span');
+      var verseText = document.createElement('span');
+      verseNum.textContent = versenum;
+      verseText.textContent = versetext;
+      verseLocation.textContent = location;
+      readParent.appendChild(verseLocation);
+      readParent.appendChild(verseNum);
+      readParent.appendChild(verseText);
+      this.bookmarkHtml().appendChild(readParent);
+    }
+  });
+  return {get _bookMark() {
+      return _bookMark;
+    }};
+});
+$traceurRuntime.registerModule("../traceur/initializeBookmark.es6", [], function() {
+  "use strict";
+  var __moduleName = "../traceur/initializeBookmark.es6";
+  var BookMark = $traceurRuntime.getModule($traceurRuntime.normalizeModuleName("../dep/bookmark.js", "../traceur/initializeBookmark.es6"))._bookMark;
+  var InitBookMark = function() {
+    function InitBookMark() {}
+    return ($traceurRuntime.createClass)(InitBookMark, {}, {Fire: function() {
+        var _el = document.querySelector('[data-target="bible-bookmark"]');
+        _el.addEventListener('click', function() {
+          BookMark.init();
         });
-      }}, {});
+      }});
   }();
-  ;
-  (function() {
-    var ss = new SetActive();
-    ss.active();
-    var toggleC = new ToggleConcord();
-    toggleC.toggleConcord();
-  }());
+  InitBookMark.Fire();
   return {};
 });
-$traceurRuntime.getModule("../traceur/nav.es6" + '');
+$traceurRuntime.getModule("../traceur/initializeBookmark.es6" + '');

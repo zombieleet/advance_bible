@@ -86,3 +86,12 @@
   // position: relative;
   margin-left: 26px;
 }
+[data-set-bg="true"] {
+  background-color: darken($bgColor, 100%);
+  box-shadow: 2px 2px 9px darken($bgColor, 100%);
+}
+[data-set-bg="false"] {
+  background-color: lighten($bgColor, 40%);
+  color: darken($bgColor, 100%);
+  box-shadow: 2px 2px 9px lighten($bgColor, 40%);
+}

@@ -1,8 +1,14 @@
+@font-face {
+  font-family: "Quikhand";
+  src: url("../fonts/Quikhand.ttf");
+  font-weight: bolder; }
 *:focus {
   outline: none; }
 
 * {
-  outline: none; }
+  outline: none;
+  font-family: "Quikhand";
+  letter-spacing: 1px; }
 
 html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
   margin: 0;
@@ -10,10 +16,12 @@ html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockq
   border: 0;
   font-size: 100%;
   font: inherit;
-  vertical-align: baseline; }
+  vertical-align: baseline;
+  font-family: "Quikhand"; }
 
 button {
-  outline: none; }
+  outline: none;
+  font-family: "Quikhand"; }
 
 a {
   text-decoration: none;
@@ -140,6 +148,15 @@ table {
 [data-change-state='settings-state'] {
   margin-left: 26px; }
 
+[data-set-bg="true"] {
+  background-color: black;
+  box-shadow: 2px 2px 9px black; }
+
+[data-set-bg="false"] {
+  background-color: white;
+  color: black;
+  box-shadow: 2px 2px 9px white; }
+
 .bible-cover, .bible-head-cover {
   background-color: black;
   width: 100%;
@@ -232,10 +249,10 @@ table {
   position: relative;
   margin-top: 10em;
   padding: 1em;
-  background: black;
-  color: #a0a0a0;
+  background: white;
+  color: white;
   border: none;
-  box-shadow: 1px 2px 2px 2px black;
+  box-shadow: 1px 2px 2px 2px white;
   transition: .2s background ease-in, .2s color ease-in; }
 .bible-audio-ctrlers .audioctrlers button:first-of-type {
   margin-left: 0;
@@ -245,12 +262,12 @@ table {
 .bible-audio-ctrlers .audioctrlers button:nth-of-type(3) {
   right: -7em; }
 .bible-audio-ctrlers .audioctrlers button:hover {
-  background-color: #a0a0a0;
-  color: black; }
+  background-color: white;
+  color: white; }
 .bible-audio-ctrlers .audioctrlers button:focus {
   outline: none;
-  background-color: #a0a0a0;
-  color: black; }
+  background-color: white;
+  color: white; }
 
 .bible-loading {
   position: absolute;
@@ -272,14 +289,14 @@ table {
 .bible-label-group {
   width: 100%; }
 .bible-label-group .bible-label {
-  background-color: black;
-  border: 2px solid #a0a0a0;
+  background-color: white;
+  border: 2px solid white;
   font-size: 1em; }
 .bible-label-group .bible-label:hover {
-  background-color: black;
+  background-color: #e6e6e6;
   border-color: none; }
 .bible-label-group .bible-label-list {
-  color: #212121; }
+  color: gray; }
 
 .bible-report {
   background-color: black;
@@ -291,19 +308,18 @@ table {
   color: white;
   border-radius: 12px;
   position: absolute;
-  top: 600px;
+  top: 500px;
   left: 200px;
   opacity: .75;
   visibility: hidden; }
 
 .add-note {
   position: absolute;
-  background: #333333;
-  height: 65vh;
-  width: 70vh;
+  background: #b3b3b3;
+  height: 100%;
+  width: 100%;
   padding: 1em;
   visibility: hidden;
-  border-radius: 12px;
   width: 100%;
   height: 100%;
   padding: 5em;
@@ -318,35 +334,42 @@ table {
 .add-note .bible-add-note-parent p {
   font-weight: bolder;
   font-size: 1.5em;
-  color: #a0a0a0; }
+  color: white; }
 .add-note .bible-add-note-parent input {
   font-size: 1.5em;
-  border: none; }
+  border: none;
+  border-radius: 0;
+  padding: 10px;
+  width: 100%;
+  border-bottom: 1px solid gray;
+  box-shadow: 2px 2px 2px gray; }
 .add-note .bible-add-note-parent input:disabled {
-  background: #666666;
-  color: #a0a0a0; }
+  background: white;
+  color: white; }
 .add-note .bible-add-note-parent textarea {
   resize: none;
-  font-size: 1.5em; }
+  font-size: 1.5em;
+  width: 100%;
+  box-shadow: 2px 2px 2px gray; }
 .add-note .bible-add-note-parent button {
   padding: 1em;
   border: none;
-  font-size: 1em;
+  font-size: 15px;
   font-weight: bolder;
-  background-color: black;
-  color: #a0a0a0; }
+  background-color: white;
+  color: gray;
+  border-radius: 100%; }
 .add-note .bible-add-note-parent > * {
   display: block;
   margin-top: 1em; }
 
 .view-note, .view-todo {
   position: absolute;
-  background: #333333;
-  height: 65vh;
-  width: 70vh;
+  background: #b3b3b3;
+  height: 100%;
+  width: 100%;
   padding: 1em;
   visibility: hidden;
-  border-radius: 12px;
   height: 100%;
   width: 100%; }
 .view-note .bible-close, .view-todo .bible-close {
@@ -357,11 +380,13 @@ table {
 .view-note .bible-view-note-parent .bible-view-note-list, .view-note .bible-view-note-parent .todo-list, .view-note .bible-view-todo-parent .bible-view-note-list, .view-note .bible-view-todo-parent .todo-list, .view-todo .bible-view-note-parent .bible-view-note-list, .view-todo .bible-view-note-parent .todo-list, .view-todo .bible-view-todo-parent .bible-view-note-list, .view-todo .bible-view-todo-parent .todo-list {
   padding-top: 5em; }
 .view-note .bible-view-note-parent .bible-view-note-list .bible-view-note-item, .view-note .bible-view-note-parent .bible-view-note-list .todo-view-item, .view-note .bible-view-note-parent .todo-list .bible-view-note-item, .view-note .bible-view-note-parent .todo-list .todo-view-item, .view-note .bible-view-todo-parent .bible-view-note-list .bible-view-note-item, .view-note .bible-view-todo-parent .bible-view-note-list .todo-view-item, .view-note .bible-view-todo-parent .todo-list .bible-view-note-item, .view-note .bible-view-todo-parent .todo-list .todo-view-item, .view-todo .bible-view-note-parent .bible-view-note-list .bible-view-note-item, .view-todo .bible-view-note-parent .bible-view-note-list .todo-view-item, .view-todo .bible-view-note-parent .todo-list .bible-view-note-item, .view-todo .bible-view-note-parent .todo-list .todo-view-item, .view-todo .bible-view-todo-parent .bible-view-note-list .bible-view-note-item, .view-todo .bible-view-todo-parent .bible-view-note-list .todo-view-item, .view-todo .bible-view-todo-parent .todo-list .bible-view-note-item, .view-todo .bible-view-todo-parent .todo-list .todo-view-item {
-  color: #a0a0a0;
-  background-color: #4d4d4d;
+  color: white;
+  background-color: #b3b3b3;
   padding: .3em;
   font-size: 5em;
-  margin: 0.5em 0.5em 0 0.5em; }
+  margin: 0.5em 0.5em 0 0.5em;
+  cursor: pointer;
+  border-radius: 100%; }
 .view-note .bible-view-note-parent .bible-view-note-list .bible-view-note-item p, .view-note .bible-view-note-parent .bible-view-note-list .todo-view-item p, .view-note .bible-view-note-parent .todo-list .bible-view-note-item p, .view-note .bible-view-note-parent .todo-list .todo-view-item p, .view-note .bible-view-todo-parent .bible-view-note-list .bible-view-note-item p, .view-note .bible-view-todo-parent .bible-view-note-list .todo-view-item p, .view-note .bible-view-todo-parent .todo-list .bible-view-note-item p, .view-note .bible-view-todo-parent .todo-list .todo-view-item p, .view-todo .bible-view-note-parent .bible-view-note-list .bible-view-note-item p, .view-todo .bible-view-note-parent .bible-view-note-list .todo-view-item p, .view-todo .bible-view-note-parent .todo-list .bible-view-note-item p, .view-todo .bible-view-note-parent .todo-list .todo-view-item p, .view-todo .bible-view-todo-parent .bible-view-note-list .bible-view-note-item p, .view-todo .bible-view-todo-parent .bible-view-note-list .todo-view-item p, .view-todo .bible-view-todo-parent .todo-list .bible-view-note-item p, .view-todo .bible-view-todo-parent .todo-list .todo-view-item p {
   font-size: 0.2em;
   font-weight: bolder; }
@@ -369,14 +394,15 @@ table {
   display: none; }
 .view-note .bible-view-note-modal, .view-todo .bible-view-note-modal {
   display: none;
-  background: #4d4d4d;
+  background: #b3b3b3;
   padding: 5em;
   position: absolute;
   top: 0;
   left: 0;
-  color: #a0a0a0;
+  color: white;
   height: 100%;
   overflow-y: scroll;
+  width: 100%;
   font-weight: bolder;
   font-size: 1.2em; }
 .view-note .bible-view-note-modal .bible-close, .view-todo .bible-view-note-modal .bible-close {
@@ -388,13 +414,17 @@ table {
 .view-note .bible-view-note-modal div:first-of-type, .view-todo .bible-view-note-modal div:first-of-type {
   margin-top: 3em; }
 
+.bible-close {
+  color: white; }
+
 .bible-note-delete {
   font-size: 0.5em;
-  color: #660000;
+  color: white;
   position: relative;
   top: -1em;
   left: 1em;
-  cursor: pointer; }
+  cursor: pointer;
+  border-radius: 100%; }
 
 .bible-note-edit {
   font-size: 0.5em;
@@ -402,23 +432,27 @@ table {
   position: relative;
   top: -1em;
   left: 1em;
-  cursor: pointer; }
+  cursor: pointer;
+  border-radius: 100%; }
 
 .bible-note {
-  background-color: black;
+  background-color: #e6e6e6;
   padding: 2.5em;
+  box-shadow: 2px 2px 3px #e6e6e6;
   width: 500px;
   position: absolute;
-  margin-left: 5.5em;
   top: 1em; }
 .bible-note .bible-note-parent .bible-note-item {
-  background-color: #1f1f1f;
+  background-color: white;
   padding: .5em;
   font-size: 2em;
-  margin-left: 1em; }
+  margin-left: 1em;
+  border-radius: 100%;
+  box-shadow: 2px 2px 3px white; }
 .bible-note .bible-note-parent .bible-pushpin {
-  background-color: #a0a0a0;
-  border: 1px solid #1f1f1f;
+  background-color: white;
+  box-shadow: 2px 2px 5px black;
+  border: 1px solid white;
   border-radius: 120px;
   padding: 0.5em;
   position: relative;
@@ -447,21 +481,21 @@ table {
 .bible-todo-parent > div {
   display: inline;
   margin: 3em;
-  background-color: #a0a0a0;
-  color: black;
+  background-color: white;
+  color: white;
   padding: 5em 2em 5em  2em;
   font-size: 1em;
   font-weight: bolder;
   text-transform: uppercase;
   border-radius: 5px;
-  box-shadow: 1px 1px 1px 1px black;
+  box-shadow: 1px 1px 1px 1px white;
   cursor: pointer;
   transition: .2s all ease-in; }
 .bible-todo-parent > div:hover {
   opacity: .75; }
 
 .todo-add-parent {
-  background: #4d4d4d;
+  background: white;
   width: 100%;
   height: 100%;
   position: absolute;
@@ -477,30 +511,30 @@ table {
   left: 25em;
   cursor: pointer;
   background-color: inherit;
-  color: #a0a0a0;
+  color: white;
   font-size: 1.5em; }
 .todo-add-parent > div {
   font-weight: bolder;
   font-size: 1.3em;
-  color: lightgray;
+  color: white;
   position: relative; }
 .todo-add-parent > div input {
   margin-left: 1em;
   border-radius: 5px;
-  border: 1px solid #4d4d4d; }
+  border: 1px solid white; }
 .todo-add-parent > div input:last-of-type {
   padding-left: 1em; }
 .todo-add-parent > div textarea {
   resize: none;
   border-radius: 5px;
-  color: black; }
+  color: white; }
 .todo-add-parent > div button {
   padding: .5em;
   border: none;
   font-size: .8em;
   font-weight: bolder;
-  background-color: black;
-  color: #a0a0a0; }
+  background-color: white;
+  color: white; }
 .todo-add-parent .todo-add-time {
   margin-top: 1em; }
 .todo-add-parent .todo-add-todo {
@@ -509,9 +543,9 @@ table {
   margin-top: 1em; }
 
 .todo-delete-todo {
-  background-color: black;
-  color: #545454;
-  border: 1px solid #545454;
+  background-color: white;
+  color: #b3b3b3;
+  border: 1px solid #b3b3b3;
   border-radius: 3px;
   padding: .3em;
   cursor: pointer;
@@ -523,18 +557,51 @@ table {
 
 .todo-check {
   font-size: 20px;
-  color: black;
+  color: white;
   cursor: pointer;
   transition: .2s color ease-in-out; }
 .todo-check:hover {
-  color: #1a1a1a; }
+  color: white; }
 
 [data-completed="completed"] {
   background-color: green; }
 
+::-webkit-scrollbar {
+  width: 5px; }
+
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  background-color: #000000; }
+
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
+  background-color: #555555; }
+
+::-webkit-scrollbar-button {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
+  background-color: #000000;
+  background-image: url(dark/light-blue/images/ui-icons_0990fb_256x240.png); }
+
+::-webkit-scrollbar-button:vertical:increment {
+  background-position: -64px -16px; }
+
+::-webkit-scrollbar-button:vertical:decrement {
+  background-position: 0 -16px; }
+
+::-webkit-scrollbar-button:horizontal:increment {
+  background-position: -32px -16px; }
+
+::-webkit-scrollbar-button:horizontal:decrement {
+  background-position: -96px -16px; }
+
+::-webkit-scrollbar-corner {
+  background-color: #000000; }
+
 body {
   box-sizing: border-box;
-  width: 100vw; }
+  width: 100vw;
+  letter-spacing: 3px; }
 body #bible-body {
   width: 100vw; }
 body #bible-body header {
@@ -551,10 +618,11 @@ body #bible-body header .bible-title {
 body #bible-body .bible-nav {
   float: left;
   height: 100%;
-  width: 30vw;
-  margin-left: -14em;
+  max-width: 100%;
+  margin-left: -500px;
   font-weight: bolder;
-  background-color: black;
+  background-color: white;
+  box-shadow: 1px 1px 1px 2px white;
   padding-top: 2em;
   position: absolute; }
 body #bible-body .bible-nav .bible-arrows {
@@ -577,13 +645,14 @@ body #bible-body .bible-nav .bible-nav-list .bible-nav-item {
   cursor: pointer;
   margin-top: .3em;
   font-weight: bolder;
-  margin-left: -0.5em; }
+  margin-left: -0.5em;
+  padding-left: 2em; }
 body #bible-body .bible-nav .bible-nav-list .bible-nav-item:hover {
   background-color: gray; }
 body #bible-body .bible-nav .bible-nav-list .bible-nav-item span {
   margin-left: 0.5em; }
 body #bible-body .bible-home-screen {
-  background-color: black;
+  background-color: white;
   opacity: .75;
   float: right;
   display: inline-flex;
@@ -622,23 +691,23 @@ body #bible-body .bible-home-screen .bible-choice .bible-concord, body #bible-bo
   border: none; }
 body #bible-body .bible-home-screen .bible-testament, body #bible-body .bible-home-screen .bible-rendered-on-page {
   align-self: flex-start;
-  position: absolute; }
+  position: absolute;
+  width: 100%; }
 body #bible-body .bible-home-screen .bible-testament .bible-location, body #bible-body .bible-home-screen .bible-rendered-on-page .bible-location {
-  float: left;
-  margin: .5em .5em;
-  font-size: 0.8em;
-  color: #a0a0a0;
-  background-color: black;
-  text-align: center;
-  padding: .5em;
+  display: block;
+  width: 100%;
+  font-size: 20px;
+  color: white;
+  background-color: #b3b3b3;
+  padding: 10px;
   font-weight: bolder;
-  box-shadow: 0px 0px 5px 5px black;
+  box-shadow: 1px 1px 5px 5px;
   cursor: pointer;
   height: 100%;
   border: 1px solid white; }
 body #bible-body .bible-home-screen .bible-testament .bible-location:hover, body #bible-body .bible-home-screen .bible-rendered-on-page .bible-location:hover {
   background-color: #1a1a1a; }
-body #bible-body .bible-home-screen .bible-read-text {
+body #bible-body .bible-home-screen .bible-read-text, body #bible-body .bible-home-screen .bible-bookmark {
   font-size: 0.8em;
   color: #a0a0a0;
   text-align: center;
@@ -652,38 +721,46 @@ body #bible-body .bible-home-screen .bible-read-text {
   padding-top: 2em;
   overflow-y: scroll;
   background-color: transparent; }
-body #bible-body .bible-home-screen .bible-read-text:hover {
-  background-color: #1a1a1a; }
-body #bible-body .bible-home-screen .bible-read-text .bible-go-left, body #bible-body .bible-home-screen .bible-read-text .bible-go-right {
+body #bible-body .bible-home-screen .bible-read-text .bible-go-left, body #bible-body .bible-home-screen .bible-read-text .bible-go-right, body #bible-body .bible-home-screen .bible-bookmark .bible-go-left, body #bible-body .bible-home-screen .bible-bookmark .bible-go-right {
   cursor: pointer;
   color: #a0a0a0;
   font-size: 1em;
   font-weight: bolder; }
-body #bible-body .bible-home-screen .bible-read-text .bible-go-left {
+body #bible-body .bible-home-screen .bible-read-text .bible-go-left, body #bible-body .bible-home-screen .bible-bookmark .bible-go-left {
   float: left;
   margin-left: 1em; }
-body #bible-body .bible-home-screen .bible-read-text .bible-go-right {
+body #bible-body .bible-home-screen .bible-read-text .bible-go-right, body #bible-body .bible-home-screen .bible-bookmark .bible-go-right {
   float: right;
   margin-right: 1em; }
-body #bible-body .bible-home-screen .bible-read-text > div:first-of-type {
+body #bible-body .bible-home-screen .bible-read-text > div:first-of-type, body #bible-body .bible-home-screen .bible-bookmark > div:first-of-type {
   margin-bottom: .5em; }
-body #bible-body .bible-home-screen .bible-read-text > div:first-of-type h3 {
+body #bible-body .bible-home-screen .bible-read-text > div:first-of-type h3, body #bible-body .bible-home-screen .bible-bookmark > div:first-of-type h3 {
   font-style: italic;
   font-size: 2em;
   margin-top: .5em;
   font-weight: bolder; }
-body #bible-body .bible-home-screen .bible-read-text > div:first-of-type h5 {
+body #bible-body .bible-home-screen .bible-read-text > div:first-of-type h5, body #bible-body .bible-home-screen .bible-bookmark > div:first-of-type h5 {
   font-size: 1em;
   font-weight: bolder; }
-body #bible-body .bible-home-screen .bible-read-text .bible-verse-text {
-  margin-left: .5em;
-  margin-top: 1.5em; }
-body #bible-body .bible-home-screen .bible-read-text .bible-verse-text span:first-of-type {
+body #bible-body .bible-home-screen .bible-read-text .bible-book-parent, body #bible-body .bible-home-screen .bible-bookmark .bible-book-parent {
+  padding: 30px;
+  margin-bottom: 30px; }
+body #bible-body .bible-home-screen .bible-read-text .bible-verse-text, body #bible-body .bible-home-screen .bible-bookmark .bible-verse-text {
+  padding: 30px; }
+body #bible-body .bible-home-screen .bible-read-text .bible-verse-text span:first-of-type, body #bible-body .bible-home-screen .bible-bookmark .bible-verse-text span:first-of-type {
   font-weight: bolder;
   font-style: italic;
-  font-size: 1em; }
-body #bible-body .bible-home-screen .bible-read-text .bible-verse-text span:first-of-type:after {
+  font-size: 1em;
+  float: left; }
+body #bible-body .bible-home-screen .bible-read-text .bible-verse-text span:first-of-type:after, body #bible-body .bible-home-screen .bible-bookmark .bible-verse-text span:first-of-type:after {
   content: " ."; }
+body #bible-body .bible-home-screen .bible-read-text .bible-verse-text .bible-bookmark-icon, body #bible-body .bible-home-screen .bible-bookmark .bible-verse-text .bible-bookmark-icon {
+  float: right;
+  font-size: 19px;
+  cursor: pointer; }
+body #bible-body .bible-home-screen .bible-read-text .bible-verse-text .bible-bookmarked, body #bible-body .bible-home-screen .bible-bookmark .bible-verse-text .bible-bookmarked {
+  color: #ccac00;
+  box-shadow: 0px 0px 1px #665600; }
 body #bible-body .bible-home-screen .bible-settings {
   font-size: 0.8em;
   color: #a0a0a0;

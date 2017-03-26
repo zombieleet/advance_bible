@@ -17,11 +17,12 @@
             padding-top: 5em;
             .bible-view-note-item,.todo-view-item {
                 color: $textColor;
-                background-color: lighten($bgColor, 30%);
+                background-color: darken($bgColor,30%);
                 padding: .3em;
                 font-size: 5em;   
                 margin: 0.5em 0.5em 0 0.5em;
-                
+                cursor: pointer;
+                border-radius: 100%;
                 p {
                     font-size: 0.2em;
                     font-weight: bolder;
@@ -39,14 +40,15 @@
         // visibility: hidden;
         display: none;
 
-        background: lighten($bgColor,30%);
+        background: darken($bgColor,30%);
         padding: 5em;
         position: absolute;
         top: 0;
         left: 0;
         color: $textColor;
         height: 100%;
-        overflow-y: scroll;        
+        overflow-y: scroll;
+        width: 100%;    
         font: {
             weight: bolder;
             size: 1.2em;
@@ -72,4 +74,7 @@
         }
         
     }
+}
+.bible-close {
+    color: $textColor;    
 }

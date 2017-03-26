@@ -1,24 +1,20 @@
-$text-color: #190545;
-$margin-top-bible-body: .3em;
-$bg-color:lighten($text-color, 5%);
-
 
 @import "reset.scss";
+@import "colorVariables.scss";
 @import "mixin.scss";
 @import "keyframes.scss";
 @import "dataAttribs.scss";
 @import "standalone.scss";
-@import "colorVariables.scss";
 @import "note.scss";
 
 @import "pushpin.scss";
 
 @import "bible_todo.scss";
-
+@import "scroll.scss";
 body {
   box-sizing: border-box;
   width: 100vw;
-
+  letter-spacing: 3px;
   #bible-body {
     width: 100vw;
     header {
@@ -39,12 +35,14 @@ body {
     .bible-nav {
       float: left;
       height: 100%;
-      width: 30vw;
-      margin-left: -14em;
+      max-width: 100%;
+      margin-left: -500px;
       font-weight: bolder;
-      background-color: black;
+      background-color: white;
+      box-shadow: 1px 1px 1px 2px white;
       padding-top: 2em;
       position: absolute;
+      // opacity: .75;
       .bible-arrows {
         cursor: pointer;
       }
@@ -73,7 +71,7 @@ body {
           margin-top: .3em;
           font-weight: bolder;
           margin-left: -0.5em;
-          // padding-left: 2em;
+          padding-left: 2em;
           &:hover {
             background-color: gray;
           }
@@ -84,10 +82,7 @@ body {
       }
     }
     .bible-home-screen {
-      // background: url('../img/torn_bible.jpg') no-repeat;
-
       background-color: $bgColor;
-
       opacity: .75;
       float: right;
       display: inline-flex;
@@ -108,7 +103,6 @@ body {
           text-align: center;
           padding: .5em;
           font-weight: bolder;
-          // box-shadow: 0px 0px 5px 5px black;
           border-radius: 0;
           cursor: pointer;
           height: 100%;
@@ -138,16 +132,18 @@ body {
       .bible-testament,.bible-rendered-on-page  {
         align-self: flex-start;
         position: absolute;
+        width: 100%;
         .bible-location {
-          float: left;
-          margin: .5em .5em;
-          font-size: 0.8em;
-          color: #a0a0a0;
-          background-color: black;
-          text-align: center;
-          padding: .5em;
+          // float: left;
+          display: block;
+          width: 100%;
+          font-size: 20px;
+          color: $textColor;
+          background-color: darken($bgColor,30%);
+          // text-align: center;
+          padding: 10px;
           font-weight: bolder;
-          box-shadow: 0px 0px 5px 5px black;
+          box-shadow: 1px 1px 5px 5px ;
           cursor: pointer;
           height: 100%;
           border: 1px solid white;
@@ -156,7 +152,7 @@ body {
           }
         }
       }
-      .bible-read-text {
+      .bible-read-text,.bible-bookmark {
 
         font-size: 0.8em;
         color: #a0a0a0;
@@ -172,9 +168,6 @@ body {
         padding-top: 2em;
         overflow-y: scroll;
         background-color: transparent;
-        &:hover {
-          background-color: #1a1a1a;
-        }
         .bible-go-left, .bible-go-right {
           cursor: pointer;
           color: #a0a0a0;
@@ -202,16 +195,31 @@ body {
             font-weight: bolder;
           }
         }
+        .bible-book-parent {
+          padding: 30px;
+          margin-bottom: 30px;
+        }
         .bible-verse-text {
-          margin-left: .5em;
-          margin-top: 1.5em;
+          // margin-left: .5em;
+          // margin-top: 1.5em;
+          padding: 30px;
           span:first-of-type {
             font-weight: bolder;
             font-style: italic;
             font-size: 1em;
+            float: left;
             &:after {
               content: " .";
             }
+          }
+          .bible-bookmark-icon {
+            float: right;
+            font-size: 19px;
+            cursor: pointer;
+          }
+          .bible-bookmarked {
+            color: darken(gold, 10%);
+            box-shadow: 0px 0px 1px darken(gold,30%);
           }
         }
       }
@@ -286,4 +294,3 @@ body {
     }
   }
 }
-

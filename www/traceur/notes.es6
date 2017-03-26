@@ -108,12 +108,12 @@ class AddNote  {
             noteContent = document.querySelector('.bible-add-note-content');
 
         pageTitle.innerHTML = page_title;
-        pageButton.innerHTML = page_title;
+        // pageButton.innerHTML = page_title;
 
         // run this in a local scope
         {
             if (page_title === 'Edit Note') {
-
+                pageButton.setAttribute('class', pageButton.getAttribute('class') + " fa fa-pencil")
                 let noteToEdit = JSON.parse(localStorage.getItem('___BIBLE-NOTE___'))[title];
 
                 let { title: noteTT, content} = noteToEdit;
@@ -126,6 +126,7 @@ class AddNote  {
             } else {
 
                 // lets assume the value property of the input HTMLElement is not empty
+                pageButton.setAttribute('class', pageButton.getAttribute('class') + " fa fa-plus")
                 noteTitle.value = noteContent.value = ""
                 if (noteTitle.hasAttribute('disabled')) noteTitle.removeAttribute('disabled');
             }
