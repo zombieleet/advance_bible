@@ -1,10 +1,12 @@
 import {JumpToChapter, objectEntries, GetJson, Modal} from "./loadRequested.js";
 
 class Audio {
+
   // constructor() {
   //   let audio = document.createElement('audio');
   //   this.audio = () => audio;
   // }
+  
   static SetAudio(link = undefined, audio, info) {
       if ( link === undefined ) {
         throw new Error("Link is Undefined");
@@ -113,73 +115,74 @@ class HeaderButtons {
 	static render() {
 
 		let header = document.querySelector('.bible-read-text');
-		let header_btnGroup = document.createElement('div');
-		header.appendChild(header_btnGroup);
-		header_btnGroup.setAttribute('class', 'btn-group bible-label-group');
-		header_btnGroup.appendChild(HeaderButtons.createOpenChapterBtn());
-		header_btnGroup.appendChild(HeaderButtons.createSelectVersion());
-		header_btnGroup.appendChild(HeaderButtons.createSelectLanguage());
+		let header_Menu = document.createElement('div');
+		let genLink = HeaderButtons.createMenuLinks([
+				"select chapter",
+				"select version",
+				"select language"
+				]);
+
+		let {done , value} = genLink.next();
+		let headerul = HeaderButtons.createUnderList();
+
+		header_Menu.setAttribute('class','bible-menu-header');
+		header.appendChild(header_Menu);
+		header_Menu.appendChild(HeaderButtons.createElipsis(headerul));
+		header_Menu.appendChild(headerul);
+
+		while ( ! done ) {
+
+			let _value = value.replace(/\s+/,''),
+				links = HeaderButtons[_value]();
+
+			links.innerHTML = value;
+
+			links.setAttribute('class', 'bible-elipsis-link');
+
+			headerul.appendChild(links);
+
+			({ done , value } = genLink.next());
+
+		}
 
 	}
-	static createOpenChapterBtn() {
-			let openChapterModalDiv = document.createElement('div');
+	static *createMenuLinks(links) {
+		for ( let _l of links ) {
+			yield _l;
+		}
+	}
+	static createUnderList() {
+		let header_ul = document.createElement('ul');
+		header_ul.setAttribute('class', 'bible-elipsis-parent');
+		return header_ul;
+	}
+	static createElipsis(elp) {
+		let elipsis = document.createElement('span');
+		elipsis.setAttribute('class', 'fa fa-ellipsis-v bible-elipsis');
+		elipsis.addEventListener('click', () => {
+			if ( elp.hasAttribute('style') ) {
+				elp.removeAttribute('style')
+				return ;
+			}
+			elp.setAttribute('style','display: block;');
+		});
 
-			let openChapterModal = document.createElement('button');
+		return elipsis;
+	}
+	static selectchapter() {
 
-			openChapterModalDiv.setAttribute('class', 'col-xs-4')
-			openChapterModalDiv.appendChild(openChapterModal);
-			
-			openChapterModal.setAttribute('class', 'btn btn-primary label bible-label bible-label-chapter')
-			openChapterModal.innerHTML = 'Select Chapter';	
-			openChapterModal.addEventListener('click', () => {
-				Modal.extended()
-			});
-			return openChapterModalDiv;
+			let openChapter = document.createElement('li');
+			Modal.extended(openChapter);
+
+			return openChapter;
 	}
 
-	static createSelectVersion() {
-		let selectVersionDropDown = document.createElement('div');
-		selectVersionDropDown.setAttribute('class', 'col-xs-4')
-		selectVersionDropDown.innerHTML = `
-				<button class="btn label dropdown-toggle bible-label" 
-						type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						
-					choose version <span class="bible-current-version"></span> 
-					<span class="caret"></span>
-				</button>
-				<ul class="dropdown-menu list-group bible-label-list">
-					<li class="list-group-item">KJV</li>
-					<li class="list-group-item">KJV</li>
-					<li class="list-group-item">KJV</li>
-					<li class="list-group-item">KJV</li>
-					<li class="list-group-item">KJV</li>
-					<li class="list-group-item">KJV</li>
-				</ul>				
-		`
+	static selectversion() {
+		let selectVersionDropDown = document.createElement('li');
 		return selectVersionDropDown
 	}
-	static createSelectLanguage() {	
-		let selectLanguageDropdown = document.createElement('div');
-
-		selectLanguageDropdown.setAttribute('class', 'col-xs-4')
-
-		selectLanguageDropdown.innerHTML = `
-				<button class="btn label dropdown-toggle bible-label" 
-					type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-
-					select langauge 
-					<span class="caret"></span>
-					<span class="bible-current-langauge"></span>
-				</button>
-				<ul class="dropdown-menu list-group bible-label-list">
-					<li class="list-group-item">English</li>
-					<li class="list-group-item">Pigin</li>
-					<li class="list-group-item">Korean</li>
-					<li class="list-group-item">Mandarine</li>
-					<li class="list-group-item">Arabic</li>
-					<li class="list-group-item">Hebrew</li>
-				</ul>							
-		`
+	static selectlanguage() {	
+		let selectLanguageDropdown = document.createElement('li');
 		return selectLanguageDropdown;
 	}
 }
@@ -241,8 +244,8 @@ export class GetBible {
 
 		HeaderButtons.render();
 
-		backward.setAttribute('class', 'fa fa-arrow-left bible-go-left');
-		forward.setAttribute('class', 'fa fa-arrow-right bible-go-right');
+		backward.setAttribute('class', 'fa fa-arrow-circle-o-right bible-go-right');
+		forward.setAttribute('class', 'fa fa-arrow-circle-o-left bible-go-left');
 		bookName.textContent = book;
 		bookChapter.textContent = `Chapter ${chapter["chapter"]}`;
 		bookName.setAttribute('class', 'bible-book-name')

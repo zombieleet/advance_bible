@@ -137,22 +137,20 @@ $traceurRuntime.registerModule("../dep/loadRequested.js", [], function() {
   var Modal = function() {
     function Modal() {}
     return ($traceurRuntime.createClass)(Modal, {}, {
-      extended: function(callback) {
+      extended: function(el) {
         var qq = document.querySelector('.bible-cover');
-        var modalChapters = document.querySelector('#bible-body');
-        modalChapters.addEventListener('click', function(e) {
-          var target = e.target;
-          var bibleHeadCover = document.querySelector('.bible-head-cover');
-          if (target.classList.toString().includes("bible-location")) {
+        console.log(el);
+        el.addEventListener('click', function(e) {
+          var target = e.target,
+              bibleHeadCover = document.querySelector('.bible-head-cover');
+          if (target.classList.contains("bible-location")) {
             Modal.searchJson(target.textContent.replace(/\s+/g, ""));
-            qq.removeAttribute('data-display');
-            bibleHeadCover.removeAttribute('data-display');
-          } else if (target.classList.toString().includes("bible-label-chapter")) {
+          } else {
             var currentOpenLocation = document.querySelector('.bible-book-name').innerHTML;
             Modal.searchJson(currentOpenLocation.replace(/\s+/g, ""));
-            qq.removeAttribute('data-display');
-            bibleHeadCover.removeAttribute('data-display');
           }
+          qq.removeAttribute('data-display');
+          bibleHeadCover.removeAttribute('data-display');
         });
         var getChaptersParent = document.querySelector('.bible-getChapters');
         var close = getChaptersParent.getElementsByClassName('bible-close')[0];
@@ -326,36 +324,139 @@ $traceurRuntime.registerModule("../dep/bible.js", [], function() {
     function HeaderButtons() {}
     return ($traceurRuntime.createClass)(HeaderButtons, {}, {
       render: function() {
+        var $__20;
         var header = document.querySelector('.bible-read-text');
-        var header_btnGroup = document.createElement('div');
-        header.appendChild(header_btnGroup);
-        header_btnGroup.setAttribute('class', 'btn-group bible-label-group');
-        header_btnGroup.appendChild(HeaderButtons.createOpenChapterBtn());
-        header_btnGroup.appendChild(HeaderButtons.createSelectVersion());
-        header_btnGroup.appendChild(HeaderButtons.createSelectLanguage());
+        var header_Menu = document.createElement('div');
+        var genLink = HeaderButtons.createMenuLinks(["select chapter", "select version", "select language"]);
+        var $__19 = genLink.next(),
+            done = $__19.done,
+            value = $__19.value;
+        var headerul = HeaderButtons.createUnderList();
+        header_Menu.setAttribute('class', 'bible-menu-header');
+        header.appendChild(header_Menu);
+        header_Menu.appendChild(HeaderButtons.createElipsis(headerul));
+        header_Menu.appendChild(headerul);
+        while (!done) {
+          var _value = value.replace(/\s+/, ''),
+              links = HeaderButtons[_value]();
+          links.innerHTML = value;
+          links.setAttribute('class', 'bible-elipsis-link');
+          headerul.appendChild(links);
+          (($__20 = genLink.next(), done = $__20.done, value = $__20.value, $__20));
+        }
       },
-      createOpenChapterBtn: function() {
-        var openChapterModalDiv = document.createElement('div');
-        var openChapterModal = document.createElement('button');
-        openChapterModalDiv.setAttribute('class', 'col-xs-4');
-        openChapterModalDiv.appendChild(openChapterModal);
-        openChapterModal.setAttribute('class', 'btn btn-primary label bible-label bible-label-chapter');
-        openChapterModal.innerHTML = 'Select Chapter';
-        openChapterModal.addEventListener('click', function() {
-          Modal.extended();
+      createMenuLinks: $traceurRuntime.initGeneratorFunction(function $__28(links) {
+        var $__8,
+            $__9,
+            $__10,
+            $__6,
+            $__5,
+            _l,
+            $__11;
+        return $traceurRuntime.createGeneratorInstance(function($ctx) {
+          while (true)
+            switch ($ctx.state) {
+              case 0:
+                $__8 = true;
+                $__9 = false;
+                $__10 = undefined;
+                $ctx.state = 24;
+                break;
+              case 24:
+                $ctx.pushTry(10, 11);
+                $ctx.state = 13;
+                break;
+              case 13:
+                $__6 = void 0, $__5 = (links)[Symbol.iterator]();
+                $ctx.state = 9;
+                break;
+              case 9:
+                $ctx.state = (!($__8 = ($__6 = $__5.next()).done)) ? 5 : 7;
+                break;
+              case 4:
+                $__8 = true;
+                $ctx.state = 9;
+                break;
+              case 5:
+                _l = $__6.value;
+                $ctx.state = 6;
+                break;
+              case 6:
+                $ctx.state = 2;
+                return _l;
+              case 2:
+                $ctx.maybeThrow();
+                $ctx.state = 4;
+                break;
+              case 7:
+                $ctx.popTry();
+                $ctx.state = 11;
+                $ctx.finallyFallThrough = -2;
+                break;
+              case 10:
+                $ctx.popTry();
+                $ctx.maybeUncatchable();
+                $__11 = $ctx.storedException;
+                $ctx.state = 16;
+                break;
+              case 16:
+                $__9 = true;
+                $__10 = $__11;
+                $ctx.state = 11;
+                $ctx.finallyFallThrough = -2;
+                break;
+              case 11:
+                $ctx.popTry();
+                $ctx.state = 22;
+                break;
+              case 22:
+                try {
+                  if (!$__8 && $__5.return != null) {
+                    $__5.return();
+                  }
+                } finally {
+                  if ($__9) {
+                    throw $__10;
+                  }
+                }
+                $ctx.state = 20;
+                break;
+              case 20:
+                $ctx.state = $ctx.finallyFallThrough;
+                break;
+              default:
+                return $ctx.end();
+            }
+        }, $__28, this);
+      }),
+      createUnderList: function() {
+        var header_ul = document.createElement('ul');
+        header_ul.setAttribute('class', 'bible-elipsis-parent');
+        return header_ul;
+      },
+      createElipsis: function(elp) {
+        var elipsis = document.createElement('span');
+        elipsis.setAttribute('class', 'fa fa-ellipsis-v bible-elipsis');
+        elipsis.addEventListener('click', function() {
+          if (elp.hasAttribute('style')) {
+            elp.removeAttribute('style');
+            return;
+          }
+          elp.setAttribute('style', 'display: block;');
         });
-        return openChapterModalDiv;
+        return elipsis;
       },
-      createSelectVersion: function() {
-        var selectVersionDropDown = document.createElement('div');
-        selectVersionDropDown.setAttribute('class', 'col-xs-4');
-        selectVersionDropDown.innerHTML = "\n\t\t\t\t<button class=\"btn label dropdown-toggle bible-label\" \n\t\t\t\t\t\ttype=\"button\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">\n\t\t\t\t\t\t\n\t\t\t\t\tchoose version <span class=\"bible-current-version\"></span> \n\t\t\t\t\t<span class=\"caret\"></span>\n\t\t\t\t</button>\n\t\t\t\t<ul class=\"dropdown-menu list-group bible-label-list\">\n\t\t\t\t\t<li class=\"list-group-item\">KJV</li>\n\t\t\t\t\t<li class=\"list-group-item\">KJV</li>\n\t\t\t\t\t<li class=\"list-group-item\">KJV</li>\n\t\t\t\t\t<li class=\"list-group-item\">KJV</li>\n\t\t\t\t\t<li class=\"list-group-item\">KJV</li>\n\t\t\t\t\t<li class=\"list-group-item\">KJV</li>\n\t\t\t\t</ul>\t\t\t\t\n\t\t";
+      selectchapter: function() {
+        var openChapter = document.createElement('li');
+        Modal.extended(openChapter);
+        return openChapter;
+      },
+      selectversion: function() {
+        var selectVersionDropDown = document.createElement('li');
         return selectVersionDropDown;
       },
-      createSelectLanguage: function() {
-        var selectLanguageDropdown = document.createElement('div');
-        selectLanguageDropdown.setAttribute('class', 'col-xs-4');
-        selectLanguageDropdown.innerHTML = "\n\t\t\t\t<button class=\"btn label dropdown-toggle bible-label\" \n\t\t\t\t\ttype=\"button\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">\n\n\t\t\t\t\tselect langauge \n\t\t\t\t\t<span class=\"caret\"></span>\n\t\t\t\t\t<span class=\"bible-current-langauge\"></span>\n\t\t\t\t</button>\n\t\t\t\t<ul class=\"dropdown-menu list-group bible-label-list\">\n\t\t\t\t\t<li class=\"list-group-item\">English</li>\n\t\t\t\t\t<li class=\"list-group-item\">Pigin</li>\n\t\t\t\t\t<li class=\"list-group-item\">Korean</li>\n\t\t\t\t\t<li class=\"list-group-item\">Mandarine</li>\n\t\t\t\t\t<li class=\"list-group-item\">Arabic</li>\n\t\t\t\t\t<li class=\"list-group-item\">Hebrew</li>\n\t\t\t\t</ul>\t\t\t\t\t\t\t\n\t\t";
+      selectlanguage: function() {
+        var selectLanguageDropdown = document.createElement('li');
         return selectLanguageDropdown;
       }
     });
@@ -482,8 +583,8 @@ $traceurRuntime.registerModule("../dep/bible.js", [], function() {
         var bookChapter = document.createElement('h5');
         bookParent.setAttribute('class', 'bible-book-parent');
         HeaderButtons.render();
-        backward.setAttribute('class', 'fa fa-arrow-left bible-go-left');
-        forward.setAttribute('class', 'fa fa-arrow-right bible-go-right');
+        backward.setAttribute('class', 'fa fa-arrow-circle-o-right bible-go-right');
+        forward.setAttribute('class', 'fa fa-arrow-circle-o-left bible-go-left');
         bookName.textContent = book;
         bookChapter.textContent = ("Chapter " + chapter["chapter"]);
         bookName.setAttribute('class', 'bible-book-name');
@@ -792,7 +893,9 @@ $traceurRuntime.registerModule("../traceur/home.es6", [], function() {
           getOldTestament.loadJson().then(function(ot) {
             Home.PlaceLocationInDom(ot, "ot");
             Home.BibleChapters();
-            Modal.extended();
+            Array.from(document.querySelectorAll(".bible-location"), function(el) {
+              Modal.extended(el);
+            });
           });
         });
         this.newTestament().addEventListener('click', function(e) {
@@ -800,7 +903,9 @@ $traceurRuntime.registerModule("../traceur/home.es6", [], function() {
           getNewTestaMent.loadJson().then(function(nt) {
             Home.PlaceLocationInDom(nt, "nt");
             Home.BibleChapters();
-            Modal.extended();
+            Array.from(document.querySelectorAll(".bible-location"), function(el) {
+              Modal.extended(el);
+            });
           });
         });
       }}, {

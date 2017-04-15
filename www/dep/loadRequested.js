@@ -60,26 +60,44 @@ export class JumpToChapter {
 }
 
 export class Modal {
-  static extended(callback) {
+
+  static extended(el) {
 
       let qq = document.querySelector('.bible-cover');
-      let modalChapters = document.querySelector('#bible-body');
+      console.log(el);
+      el.addEventListener('click', e => {
+          let target = e.target,
+              bibleHeadCover = document.querySelector('.bible-head-cover');
 
-      modalChapters.addEventListener('click', (e) => {
-        let target = e.target;
-        let bibleHeadCover = document.querySelector('.bible-head-cover');
-        if ( target.classList.toString().includes("bible-location")) {
-            Modal.searchJson(target.textContent.replace(/\s+/g, ""))
-            qq.removeAttribute('data-display');
-            bibleHeadCover.removeAttribute('data-display');
-        } else if ( target.classList.toString().includes("bible-label-chapter") ) {
-          let currentOpenLocation = document.querySelector('.bible-book-name').innerHTML;
-          Modal.searchJson(currentOpenLocation.replace(/\s+/g, ""));
+
+          if ( target.classList.contains("bible-location") ) {
+              Modal.searchJson(target.textContent.replace(/\s+/g, ""));
+          } else {
+            let currentOpenLocation = document.querySelector('.bible-book-name').innerHTML;
+            Modal.searchJson(currentOpenLocation.replace(/\s+/g, ""));
+          }
+          
           qq.removeAttribute('data-display');
           bibleHeadCover.removeAttribute('data-display');
-        }
+      })      
 
-      });
+
+
+      // modalChapters.addEventListener('click', (e) => {
+      //   let target = e.target;
+      //   let bibleHeadCover = document.querySelector('.bible-head-cover');
+      //   if ( target.classList.toString().includes("bible-location")) {
+      //       Modal.searchJson(target.textContent.replace(/\s+/g, ""))
+      //       qq.removeAttribute('data-display');
+      //       bibleHeadCover.removeAttribute('data-display');
+      //   } else if ( target.classList.toString().includes("bible-label-chapter") ) {
+      //     let currentOpenLocation = document.querySelector('.bible-book-name').innerHTML;
+      //     Modal.searchJson(currentOpenLocation.replace(/\s+/g, ""));
+      //     qq.removeAttribute('data-display');
+      //     bibleHeadCover.removeAttribute('data-display');
+      //   }
+
+      // });
 
       let getChaptersParent  = document.querySelector('.bible-getChapters');
       let close = getChaptersParent.getElementsByClassName('bible-close')[0];

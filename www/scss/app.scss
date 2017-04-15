@@ -11,6 +11,7 @@
 
 @import "bible_todo.scss";
 @import "scroll.scss";
+@import "readmenu.scss";
 body {
   box-sizing: border-box;
   width: 100vw;
@@ -169,18 +170,23 @@ body {
         overflow-y: scroll;
         background-color: transparent;
         .bible-go-left, .bible-go-right {
+          clear: right;
           cursor: pointer;
-          color: #a0a0a0;
-          font-size: 1em;
+          font-size: 50px;
           font-weight: bolder;
+          position: fixed;
+
+          text-shadow: 1px 1px 2px white;
+          top: 300px;
+          color: black;
         }
         .bible-go-left {
           float: left;
-          margin-left: 1em;
+          left: 50px;
         }
         .bible-go-right {
           float: right;
-          margin-right: 1em;
+          right: 50px;
         }
         > div:first-of-type {
           margin-bottom: .5em;
@@ -196,6 +202,7 @@ body {
           }
         }
         .bible-book-parent {
+          clear: both;
           padding: 30px;
           margin-bottom: 30px;
         }

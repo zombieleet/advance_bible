@@ -128,14 +128,18 @@ class NavNavigation {
                 getOldTestament.loadJson().then((ot) => {
                   NavNavigation.PlaceLocationInDom(ot,".bible-ot");
                   NavNavigation.BibleChapters()
-                  Modal.extended();
+                  Array.from(document.querySelectorAll(".bible-location"), el => {
+                      Modal.extended(el);
+                  })
                 });
             } else if( homeScreenChild.getAttribute('class') === "bible-newt" ) {
               let getNewTestament = new GetJson("js/jsons/newtestament.json");
               getNewTestament.loadJson().then((nt) => {
                 NavNavigation.PlaceLocationInDom(nt,".bible-newt");
                 NavNavigation.BibleChapters()
-                Modal.extended();
+                Array.from(document.querySelectorAll(".bible-location"), el => {
+                    Modal.extended(el);
+                })
               })
             } 
         }

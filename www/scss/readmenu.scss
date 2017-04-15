@@ -1,0 +1,29 @@
+.bible-menu-header {
+	float: right;
+	.bible-elipsis {
+		margin-left: 90px;
+		border-radius: 100%;
+		padding: 10px;
+
+		cursor: pointer;
+	}
+
+	.bible-elipsis-parent {
+		// display: none;	
+		position: absolute;
+		border: 1px solid darken($textColor, 40%);
+		margin-left: -100px;
+		padding: 20px;
+		width: 30%;
+		top: 70px;
+		background-color: darken($bgColor,50%);
+		border-radius: 12px;
+		display: none;
+		
+		.bible-elipsis-link {
+			margin-bottom: 10px;
+			cursor: pointer;
+			color: $textColor;
+		}		
+	}
+}

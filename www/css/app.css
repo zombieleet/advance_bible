@@ -598,6 +598,28 @@ table {
 ::-webkit-scrollbar-corner {
   background-color: #000000; }
 
+.bible-menu-header {
+  float: right; }
+.bible-menu-header .bible-elipsis {
+  margin-left: 90px;
+  border-radius: 100%;
+  padding: 10px;
+  cursor: pointer; }
+.bible-menu-header .bible-elipsis-parent {
+  position: absolute;
+  border: 1px solid #999999;
+  margin-left: -100px;
+  padding: 20px;
+  width: 30%;
+  top: 70px;
+  background-color: gray;
+  border-radius: 12px;
+  display: none; }
+.bible-menu-header .bible-elipsis-parent .bible-elipsis-link {
+  margin-bottom: 10px;
+  cursor: pointer;
+  color: white; }
+
 body {
   box-sizing: border-box;
   width: 100vw;
@@ -722,16 +744,20 @@ body #bible-body .bible-home-screen .bible-read-text, body #bible-body .bible-ho
   overflow-y: scroll;
   background-color: transparent; }
 body #bible-body .bible-home-screen .bible-read-text .bible-go-left, body #bible-body .bible-home-screen .bible-read-text .bible-go-right, body #bible-body .bible-home-screen .bible-bookmark .bible-go-left, body #bible-body .bible-home-screen .bible-bookmark .bible-go-right {
+  clear: right;
   cursor: pointer;
-  color: #a0a0a0;
-  font-size: 1em;
-  font-weight: bolder; }
+  font-size: 50px;
+  font-weight: bolder;
+  position: fixed;
+  text-shadow: 1px 1px 2px white;
+  top: 300px;
+  color: black; }
 body #bible-body .bible-home-screen .bible-read-text .bible-go-left, body #bible-body .bible-home-screen .bible-bookmark .bible-go-left {
   float: left;
-  margin-left: 1em; }
+  left: 50px; }
 body #bible-body .bible-home-screen .bible-read-text .bible-go-right, body #bible-body .bible-home-screen .bible-bookmark .bible-go-right {
   float: right;
-  margin-right: 1em; }
+  right: 50px; }
 body #bible-body .bible-home-screen .bible-read-text > div:first-of-type, body #bible-body .bible-home-screen .bible-bookmark > div:first-of-type {
   margin-bottom: .5em; }
 body #bible-body .bible-home-screen .bible-read-text > div:first-of-type h3, body #bible-body .bible-home-screen .bible-bookmark > div:first-of-type h3 {
@@ -743,6 +769,7 @@ body #bible-body .bible-home-screen .bible-read-text > div:first-of-type h5, bod
   font-size: 1em;
   font-weight: bolder; }
 body #bible-body .bible-home-screen .bible-read-text .bible-book-parent, body #bible-body .bible-home-screen .bible-bookmark .bible-book-parent {
+  clear: both;
   padding: 30px;
   margin-bottom: 30px; }
 body #bible-body .bible-home-screen .bible-read-text .bible-verse-text, body #bible-body .bible-home-screen .bible-bookmark .bible-verse-text {

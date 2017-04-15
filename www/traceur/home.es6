@@ -2,6 +2,7 @@ import {GetJson, objectEntries, Modal} from "../dep/loadRequested.js"
 /*import {objectEntries as objectEntries } from "loadRequested.js";
 import {Modal as Modal} from "loadRequested.js";*/
 import {GetBible} from "../dep/bible.js";
+
 class Home {
   constructor() {
     let oldTestament = document.querySelector('.bible-oldtestament');
@@ -13,6 +14,7 @@ class Home {
     let bible = new GetBible();
     let bibleChapters = bible.getBible();
     return bibleChapters;
+
   }
   static PlaceLocationInDom(testament, part) {
     let bibleChoice = document.querySelector('.bible-choice');
@@ -40,7 +42,9 @@ class Home {
       getOldTestament.loadJson().then((ot) => {
         Home.PlaceLocationInDom(ot, "ot")
         Home.BibleChapters();
-        Modal.extended();
+        Array.from(document.querySelectorAll(".bible-location"), el => {
+            Modal.extended(el);
+        })
       })
     });
     this.newTestament().addEventListener('click', (e) => {
@@ -48,10 +52,13 @@ class Home {
       getNewTestaMent.loadJson().then((nt) => {
         Home.PlaceLocationInDom(nt, "nt");
         Home.BibleChapters();
-        Modal.extended();
+        Array.from(document.querySelectorAll(".bible-location"), el => {
+            Modal.extended(el);
+        })
       })
     });
   }
 }
+
 let getTestaMents = new Home();
 getTestaMents.loadBibleLocation();
