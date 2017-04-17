@@ -1,20 +1,58 @@
 import {GetJson, objectEntries, Modal} from "../dep/loadRequested.js"
-/*import {objectEntries as objectEntries } from "loadRequested.js";
-import {Modal as Modal} from "loadRequested.js";*/
 import {GetBible} from "../dep/bible.js";
+import { _bookMark as BookMark } from "../dep/bookmark.js";
 
 class Home {
+
   constructor() {
-    let oldTestament = document.querySelector('.bible-oldtestament');
-    let newTestament = document.querySelector('.bible-newtestament');
-    this.oldTestament = () => oldTestament;
-    this.newTestament = () => newTestament;
+
+    let bibleHomeNav = document.querySelector(".bible-choice-item");
+
+    bibleHomeNav.addEventListener('click', e => {
+
+        const target = e.target;
+
+        if ( ! target.hasAttribute('data-exec') ) return ;
+
+        const value = target.getAttribute('data-exec');
+        Home[value](target);
+
+    });
+
   }
   static BibleChapters() {
     let bible = new GetBible();
     let bibleChapters = bible.getBible();
     return bibleChapters;
-
+  }
+  static BookMark(element) {
+      BookMark.Fire(element);
+  }
+  static oldTestament(element) {
+    element.addEventListener('click', (e) => {
+      Home.LoadJSON({
+        src: "js/jsons/oldtestament.json",
+        type: "ot",
+      });
+    });    
+  }
+  static newTestament(element) {
+    element.addEventListener('click', (e) => {
+      Home.LoadJSON({
+        src: "js/jsons/newtestament.json",
+        type: "nt",
+      });
+    });
+  }
+  static LoadJSON({src,type}) {
+    let getNewTestaMent = new GetJson(src);
+    getNewTestaMent.loadJson().then(result => {
+      Home.PlaceLocationInDom(result, type);
+      Home.BibleChapters();
+      Array.from(document.querySelectorAll(".bible-location"), el => {
+          Modal.extended(el);
+      })
+    })
   }
   static PlaceLocationInDom(testament, part) {
     let bibleChoice = document.querySelector('.bible-choice');
@@ -36,29 +74,6 @@ class Home {
       }
     }
   }
-  loadBibleLocation() {
-    this.oldTestament().addEventListener('click', (e) => {
-      let getOldTestament = new GetJson("js/jsons/oldtestament.json");
-      getOldTestament.loadJson().then((ot) => {
-        Home.PlaceLocationInDom(ot, "ot")
-        Home.BibleChapters();
-        Array.from(document.querySelectorAll(".bible-location"), el => {
-            Modal.extended(el);
-        })
-      })
-    });
-    this.newTestament().addEventListener('click', (e) => {
-      let getNewTestaMent = new GetJson("js/jsons/newtestament.json");
-      getNewTestaMent.loadJson().then((nt) => {
-        Home.PlaceLocationInDom(nt, "nt");
-        Home.BibleChapters();
-        Array.from(document.querySelectorAll(".bible-location"), el => {
-            Modal.extended(el);
-        })
-      })
-    });
-  }
 }
 
 let getTestaMents = new Home();
-getTestaMents.loadBibleLocation();

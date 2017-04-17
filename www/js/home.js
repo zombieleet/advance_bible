@@ -868,55 +868,171 @@ $traceurRuntime.registerModule("../dep/bible.js", [], function() {
       return GetBible;
     }};
 });
+$traceurRuntime.registerModule("../dep/bookmark.js", [], function() {
+  "use strict";
+  var __moduleName = "../dep/bookmark.js";
+  var GetBible = $traceurRuntime.getModule($traceurRuntime.normalizeModuleName("./bible.js", "../dep/bookmark.js")).GetBible;
+  var _bookMark = Object.create({
+    bookmarkStorage: JSON.parse(localStorage.getItem("___BIBLE-BOOKMARK___")),
+    bookmarkElement: function() {
+      var element = document.querySelector('.bible-bookmark');
+      element.removeAttribute('data-display');
+      return element;
+    },
+    init: function() {
+      var $__2 = this;
+      if (this.bookmarkElement().children.length !== 0) {
+        Array.from(this.bookmarkElement().children, function(_) {
+          $__2.bookmarkElement().removeChild(_);
+        });
+      }
+      this.checkBookMarkStorage();
+    },
+    bookmarkHtml: function() {
+      this.bookmarkElement().setAttribute('style', ("font-size: " + localStorage.getItem("font-size") + "px;"));
+      return this.bookmarkElement();
+    },
+    checkBookMarkStorage: function() {
+      if (!this.bookmarkStorage) {
+        document.querySelector(".fa.fa-home.bible-nav-item").click();
+        GetBible.SetStatusMessage('Nothing to display here');
+        return false;
+      }
+      this.showBookMark();
+    },
+    showBookMark: function() {
+      var $__4,
+          $__5,
+          $__6,
+          $__7,
+          $__8,
+          $__9,
+          $__10,
+          $__11;
+      try {
+        var _p = GetBible.IsBookMarked(this.bookmarkStorage);
+        var $__3 = _p.next().value,
+            value = ($__4 = $__3[Symbol.iterator](), ($__5 = $__4.next()).done ? void 0 : $__5.value),
+            location = ($__5 = $__4.next()).done ? void 0 : $__5.value;
+        var setBg = false;
+        while (value != null) {
+          if (!setBg) {
+            setBg = true;
+            this.styleBookMark({
+              value: value,
+              setBg: setBg,
+              location: location
+            });
+            ($__6 = _p.next().value, value = ($__7 = $__6[Symbol.iterator](), ($__8 = $__7.next()).done ? void 0 : $__8.value), location = ($__8 = $__7.next()).done ? void 0 : $__8.value, $__6);
+            continue;
+          }
+          setBg = false;
+          this.styleBookMark({
+            value: value,
+            setBg: setBg,
+            location: location
+          });
+          ($__9 = _p.next().value, value = ($__10 = $__9[Symbol.iterator](), ($__11 = $__10.next()).done ? void 0 : $__11.value), location = ($__11 = $__10.next()).done ? void 0 : $__11.value, $__9);
+        }
+      } catch (ex) {}
+    },
+    styleBookMark: function($__3) {
+      var $__6,
+          $__7;
+      var $__4 = $__3,
+          value = $__4.value,
+          setBg = $__4.setBg,
+          location = $__4.location;
+      var $__5 = [value.split(/_/).join(" ").match(/\d+/)[0], value.split(/_/).join(" ").replace(/^\d+/, "")],
+          versenum = ($__6 = $__5[Symbol.iterator](), ($__7 = $__6.next()).done ? void 0 : $__7.value),
+          versetext = ($__7 = $__6.next()).done ? void 0 : $__7.value;
+      var readParent = document.createElement('div');
+      readParent.setAttribute('class', 'bible-verse-text');
+      readParent.setAttribute('data-set-bg', setBg.toString());
+      var verseLocation = document.createElement('p');
+      var verseNum = document.createElement('span');
+      var verseText = document.createElement('span');
+      verseNum.textContent = versenum;
+      verseText.textContent = versetext;
+      verseLocation.textContent = location;
+      readParent.appendChild(verseLocation);
+      readParent.appendChild(verseNum);
+      readParent.appendChild(verseText);
+      this.bookmarkHtml().appendChild(readParent);
+    },
+    Fire: function(el) {
+      var $__2 = this;
+      el.addEventListener('click', function(_) {
+        $__2.init();
+        document.querySelector('.bible-choice').setAttribute('data-display', 'none');
+      });
+    }
+  });
+  return {get _bookMark() {
+      return _bookMark;
+    }};
+});
 $traceurRuntime.registerModule("../traceur/home.es6", [], function() {
   "use strict";
   var __moduleName = "../traceur/home.es6";
-  var $__11 = $traceurRuntime.getModule($traceurRuntime.normalizeModuleName("../dep/loadRequested.js", "../traceur/home.es6")),
-      GetJson = $__11.GetJson,
-      objectEntries = $__11.objectEntries,
-      Modal = $__11.Modal;
+  var $__12 = $traceurRuntime.getModule($traceurRuntime.normalizeModuleName("../dep/loadRequested.js", "../traceur/home.es6")),
+      GetJson = $__12.GetJson,
+      objectEntries = $__12.objectEntries,
+      Modal = $__12.Modal;
   var GetBible = $traceurRuntime.getModule($traceurRuntime.normalizeModuleName("../dep/bible.js", "../traceur/home.es6")).GetBible;
+  var BookMark = $traceurRuntime.getModule($traceurRuntime.normalizeModuleName("../dep/bookmark.js", "../traceur/home.es6"))._bookMark;
   var Home = function() {
     function Home() {
-      var oldTestament = document.querySelector('.bible-oldtestament');
-      var newTestament = document.querySelector('.bible-newtestament');
-      this.oldTestament = function() {
-        return oldTestament;
-      };
-      this.newTestament = function() {
-        return newTestament;
-      };
+      var bibleHomeNav = document.querySelector(".bible-choice-item");
+      bibleHomeNav.addEventListener('click', function(e) {
+        var target = e.target;
+        if (!target.hasAttribute('data-exec'))
+          return;
+        var value = target.getAttribute('data-exec');
+        Home[value](target);
+      });
     }
-    return ($traceurRuntime.createClass)(Home, {loadBibleLocation: function() {
-        this.oldTestament().addEventListener('click', function(e) {
-          var getOldTestament = new GetJson("js/jsons/oldtestament.json");
-          getOldTestament.loadJson().then(function(ot) {
-            Home.PlaceLocationInDom(ot, "ot");
-            Home.BibleChapters();
-            Array.from(document.querySelectorAll(".bible-location"), function(el) {
-              Modal.extended(el);
-            });
-          });
-        });
-        this.newTestament().addEventListener('click', function(e) {
-          var getNewTestaMent = new GetJson("js/jsons/newtestament.json");
-          getNewTestaMent.loadJson().then(function(nt) {
-            Home.PlaceLocationInDom(nt, "nt");
-            Home.BibleChapters();
-            Array.from(document.querySelectorAll(".bible-location"), function(el) {
-              Modal.extended(el);
-            });
-          });
-        });
-      }}, {
+    return ($traceurRuntime.createClass)(Home, {}, {
       BibleChapters: function() {
         var bible = new GetBible();
         var bibleChapters = bible.getBible();
         return bibleChapters;
       },
+      BookMark: function(element) {
+        BookMark.Fire(element);
+      },
+      oldTestament: function(element) {
+        element.addEventListener('click', function(e) {
+          Home.LoadJSON({
+            src: "js/jsons/oldtestament.json",
+            type: "ot"
+          });
+        });
+      },
+      newTestament: function(element) {
+        element.addEventListener('click', function(e) {
+          Home.LoadJSON({
+            src: "js/jsons/newtestament.json",
+            type: "nt"
+          });
+        });
+      },
+      LoadJSON: function($__9) {
+        var $__10 = $__9,
+            src = $__10.src,
+            type = $__10.type;
+        var getNewTestaMent = new GetJson(src);
+        getNewTestaMent.loadJson().then(function(result) {
+          Home.PlaceLocationInDom(result, type);
+          Home.BibleChapters();
+          Array.from(document.querySelectorAll(".bible-location"), function(el) {
+            Modal.extended(el);
+          });
+        });
+      },
       PlaceLocationInDom: function(testament, part) {
-        var $__9,
-            $__10;
+        var $__10,
+            $__11;
         var bibleChoice = document.querySelector('.bible-choice');
         var homeScreen = document.querySelector('.bible-home-screen');
         var testaMentParent = document.createElement('div');
@@ -928,15 +1044,15 @@ $traceurRuntime.registerModule("../traceur/home.es6", [], function() {
             removeTestamentParent.remove();
           }
           homeScreen.appendChild(testaMentParent);
-          var $__4 = true;
-          var $__5 = false;
-          var $__6 = undefined;
+          var $__5 = true;
+          var $__6 = false;
+          var $__7 = undefined;
           try {
-            for (var $__2 = void 0,
-                $__1 = (objectEntries(testament))[Symbol.iterator](); !($__4 = ($__2 = $__1.next()).done); $__4 = true) {
-              var $__8 = $__2.value,
-                  otKey = ($__9 = $__8[Symbol.iterator](), ($__10 = $__9.next()).done ? void 0 : $__10.value),
-                  otValue = ($__10 = $__9.next()).done ? void 0 : $__10.value;
+            for (var $__3 = void 0,
+                $__2 = (objectEntries(testament))[Symbol.iterator](); !($__5 = ($__3 = $__2.next()).done); $__5 = true) {
+              var $__9 = $__3.value,
+                  otKey = ($__10 = $__9[Symbol.iterator](), ($__11 = $__10.next()).done ? void 0 : $__11.value),
+                  otValue = ($__11 = $__10.next()).done ? void 0 : $__11.value;
               {
                 var location = document.createElement('p');
                 ;
@@ -945,17 +1061,17 @@ $traceurRuntime.registerModule("../traceur/home.es6", [], function() {
                 testaMentParent.appendChild(location);
               }
             }
-          } catch ($__7) {
-            $__5 = true;
-            $__6 = $__7;
+          } catch ($__8) {
+            $__6 = true;
+            $__7 = $__8;
           } finally {
             try {
-              if (!$__4 && $__1.return != null) {
-                $__1.return();
+              if (!$__5 && $__2.return != null) {
+                $__2.return();
               }
             } finally {
-              if ($__5) {
-                throw $__6;
+              if ($__6) {
+                throw $__7;
               }
             }
           }
@@ -964,7 +1080,6 @@ $traceurRuntime.registerModule("../traceur/home.es6", [], function() {
     });
   }();
   var getTestaMents = new Home();
-  getTestaMents.loadBibleLocation();
   return {};
 });
 $traceurRuntime.getModule("../traceur/home.es6" + '');

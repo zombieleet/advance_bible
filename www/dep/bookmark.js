@@ -2,14 +2,15 @@ import { GetBible } from "./bible.js";
 export const _bookMark = Object.create({
 	bookmarkStorage: JSON.parse(localStorage.getItem("___BIBLE-BOOKMARK___")),
 	bookmarkElement() {
-		return document.querySelector('.bible-bookmark');
+		const element = document.querySelector('.bible-bookmark');
+		element.removeAttribute('data-display');
+		return element;
 	},
 	init() {
 		if (this.bookmarkElement().children.length !== 0 )  {
 			Array.from(this.bookmarkElement().children, _ => {
 				this.bookmarkElement().removeChild(_);
 			});
-			console.log(this.bookmarkElement().children.length);
 		}
 		this.checkBookMarkStorage();
 	},
@@ -63,5 +64,12 @@ export const _bookMark = Object.create({
 		readParent.appendChild(verseNum)
 		readParent.appendChild(verseText);
 		this.bookmarkHtml().appendChild(readParent);
+	},
+	Fire(el) {
+		el.addEventListener('click', _ => {
+			this.init();
+	        document.querySelector('.bible-choice')
+	            .setAttribute('data-display','none');			
+		})		
 	}
 });

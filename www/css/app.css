@@ -684,10 +684,12 @@ body #bible-body .bible-home-screen {
   width: 100vw;
   color: #a0a0a0;
   padding: 1em 0 0 0; }
+body #bible-body .bible-home-screen .bible-choice {
+  text-align: center; }
 body #bible-body .bible-home-screen .bible-choice, body #bible-body .bible-home-screen .bible-read-text, body #bible-body .bible-home-screen .bible-testament, body #bible-body .bible-home-screen .bible-settings, body #bible-body .bible-home-screen .bible-favourites, body #bible-body .bible-home-screen .bible-todo, body #bible-body .bible-home-screen .bible-bookmark {
   position: absolute; }
 body #bible-body .bible-home-screen .bible-choice .bible-choice-select, body #bible-body .bible-home-screen .bible-read-text .bible-choice-select, body #bible-body .bible-home-screen .bible-testament .bible-choice-select, body #bible-body .bible-home-screen .bible-settings .bible-choice-select, body #bible-body .bible-home-screen .bible-favourites .bible-choice-select, body #bible-body .bible-home-screen .bible-todo .bible-choice-select, body #bible-body .bible-home-screen .bible-bookmark .bible-choice-select {
-  font-size: 0.8em;
+  font-size: 20px;
   color: #a0a0a0;
   background-color: black;
   text-align: center;
@@ -695,7 +697,12 @@ body #bible-body .bible-home-screen .bible-choice .bible-choice-select, body #bi
   font-weight: bolder;
   border-radius: 0;
   cursor: pointer;
-  height: 100%; }
+  height: 100px;
+  width: 23%;
+  margin: 20px;
+  padding-top: 30px;
+  vertical-align: top;
+  line-height: 1.2; }
 body #bible-body .bible-home-screen .bible-choice .bible-choice-select:hover, body #bible-body .bible-home-screen .bible-read-text .bible-choice-select:hover, body #bible-body .bible-home-screen .bible-testament .bible-choice-select:hover, body #bible-body .bible-home-screen .bible-settings .bible-choice-select:hover, body #bible-body .bible-home-screen .bible-favourites .bible-choice-select:hover, body #bible-body .bible-home-screen .bible-todo .bible-choice-select:hover, body #bible-body .bible-home-screen .bible-bookmark .bible-choice-select:hover {
   background-color: #1a1a1a; }
 body #bible-body .bible-home-screen .bible-choice .bible-choice-language, body #bible-body .bible-home-screen .bible-read-text .bible-choice-language, body #bible-body .bible-home-screen .bible-testament .bible-choice-language, body #bible-body .bible-home-screen .bible-settings .bible-choice-language, body #bible-body .bible-home-screen .bible-favourites .bible-choice-language, body #bible-body .bible-home-screen .bible-todo .bible-choice-language, body #bible-body .bible-home-screen .bible-bookmark .bible-choice-language {

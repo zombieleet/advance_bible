@@ -54,16 +54,17 @@
     <section class="bible-home-screen col-xs-8">
       <!--<img src="img/torn_bible.jpg" height="100%" width="100%"  draggable="false" />-->
       <div class="bible-choice">
-<!--         <button class="btn btn-default bible-choice-select bible-choice-language">SELECT LANGUAGE</button> -->
-        <div class="bible-testatment-choice">
-          <button class="btn btn-default bible-oldtestament bible-choice-select bible-choice-item">
-                    OLD TESTAMENT
-                  </button>
-          <button class="btn btn-default bible-newtestament bible-choice-select bible-choice-item">
-                    NEW TESTAMENT
-                  </button>
-        </div>
-        <!--<button type="button" class="btn btn-default bible-choice-select bible-concord">CONCORD</button>-->
+        <ul class="bible-choice-item">
+          <li class="fa fa-book bible-choice-select bible-choice-item" data-exec="oldTestament"><span> Old Testament</span></li>
+          <li class="fa fa-book bible-newtestament bible-choice-select bible-choice-item"  data-exec="newTestament"><span> New Testament</span></li>
+          <li class="fa fa-bookmark bible-choice-select bible-bookmark-item bible-choice-item" data-exec="BookMark"><span> Bookmark</span></li>
+          <li class="fa fa-sticky-note bible-choice-select  bible-note-item bible-choice-item" data-exec="Note"><span> Note</span></li>
+          <li class="fa fa-calendar bible-choice-select bible-choice-item" data-exec="addTodo"><span> Add Todo</span></li>
+          <li class="fa fa-folder-open bible-choice-select bible-choice-item" data-exec="viewTodo"><span> View Todo</span></li>
+          <li class="fa fa-search bible-choice-select bible-choice-item" data-exec="Locate"><span> Locate</span></li>                   
+          <li class="fa fa-gear bible-choice-select bible-choice-item" data-exec="Settings"><span> Settings</span></li>
+          <li class="fa fa-cloud bible-choice-select bible-choice-item" data-exec="Update"><span> Update</span></li>          
+        </ul>
       </div>
       <div class="bible-settings" data-display="none">
         <ul class="list-group text-left bible-settings-list" data-change="bible-list-group">
@@ -416,7 +417,7 @@
   <script src="libs/bootstrap.min.js"></script>
   <!-- <script src="js/modalChapters.js"></script> -->
   <!-- <script src="js/bible.js"></script> -->
-  <script>
+<!--   <script>
      ; (function(w, d) {
     var raf = w.requestAnimationFrame || w.setImmediate || function(c) { return setTimeout(c, 0); };
 
@@ -527,7 +528,7 @@
 
     w.SimpleScrollbar = ss;
   })(window, document);
-  </script>
+  </script> -->
 
 </body>
 

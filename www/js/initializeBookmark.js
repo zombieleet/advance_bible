@@ -875,7 +875,9 @@ $traceurRuntime.registerModule("../dep/bookmark.js", [], function() {
   var _bookMark = Object.create({
     bookmarkStorage: JSON.parse(localStorage.getItem("___BIBLE-BOOKMARK___")),
     bookmarkElement: function() {
-      return document.querySelector('.bible-bookmark');
+      var element = document.querySelector('.bible-bookmark');
+      element.removeAttribute('data-display');
+      return element;
     },
     init: function() {
       var $__2 = this;
@@ -883,7 +885,6 @@ $traceurRuntime.registerModule("../dep/bookmark.js", [], function() {
         Array.from(this.bookmarkElement().children, function(_) {
           $__2.bookmarkElement().removeChild(_);
         });
-        console.log(this.bookmarkElement().children.length);
       }
       this.checkBookMarkStorage();
     },
@@ -958,6 +959,13 @@ $traceurRuntime.registerModule("../dep/bookmark.js", [], function() {
       readParent.appendChild(verseNum);
       readParent.appendChild(verseText);
       this.bookmarkHtml().appendChild(readParent);
+    },
+    Fire: function(el) {
+      var $__2 = this;
+      el.addEventListener('click', function(_) {
+        $__2.init();
+        document.querySelector('.bible-choice').setAttribute('data-display', 'none');
+      });
     }
   });
   return {get _bookMark() {
@@ -968,16 +976,8 @@ $traceurRuntime.registerModule("../traceur/initializeBookmark.es6", [], function
   "use strict";
   var __moduleName = "../traceur/initializeBookmark.es6";
   var BookMark = $traceurRuntime.getModule($traceurRuntime.normalizeModuleName("../dep/bookmark.js", "../traceur/initializeBookmark.es6"))._bookMark;
-  var InitBookMark = function() {
-    function InitBookMark() {}
-    return ($traceurRuntime.createClass)(InitBookMark, {}, {Fire: function() {
-        var _el = document.querySelector('[data-target="bible-bookmark"]');
-        _el.addEventListener('click', function() {
-          BookMark.init();
-        });
-      }});
-  }();
-  InitBookMark.Fire();
+  var element = document.querySelector('[data-target="bible-bookmark"]');
+  BookMark.Fire(element);
   return {};
 });
 $traceurRuntime.getModule("../traceur/initializeBookmark.es6" + '');
