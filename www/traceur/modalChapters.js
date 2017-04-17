@@ -1,4 +1,6 @@
-import {GetJson as GetJson} from "../dep/loadRequested.js";
+//import {GetJson as GetJson} from "../dep/loadRequested.js";
+
+const { GetJson } = require("./loadRequested.js");
 class ChapterModal {
 	constructor() {
 		let bibleBody = document.querySelector('#bible-body');

@@ -1,4 +1,6 @@
-import {GetJson, objectEntries} from "../dep/loadRequested.js"
+//import {GetJson, objectEntries} from "../dep/loadRequested.js"
+
+const { GetJson, objectEntries } = require("./loadRequested.js");
 
 class Concord {
 

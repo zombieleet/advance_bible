@@ -1,4 +1,9 @@
-import {JumpToChapter, objectEntries, GetJson, Modal} from "./loadRequested.js";
+//import {JumpToChapter, objectEntries, GetJson, Modal} from "./loadRequested.js";
+
+const { JumpToChapter, 
+        objectEntries, 
+        GetJson, 
+        Modal } = require("./loadRequested.js");
 
 class Audio {
 
@@ -188,7 +193,7 @@ class HeaderButtons {
 }
 
 
-export class GetBible {
+module.exports.Getbible = class GetBible {
 	constructor() {
 		let bibleTestament = document.querySelector('.bible-testament');
 		this.bibleTestament = () => bibleTestament;

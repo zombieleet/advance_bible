@@ -1,7 +1,13 @@
-import {GetJson, objectEntries, Modal} from "../dep/loadRequested.js"
+//import {GetJson, objectEntries, Modal} from "../dep/loadRequested.js"
 /*import {objectEntries as objectEntries } from "loadRequested.js";
 import {Modal as Modal} from "loadRequested.js";*/
-import {GetBible} from "../dep/bible.js";
+//import {GetBible} from "../dep/bible.js";
+
+const { GetJson,
+	objectEntries,
+	Modal } = require("./loadRequested.js");
+
+const { GetBible } = require("./bible.js");
 
 class Home {
   constructor() {

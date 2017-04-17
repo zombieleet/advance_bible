@@ -1,5 +1,11 @@
-import {GetJson , objectEntries, Modal } from "../dep/loadRequested.js"
-import {GetBible as GetBible } from "../dep/bible.js"
+//import {GetJson , objectEntries, Modal } from "../dep/loadRequested.js"
+//import {GetBible as GetBible } from "../dep/bible.js"
+
+const { GetJson,
+	objectEntries,
+	Modal }  = require("./loadRequested.js");
+
+const { GetBible } = require("./bible.js");
 
 class IconBar {
   constructor() {
