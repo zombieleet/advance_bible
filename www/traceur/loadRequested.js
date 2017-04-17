@@ -1,4 +1,4 @@
-export function* objectEntries(obj) {
+module.exports.objectEntries =  function* objectEntries(obj) {
     // in ES6, you can use strings or symbols as property keys,
     // Reflect.ownKeys() retrieves both
     /*                *\
@@ -10,7 +10,7 @@ export function* objectEntries(obj) {
     }
 }
 
-export function SetStatusMessage(msg) {
+module.exports.SetStatusMessage = function SetStatusMessage(msg) {
     if ((typeof msg) !== 'string') {
         throw Error(`expected a string as an argument but got ${(typeof msg)}`);
     }
@@ -25,7 +25,7 @@ export function SetStatusMessage(msg) {
         bibleRep.removeAttribute('style');
     }, 3000);
 }
-export class GetJson {
+module.exports.GetJson = class GetJson {
   constructor(url) {
     if ( ! url ) throw Error("An Argument is required");
     this.url = url;
@@ -49,7 +49,7 @@ export class GetJson {
     })
   }
 }
-export class JumpToChapter {
+module.exports.JumpToChapter = class JumpToChapter {
     constructor() {
       let bibleGetChapters = document.querySelector('.bible-getChapters');
       this.bibleGetChapters = () => bibleGetChapters;
@@ -59,7 +59,7 @@ export class JumpToChapter {
     }
 }
 
-export class Modal {
+module.exports.Modal =  class Modal {
 
   static extended(el) {
 

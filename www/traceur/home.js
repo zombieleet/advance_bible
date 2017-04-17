@@ -1,6 +1,8 @@
-import {GetJson, objectEntries, Modal} from "../dep/loadRequested.js"
-import {GetBible} from "../dep/bible.js";
-import { _bookMark as BookMark } from "../dep/bookmark.js";
+const { GetJson,
+	objectEntries,
+	Modal } = require("./loadRequested.js");
+
+const { GetBible } = require("./bible.js");
 
 class Home {
 

@@ -1,4 +1,7 @@
-import { objectEntries } from '../dep/loadRequested.js';
+//import { objectEntries } from '../dep/loadRequested.js';
+
+const { objectEntries } = require("./loadRequested.js");
+
 class NoteListener {
     constructor() {
         let noteParent = document.querySelector('.bible-note');

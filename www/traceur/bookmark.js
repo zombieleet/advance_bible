@@ -1,5 +1,7 @@
-import { GetBible } from "./bible.js";
-export const _bookMark = Object.create({
+//import { GetBible } from "./bible.js";
+const { GetBible } = require("./bible.js");
+
+module.exports._bookMark =  Object.create({
 	bookmarkStorage: JSON.parse(localStorage.getItem("___BIBLE-BOOKMARK___")),
 	bookmarkElement() {
 		const element = document.querySelector('.bible-bookmark');
