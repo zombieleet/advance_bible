@@ -11,7 +11,7 @@ class Audio {
   //   let audio = document.createElement('audio');
   //   this.audio = () => audio;
   // }
-  
+
   static SetAudio(link = undefined, audio, info) {
       if ( link === undefined ) {
         throw new Error("Link is Undefined");
@@ -193,7 +193,7 @@ class HeaderButtons {
 }
 
 
-module.exports.Getbible = class GetBible {
+module.exports.GetBible = class GetBible {
 	constructor() {
 		let bibleTestament = document.querySelector('.bible-testament');
 		this.bibleTestament = () => bibleTestament;
