@@ -13,8 +13,8 @@ class Settings {
               return false;
           }
           return false;
-        })
-    })
+        });
+    });
   }
   static StyleTogglElement(target,elChild) {
           target.setAttribute('data-color', "black");
