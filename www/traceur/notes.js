@@ -460,3 +460,7 @@ class DeleteNote extends ViewNote {
         }
     }
 }
+
+module.exports = {
+    AddNote
+}
