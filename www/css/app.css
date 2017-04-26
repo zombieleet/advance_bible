@@ -620,6 +620,25 @@ table {
   cursor: pointer;
   color: white; }
 
+.bible-parent-scroll {
+  width: 10%;
+  height: 1000px;
+  position: fixed; }
+.bible-parent-scroll span {
+  font-size: 50px;
+  font-weight: bolder;
+  position: fixed;
+  text-shadow: 1px 1px 2px white;
+  color: black;
+  cursor: pointer; }
+.bible-parent-scroll .bible-scroll-up {
+  margin-top: 450px; }
+.bible-parent-scroll .bible-scroll-disabled {
+  color: lightgrey;
+  cursor: not-allowed;
+  text-shadow: none;
+  border: none; }
+
 body {
   box-sizing: border-box;
   width: 100vw;
