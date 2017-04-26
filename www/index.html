@@ -58,12 +58,13 @@
           <li class="fa fa-book bible-choice-select bible-choice-item" data-exec="oldTestament"><span> Old Testament</span></li>
           <li class="fa fa-book bible-newtestament bible-choice-select bible-choice-item"  data-exec="newTestament"><span> New Testament</span></li>
           <li class="fa fa-bookmark bible-choice-select bible-bookmark-item bible-choice-item" data-exec="BookMark"><span> Bookmark</span></li>
-          <li class="fa fa-sticky-note bible-choice-select  bible-note-item bible-choice-item" data-exec="Note"><span> Note</span></li>
-          <li class="fa fa-calendar bible-choice-select bible-choice-item" data-exec="addTodo"><span> Add Todo</span></li>
-          <li class="fa fa-folder-open bible-choice-select bible-choice-item" data-exec="viewTodo"><span> View Todo</span></li>
+          <li class="fa fa-sticky-note bible-choice-select  bible-note-item bible-choice-item" data-exec="Note"><span> Add Note</span></li>
+          <li class="fa fa-calendar bible-choice-select bible-choice-item" data-exec="TodoAdd"><span> Add Todo</span></li>
+          <li class="fa fa-folder-open bible-choice-select bible-choice-item" data-exec="TodoView"><span> View Todo</span></li>
           <li class="fa fa-search bible-choice-select bible-choice-item" data-exec="Locate"><span> Locate</span></li>                   
           <li class="fa fa-gear bible-choice-select bible-choice-item" data-exec="Settings"><span> Settings</span></li>
-          <li class="fa fa-cloud bible-choice-select bible-choice-item" data-exec="Update"><span> Update</span></li>          
+          <li class="fa fa-cloud bible-choice-select bible-choice-item" data-exec="Update"><span> Update</span></li>
+                    
         </ul>
       </div>
       <div class="bible-settings" data-display="none">
@@ -197,16 +198,6 @@
       <div class="bible-hymns" data-display="none">
         HYMNS
       </div>
-      <div class="bible-todo" data-display="none">
-        <div class="bible-todo-parent">
-          <div class="bible-add-todo">
-            Add Todo
-          </div>
-          <div class="bible-view-todo">
-            View Todo
-          </div>
-        </div>
-      </div>
     </section>
 
     <div class="bible-note">
@@ -330,18 +321,9 @@
             <li class="fa fa-long-arrow-right bible-nav-item bible-concord">
               <span>Bible Location</span>
             </li>
-<!--             <li class="fa fa-long-arrow-right bible-nav-item">
-              <span>Meaning of name</span>
-            </li>
-            <li class="fa fa-long-arrow-right bible-nav-item">
-              <span>Apostle</span>
-            </li> -->
           </ul>
         </li>
         <li class="fa fa-music bible-nav-item" data-target="bible-hymns"><span>Hymns</span>
-          <p class="bible-underline"></p>
-        </li>
-        <li class="fa fa-sticky-note bible-nav-item" data-target="bible-todo"><span>Todo</span>
           <p class="bible-underline"></p>
         </li>
         <li class="fa fa-cloud-download bible-nav-item"><span>Update</span>
@@ -383,25 +365,12 @@
                       el.setAttribute('data-current', item);
                       el.textContent = item;
                     });
-                    
-                    // if ( localStorage.getItem("___TODO___")) {
-                    //   let __todo__ = localStorage.getItem("___TODO___");
-
-                    //   let workerThread = new Worker('./thread/todo_worker.js');
-
-                    //   workerThread.postMessage(__todo__)
-
-                    //   workerThread.addEventListener('message', notification => {
-                    //     console.log(notification.data);
-                    //   })
-                      
-                    // }
               });
         </script>
   <!-- <script type="text/javascript" src="cordova.js"></script> -->
   </script>
   <script src="libs/traceur.js"></script>
-  <script src="advance_bible.js"></script>
+  <script src="js/advance_bible.js"></script>
   <script src="libs/jquery.js"></script>
   <script src="libs/bootstrap.min.js"></script>
 
