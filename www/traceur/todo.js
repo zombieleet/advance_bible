@@ -1,46 +1,32 @@
 class Todo {
     constructor() {
-        let todoParent = document.querySelector('.bible-todo-parent');
+        // let todoParent = document.querySelector('.bible-todo-parent');
+    }
+    triggerAdd() {
+        
+        let todoAddParent = document.querySelector('.todo-add-parent');
+        let cover = document.querySelector('.bible-head-cover');
+        // cover.removeAttribute('data-display');
+        todoAddParent.setAttribute('style', 'visibility: visible;');
 
-        todoParent.addEventListener('click', e => {
+        let todoClose = todoAddParent.querySelector('.todo-bible-close');
+        let todoAddTodo = todoAddParent.querySelector('.todo-add-button');
+
+        todoClose.addEventListener('click', e => {
             let target = e.target;
-            console.log(target.className);
-            switch(target.className) {
-                case "bible-add-todo":
-
-                    let todoAddParent = document.querySelector('.todo-add-parent');
-                    let cover = document.querySelector('.bible-head-cover');
-                    // cover.removeAttribute('data-display');
-                    todoAddParent.setAttribute('style', 'visibility: visible;')
-
-                    let todoClose = todoAddParent.querySelector('.todo-bible-close');
-                    let todoAddTodo = todoAddParent.querySelector('.todo-add-button');
-
-                    todoClose.addEventListener('click', e => {
-                        let target = e.target;
-                        let d = document.querySelector(`.${target.getAttribute('data-remove')}`);
-                        d.removeAttribute('style');
-                        // cover.setAttribute('data-display', 'none');
-                    });
-
-                    todoAddTodo.addEventListener('click', e => {
-                        let date = todoAddParent.querySelector('input[type="date"]');
-                        let time = todoAddParent.querySelector('input[type="time"]');
-                        let todo = todoAddParent.querySelector('textarea');
-                        this.addTodo(date,time,todo,todoAddParent);
-                    });
-
-                    break;
-                case "bible-view-todo":
-                    this.viewTodo();
-                    break;
-                default:
-            }
+            let d = document.querySelector(`.${target.getAttribute('data-remove')}`);
+            d.removeAttribute('style');
+            // cover.setAttribute('data-display', 'none');
         });
 
-
+        todoAddTodo.addEventListener('click', e => {
+            let date = todoAddParent.querySelector('input[type="date"]');
+            let time = todoAddParent.querySelector('input[type="time"]');
+            let todo = todoAddParent.querySelector('textarea');
+            this.addTodo(date,time,todo,todoAddParent);
+        });
+        
     }
-
     static  SetStatusMessage(msg) {
         if ((typeof msg) !== 'string') {
             throw Error(`expected a string as an argument but got ${(typeof msg)}`);
@@ -206,4 +192,4 @@ class Todo {
     }
 }
 
-let td = new Todo();
+module.exports = Todo;
