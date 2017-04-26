@@ -113,8 +113,100 @@ $traceurRuntime.registerModule("../advance_bible.js", [], function() {
     }, {}],
     2: [function(require, module, exports) {
       var AutoScroll = function() {
-        function AutoScroll() {}
-        return ($traceurRuntime.createClass)(AutoScroll, {}, {});
+        function AutoScroll() {
+          var parentScroll = document.createElement('div');
+          var scrollArea = document.querySelector('.bible-read-text');
+          var scrollDown = document.createElement('span');
+          var scrollUp = document.createElement('span');
+          scrollDown.setAttribute('class', 'fa fa-chevron-circle-down bible-scroll-down');
+          scrollUp.setAttribute('class', 'fa fa-chevron-circle-up bible-scroll-up bible-scroll-disabled');
+          parentScroll.appendChild(scrollDown);
+          parentScroll.appendChild(scrollUp);
+          parentScroll.setAttribute('class', 'bible-parent-scroll');
+          scrollArea.appendChild(parentScroll);
+          this.parentScroll = function(_) {
+            return parentScroll;
+          };
+          this.scrollArea = function(_) {
+            return scrollArea;
+          };
+          this.scrollUp = function(_) {
+            return scrollUp;
+          };
+          this.scrollDown = function(_) {
+            return scrollDown;
+          };
+        }
+        return ($traceurRuntime.createClass)(AutoScroll, {scroll: function(HomeConstructor) {
+            var $__2 = this;
+            this.parentScroll().addEventListener('dblclick', function(e) {
+              var target = e.target;
+              if (target.getAttribute('class').includes('bible-scroll-up')) {
+                HomeConstructor.ScrollUP($__2, 'auto');
+              } else if (target.getAttribute('class').includes('bible-scroll-down')) {
+                HomeConstructor.ScrollDown($__2, 'auto');
+              } else {
+                console.log('uhh');
+                return false;
+              }
+            });
+            this.parentScroll().addEventListener('click', function(e) {
+              var target = e.target;
+              if (target.getAttribute('class').includes('bible-scroll-up')) {
+                HomeConstructor.ScrollUP($__2, undefined);
+              } else if (target.getAttribute('class').includes('bible-scroll-down')) {
+                HomeConstructor.ScrollDown($__2, undefined);
+              } else {
+                console.log('uhh');
+                return false;
+              }
+            });
+          }}, {
+          Render: function(instance) {
+            instance.scroll(AutoScroll);
+          },
+          CLEAR_INTERVAL: function(_this) {
+            if (_this.downId)
+              clearInterval(_this.downId);
+            if (_this.upId)
+              clearInterval(_this.upId);
+          },
+          CalculateScroll: function(_this) {
+            return (_this.scrollArea().scrollHeight - _this.scrollArea().scrollTop);
+          },
+          ScrollUP: function(_this, type) {
+            AutoScroll.CLEAR_INTERVAL(_this);
+            if (!type) {
+              _this.scrollArea().scrollTop -= 20;
+              return;
+            }
+            _this.upId = setInterval(function() {
+              if (AutoScroll.CalculateScroll(_this) === 0) {
+                clearInterval(_this.upId);
+                return;
+              }
+              _this.scrollArea().scrollTop -= 20;
+              _this.scrollUp().classList.remove('bible-scroll-disabled');
+              _this.scrollDown().classList.add('bible-scroll-disabled');
+            }, 500);
+          },
+          ScrollDown: function(_this, type) {
+            AutoScroll.CLEAR_INTERVAL(_this);
+            if (!type) {
+              _this.scrollArea().scrollTop += 20;
+              return;
+            }
+            _this.downId = setInterval(function() {
+              if (AutoScroll.CalculateScroll(_this) === _this.scrollArea().clientHeight) {
+                clearInterval(_this.downId);
+                return;
+              }
+              _this.scrollArea().scrollTop += 20;
+              _this.scrollUp().classList.remove('bible-scroll-disabled');
+              _this.scrollDown().classList.add('bible-scroll-disabled');
+            }, 500);
+          }
+        });
       }();
       module.exports = AutoScroll;
     }, {}],
@@ -124,6 +216,8 @@ $traceurRuntime.registerModule("../advance_bible.js", [], function() {
           objectEntries = $__19.objectEntries,
           GetJson = $__19.GetJson,
           Modal = $__19.Modal;
+      var AutoScroll = require("./auto_scroll.js");
+      var HeaderButtons = require("./header_buttons.js");
       var Audio = function() {
         function Audio() {}
         return ($traceurRuntime.createClass)(Audio, {}, {
@@ -222,147 +316,6 @@ $traceurRuntime.registerModule("../advance_bible.js", [], function() {
                 pausebtn.setAttribute('class', pausebtn.getAttribute('class').replace('disabled', ''));
               }
             });
-          }
-        });
-      }();
-      var HeaderButtons = function() {
-        function HeaderButtons() {}
-        return ($traceurRuntime.createClass)(HeaderButtons, {}, {
-          render: function() {
-            var $__21;
-            var header = document.querySelector('.bible-read-text');
-            var header_Menu = document.createElement('div');
-            var genLink = HeaderButtons.createMenuLinks(["select chapter", "select version", "select language"]);
-            var $__20 = genLink.next(),
-                done = $__20.done,
-                value = $__20.value;
-            var headerul = HeaderButtons.createUnderList();
-            header_Menu.setAttribute('class', 'bible-menu-header');
-            header.appendChild(header_Menu);
-            header_Menu.appendChild(HeaderButtons.createElipsis(headerul));
-            header_Menu.appendChild(headerul);
-            while (!done) {
-              var _value = value.replace(/\s+/, ''),
-                  links = HeaderButtons[_value]();
-              links.innerHTML = value;
-              links.setAttribute('class', 'bible-elipsis-link');
-              headerul.appendChild(links);
-              (($__21 = genLink.next(), done = $__21.done, value = $__21.value, $__21));
-            }
-          },
-          createMenuLinks: $traceurRuntime.initGeneratorFunction(function $__31(links) {
-            var $__7,
-                $__8,
-                $__9,
-                $__5,
-                $__4,
-                _l,
-                $__10;
-            return $traceurRuntime.createGeneratorInstance(function($ctx) {
-              while (true)
-                switch ($ctx.state) {
-                  case 0:
-                    $__7 = true;
-                    $__8 = false;
-                    $__9 = undefined;
-                    $ctx.state = 24;
-                    break;
-                  case 24:
-                    $ctx.pushTry(10, 11);
-                    $ctx.state = 13;
-                    break;
-                  case 13:
-                    $__5 = void 0, $__4 = (links)[Symbol.iterator]();
-                    $ctx.state = 9;
-                    break;
-                  case 9:
-                    $ctx.state = (!($__7 = ($__5 = $__4.next()).done)) ? 5 : 7;
-                    break;
-                  case 4:
-                    $__7 = true;
-                    $ctx.state = 9;
-                    break;
-                  case 5:
-                    _l = $__5.value;
-                    $ctx.state = 6;
-                    break;
-                  case 6:
-                    $ctx.state = 2;
-                    return _l;
-                  case 2:
-                    $ctx.maybeThrow();
-                    $ctx.state = 4;
-                    break;
-                  case 7:
-                    $ctx.popTry();
-                    $ctx.state = 11;
-                    $ctx.finallyFallThrough = -2;
-                    break;
-                  case 10:
-                    $ctx.popTry();
-                    $ctx.maybeUncatchable();
-                    $__10 = $ctx.storedException;
-                    $ctx.state = 16;
-                    break;
-                  case 16:
-                    $__8 = true;
-                    $__9 = $__10;
-                    $ctx.state = 11;
-                    $ctx.finallyFallThrough = -2;
-                    break;
-                  case 11:
-                    $ctx.popTry();
-                    $ctx.state = 22;
-                    break;
-                  case 22:
-                    try {
-                      if (!$__7 && $__4.return != null) {
-                        $__4.return();
-                      }
-                    } finally {
-                      if ($__8) {
-                        throw $__9;
-                      }
-                    }
-                    $ctx.state = 20;
-                    break;
-                  case 20:
-                    $ctx.state = $ctx.finallyFallThrough;
-                    break;
-                  default:
-                    return $ctx.end();
-                }
-            }, $__31, this);
-          }),
-          createUnderList: function() {
-            var header_ul = document.createElement('ul');
-            header_ul.setAttribute('class', 'bible-elipsis-parent');
-            return header_ul;
-          },
-          createElipsis: function(elp) {
-            var elipsis = document.createElement('span');
-            elipsis.setAttribute('class', 'fa fa-ellipsis-v bible-elipsis');
-            elipsis.addEventListener('click', function() {
-              if (elp.hasAttribute('style')) {
-                elp.removeAttribute('style');
-                return;
-              }
-              elp.setAttribute('style', 'display: block;');
-            });
-            return elipsis;
-          },
-          selectchapter: function() {
-            var openChapter = document.createElement('li');
-            Modal.extended(openChapter);
-            return openChapter;
-          },
-          selectversion: function() {
-            var selectVersionDropDown = document.createElement('li');
-            return selectVersionDropDown;
-          },
-          selectlanguage: function() {
-            var selectLanguageDropdown = document.createElement('li');
-            return selectLanguageDropdown;
           }
         });
       }();
@@ -487,6 +440,9 @@ $traceurRuntime.registerModule("../advance_bible.js", [], function() {
             var bookName = document.createElement('h3');
             var bookChapter = document.createElement('h5');
             bookParent.setAttribute('class', 'bible-book-parent');
+            var jj = new AutoScroll();
+            console.log(jj);
+            AutoScroll.Render(jj);
             HeaderButtons.render();
             backward.setAttribute('class', 'fa fa-arrow-circle-o-right bible-go-right');
             forward.setAttribute('class', 'fa fa-arrow-circle-o-left bible-go-left');
@@ -769,7 +725,11 @@ $traceurRuntime.registerModule("../advance_bible.js", [], function() {
           })
         });
       }();
-    }, {"./loadRequested.js": 10}],
+    }, {
+      "./auto_scroll.js": 2,
+      "./header_buttons.js": 8,
+      "./loadRequested.js": 11
+    }],
     4: [function(require, module, exports) {
       var GetNotified = {
         setStatusMessage: function(msg) {
@@ -1220,7 +1180,7 @@ $traceurRuntime.registerModule("../advance_bible.js", [], function() {
       }();
       var q = new Concord();
       q.showConcord().openMd().closeModal().searchConcord();
-    }, {"./loadRequested.js": 10}],
+    }, {"./loadRequested.js": 11}],
     7: [function(require, module, exports) {
       var HandleClose = function() {
         function HandleClose() {}
@@ -1246,6 +1206,151 @@ $traceurRuntime.registerModule("../advance_bible.js", [], function() {
       qq.close();
     }, {}],
     8: [function(require, module, exports) {
+      var Modal = require("./loadRequested.js").Modal;
+      var HeaderButtons = function() {
+        function HeaderButtons() {}
+        return ($traceurRuntime.createClass)(HeaderButtons, {}, {
+          render: function() {
+            var $__23;
+            var header = document.querySelector('.bible-read-text');
+            var header_Menu = document.createElement('div');
+            var genLink = HeaderButtons.createMenuLinks(["select chapter", "select version", "select language"]);
+            var $__20 = genLink.next(),
+                done = $__20.done,
+                value = $__20.value;
+            var headerul = HeaderButtons.createUnderList();
+            header_Menu.setAttribute('class', 'bible-menu-header');
+            header.appendChild(header_Menu);
+            header_Menu.appendChild(HeaderButtons.createElipsis(headerul));
+            header_Menu.appendChild(headerul);
+            while (!done) {
+              var _value = value.replace(/\s+/, ''),
+                  links = HeaderButtons[_value]();
+              links.innerHTML = value;
+              links.setAttribute('class', 'bible-elipsis-link');
+              headerul.appendChild(links);
+              (($__23 = genLink.next(), done = $__23.done, value = $__23.value, $__23));
+            }
+          },
+          createMenuLinks: $traceurRuntime.initGeneratorFunction(function $__31(links) {
+            var $__7,
+                $__8,
+                $__9,
+                $__5,
+                $__4,
+                _l,
+                $__10;
+            return $traceurRuntime.createGeneratorInstance(function($ctx) {
+              while (true)
+                switch ($ctx.state) {
+                  case 0:
+                    $__7 = true;
+                    $__8 = false;
+                    $__9 = undefined;
+                    $ctx.state = 24;
+                    break;
+                  case 24:
+                    $ctx.pushTry(10, 11);
+                    $ctx.state = 13;
+                    break;
+                  case 13:
+                    $__5 = void 0, $__4 = (links)[Symbol.iterator]();
+                    $ctx.state = 9;
+                    break;
+                  case 9:
+                    $ctx.state = (!($__7 = ($__5 = $__4.next()).done)) ? 5 : 7;
+                    break;
+                  case 4:
+                    $__7 = true;
+                    $ctx.state = 9;
+                    break;
+                  case 5:
+                    _l = $__5.value;
+                    $ctx.state = 6;
+                    break;
+                  case 6:
+                    $ctx.state = 2;
+                    return _l;
+                  case 2:
+                    $ctx.maybeThrow();
+                    $ctx.state = 4;
+                    break;
+                  case 7:
+                    $ctx.popTry();
+                    $ctx.state = 11;
+                    $ctx.finallyFallThrough = -2;
+                    break;
+                  case 10:
+                    $ctx.popTry();
+                    $ctx.maybeUncatchable();
+                    $__10 = $ctx.storedException;
+                    $ctx.state = 16;
+                    break;
+                  case 16:
+                    $__8 = true;
+                    $__9 = $__10;
+                    $ctx.state = 11;
+                    $ctx.finallyFallThrough = -2;
+                    break;
+                  case 11:
+                    $ctx.popTry();
+                    $ctx.state = 22;
+                    break;
+                  case 22:
+                    try {
+                      if (!$__7 && $__4.return != null) {
+                        $__4.return();
+                      }
+                    } finally {
+                      if ($__8) {
+                        throw $__9;
+                      }
+                    }
+                    $ctx.state = 20;
+                    break;
+                  case 20:
+                    $ctx.state = $ctx.finallyFallThrough;
+                    break;
+                  default:
+                    return $ctx.end();
+                }
+            }, $__31, this);
+          }),
+          createUnderList: function() {
+            var header_ul = document.createElement('ul');
+            header_ul.setAttribute('class', 'bible-elipsis-parent');
+            return header_ul;
+          },
+          createElipsis: function(elp) {
+            var elipsis = document.createElement('span');
+            elipsis.setAttribute('class', 'fa fa-ellipsis-v bible-elipsis');
+            elipsis.addEventListener('click', function() {
+              if (elp.hasAttribute('style')) {
+                elp.removeAttribute('style');
+                return;
+              }
+              elp.setAttribute('style', 'display: block;');
+            });
+            return elipsis;
+          },
+          selectchapter: function() {
+            var openChapter = document.createElement('li');
+            Modal.extended(openChapter);
+            return openChapter;
+          },
+          selectversion: function() {
+            var selectVersionDropDown = document.createElement('li');
+            return selectVersionDropDown;
+          },
+          selectlanguage: function() {
+            var selectLanguageDropdown = document.createElement('li');
+            return selectLanguageDropdown;
+          }
+        });
+      }();
+      module.exports = HeaderButtons;
+    }, {"./loadRequested.js": 11}],
+    9: [function(require, module, exports) {
       var $__19 = require("./loadRequested.js"),
           GetJson = $__19.GetJson,
           objectEntries = $__19.objectEntries,
@@ -1368,15 +1473,15 @@ $traceurRuntime.registerModule("../advance_bible.js", [], function() {
     }, {
       "./bible.js": 3,
       "./bookmark.js": 5,
-      "./loadRequested.js": 10,
-      "./notes.js": 13,
-      "./todo.js": 15
+      "./loadRequested.js": 11,
+      "./notes.js": 14,
+      "./todo.js": 16
     }],
-    9: [function(require, module, exports) {
+    10: [function(require, module, exports) {
       var BookMark = require("./bookmark.js")._bookMark;
       BookMark.Fire(document.querySelector("[data-target='bible-bookmark']"));
     }, {"./bookmark.js": 5}],
-    10: [function(require, module, exports) {
+    11: [function(require, module, exports) {
       module.exports.objectEntries = $traceurRuntime.initGeneratorFunction(function objectEntries(obj) {
         var propKeys,
             $__7,
@@ -1569,7 +1674,7 @@ $traceurRuntime.registerModule("../advance_bible.js", [], function() {
         });
       }();
     }, {}],
-    11: [function(require, module, exports) {
+    12: [function(require, module, exports) {
       var GetJson = require("./loadRequested.js").GetJson;
       var ChapterModal = function() {
         function ChapterModal() {
@@ -1589,8 +1694,8 @@ $traceurRuntime.registerModule("../advance_bible.js", [], function() {
       }();
       var qq = new ChapterModal();
       qq.runModal();
-    }, {"./loadRequested.js": 10}],
-    12: [function(require, module, exports) {
+    }, {"./loadRequested.js": 11}],
+    13: [function(require, module, exports) {
       var $__19 = require("./loadRequested.js"),
           GetJson = $__19.GetJson,
           objectEntries = $__19.objectEntries,
@@ -1808,9 +1913,9 @@ $traceurRuntime.registerModule("../advance_bible.js", [], function() {
       }());
     }, {
       "./bible.js": 3,
-      "./loadRequested.js": 10
+      "./loadRequested.js": 11
     }],
-    13: [function(require, module, exports) {
+    14: [function(require, module, exports) {
       var objectEntries = require("./loadRequested.js").objectEntries;
       var NoteListener = function() {
         function NoteListener() {
@@ -2286,8 +2391,8 @@ $traceurRuntime.registerModule("../advance_bible.js", [], function() {
           }}, {}, $__super);
       }(ViewNote);
       module.exports = {AddNote: AddNote};
-    }, {"./loadRequested.js": 10}],
-    14: [function(require, module, exports) {
+    }, {"./loadRequested.js": 11}],
+    15: [function(require, module, exports) {
       var Settings = function() {
         function Settings() {
           var settingsOnOf = document.querySelector('.bible-settings');
@@ -2405,7 +2510,7 @@ $traceurRuntime.registerModule("../advance_bible.js", [], function() {
       var settings = new Settings();
       settings.setSliding().setValues();
     }, {}],
-    15: [function(require, module, exports) {
+    16: [function(require, module, exports) {
       var Todo = function() {
         function Todo() {}
         return ($traceurRuntime.createClass)(Todo, {
@@ -2612,7 +2717,7 @@ $traceurRuntime.registerModule("../advance_bible.js", [], function() {
       }();
       module.exports = Todo;
     }, {}]
-  }, {}, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]);
+  }, {}, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]);
   return {};
 });
 $traceurRuntime.getModule("../advance_bible.js" + '');
