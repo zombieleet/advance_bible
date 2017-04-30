@@ -119,7 +119,7 @@ $traceurRuntime.registerModule("../advance_bible.js", [], function() {
           var scrollDown = document.createElement('span');
           var scrollUp = document.createElement('span');
           scrollDown.setAttribute('class', 'fa fa-chevron-circle-down bible-scroll-down');
-          scrollUp.setAttribute('class', 'fa fa-chevron-circle-up bible-scroll-up bible-scroll-disabled');
+          scrollUp.setAttribute('class', 'fa fa-chevron-circle-up bible-scroll-up');
           parentScroll.appendChild(scrollDown);
           parentScroll.appendChild(scrollUp);
           parentScroll.setAttribute('class', 'bible-parent-scroll');
@@ -186,8 +186,6 @@ $traceurRuntime.registerModule("../advance_bible.js", [], function() {
                 return;
               }
               _this.scrollArea().scrollTop -= 20;
-              _this.scrollUp().classList.remove('bible-scroll-disabled');
-              _this.scrollDown().classList.add('bible-scroll-disabled');
             }, 500);
           },
           ScrollDown: function(_this, type) {
@@ -202,8 +200,6 @@ $traceurRuntime.registerModule("../advance_bible.js", [], function() {
                 return;
               }
               _this.scrollArea().scrollTop += 20;
-              _this.scrollUp().classList.remove('bible-scroll-disabled');
-              _this.scrollDown().classList.add('bible-scroll-disabled');
             }, 500);
           }
         });

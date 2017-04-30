@@ -12,8 +12,8 @@ class AutoScroll {
 
         
         scrollDown.setAttribute('class', 'fa fa-chevron-circle-down bible-scroll-down');
-        scrollUp.setAttribute('class', 'fa fa-chevron-circle-up bible-scroll-up bible-scroll-disabled');
-
+        scrollUp.setAttribute('class', 'fa fa-chevron-circle-up bible-scroll-up');
+        
         
         parentScroll.appendChild(scrollDown);
         parentScroll.appendChild(scrollUp);
@@ -75,11 +75,7 @@ class AutoScroll {
             
         });
 
-        this.parentScroll().addEventListener('scroll', (e) => {
-            
-        });
     }
-    
     static CLEAR_INTERVAL(_this) {
         
         if ( _this.downId ) clearInterval(_this.downId);
@@ -137,6 +133,7 @@ class AutoScroll {
         },500);
         
     }
+    
 }
 
 module.exports = AutoScroll;
