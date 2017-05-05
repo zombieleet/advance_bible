@@ -14,6 +14,7 @@
 @import "readmenu.scss";
 @import "auto_scroll.scss";
 
+@import "settings.scss";
 body {
   box-sizing: border-box;
   width: 100vw;
@@ -239,60 +240,7 @@ body {
           }
         }
       }
-      .bible-settings {
-        font-size: 0.8em;
-        color: #a0a0a0;
-        // background-color: black;
-        text-align: center;
-        padding: .5em;
-        font-weight: bolder;
-        // box-shadow: 0px 0px 5px 5px black;
-        cursor: pointer;
-        width: 100vw;
-        background-color: inherit;
-        box-shadow: none;
-        font-size: 1.3em;
-        padding: 0;
-        // margin-top: 1em;
-        top: -0.5em;
-        color: black;
-        padding-top: 1.5em;
-        .bible-settings-list > li {
-          background-color: black;
-          color: #a0a0a0;
-          font-size: 0.8em;
-          border-radius: 0;
-          .current-value {
-            border: 2px solid black;
-            padding: .2em;
-            background-color: black;
-            border-radius: 5px;
-          }
-          .changeHoverState > li {
-            transition: .2s background-color ease-in;
-            &:hover {
-              background-color: black;
-              color: #a0a0a0;
-            }
-          }
-          .bible-on-of-Parent,.bible-notification-Parent {
-            padding-left: -1em;
-            width: 50px;
-            border: 1px solid;
-            border-radius: 20px;
-            background-color: darkgrey;
-            > .bible-on-of,.bible-notification {
-              padding-left: 1.2em;
-              border-radius: 100%;
-              border: 1px solid black;
-              background-color: darkgrey;
-            }
-          }
-          &:hover {
-            background-color: #0d0d0d;
-          }
-        }
-      }
+      
       .bible-favourites, .bible-newt, .bible-ot, .bible-hymns, .bible-note {
         font-size: 0.8em;
         color: #a0a0a0;
