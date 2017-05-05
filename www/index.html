@@ -1,379 +1,297 @@
 <!DOCTYPE html>
 <!--
-    Licensed to the Apache Software Foundation (ASF) under one
-    or more contributor license agreements.  See the NOTICE file
-    distributed with this work for additional information
-    regarding copyright ownership.  The ASF licenses this file
-    to you under the Apache License, Version 2.0 (the
-    "License"); you may not use this file except in compliance
-    with the License.  You may obtain a copy of the License at
+     Licensed to the Apache Software Foundation (ASF) under one
+     or more contributor license agreements.  See the NOTICE file
+     distributed with this work for additional information
+     regarding copyright ownership.  The ASF licenses this file
+     to you under the Apache License, Version 2.0 (the
+     "License"); you may not use this file except in compliance
+     with the License.  You may obtain a copy of the License at
 
-    http://www.apache.org/licenses/LICENSE-2.0
+     http://www.apache.org/licenses/LICENSE-2.0
 
-    Unless required by applicable law or agreed to in writing,
-    software distributed under the License is distributed on an
-    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     Unless required by applicable law or agreed to in writing,
+     software distributed under the License is distributed on an
+     "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
      KIND, either express or implied.  See the License for the
-    specific language governing permissions and limitations
-    under the License.
--->
+     specific language governing permissions and limitations
+     under the License.
+   -->
 <html>
 
-<head>
-  <!--
-        Customize this policy to fit your own app's needs. For more guidance, see:
-            https://github.com/apache/cordova-plugin-whitelist/blob/master/README.md#content-security-policy
-        Some notes:
-            * gap: is required only on iOS (when using UIWebView) and is needed for JS->native communication
-            * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
-            * Disables use of inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
-                * Enable inline JS: add 'unsafe-inline' to default-src
-        -->
-  <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *"> -->
-  <meta name="format-detection" content="telephone=no">
-  <meta name="msapplication-tap-highlight" content="no">
-  <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
-  <!-- codrdova defaults
-        <link rel="stylesheet" type="text/css" href="css/index.css">
-        -->
+    <head>
+        <!--
+             Customize this policy to fit your own app's needs. For more guidance, see:
+             https://github.com/apache/cordova-plugin-whitelist/blob/master/README.md#content-security-policy
+             Some notes:
+             * gap: is required only on iOS (when using UIWebView) and is needed for JS->native communication
+             * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
+             * Disables use of inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
+             * Enable inline JS: add 'unsafe-inline' to default-src
+           -->
+        <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *"> -->
+        <meta name="format-detection" content="telephone=no">
+        <meta name="msapplication-tap-highlight" content="no">
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+        <!-- codrdova defaults
+             <link rel="stylesheet" type="text/css" href="css/index.css">
+           -->
 
-  <link rel="stylesheet" href="font/css/font-awesome.css">
-  <link rel="stylesheet" type="text/css" href="libs/bootstrap.min.css">
-  <link rel="stylesheet" href="css/app.css">
-  <title>Holy Bible</title>
-</head>
+        <link rel="stylesheet" href="font/css/font-awesome.css">
+        <link rel="stylesheet" type="text/css" href="libs/bootstrap.min.css">
+        <link rel="stylesheet" href="css/app.css">
+        <title>Holy Bible</title>
+    </head>
 
-<body>
-  <div id="bible-body">
-    <header class="bible bible-header">
-      <span class="fa fa-bars"></span>
-      <!--<h1 class="bible bible-title pull-right">Bible</h1>-->
-      <div class="bible-head-cover" data-display="none"></div>
-    </header>
+    <body>
+        <div id="bible-body">
+            <header class="bible bible-header">
+                <span class="fa fa-bars"></span>
+                <!--<h1 class="bible bible-title pull-right">Bible</h1>-->
+                <div class="bible-head-cover" data-display="none"></div>
+            </header>
 
-    <section class="bible-home-screen col-xs-8">
-      <!--<img src="img/torn_bible.jpg" height="100%" width="100%"  draggable="false" />-->
-      <div class="bible-choice">
-        <ul class="bible-choice-item">
-          <li class="fa fa-book bible-choice-select bible-choice-item" data-exec="oldTestament"><span> Old Testament</span></li>
-          <li class="fa fa-book bible-newtestament bible-choice-select bible-choice-item"  data-exec="newTestament"><span> New Testament</span></li>
-          <li class="fa fa-bookmark bible-choice-select bible-bookmark-item bible-choice-item" data-exec="BookMark"><span> Bookmark</span></li>
-          <li class="fa fa-sticky-note bible-choice-select  bible-note-item bible-choice-item" data-exec="Note"><span> Add Note</span></li>
-          <li class="fa fa-calendar bible-choice-select bible-choice-item" data-exec="TodoAdd"><span> Add Todo</span></li>
-          <li class="fa fa-folder-open bible-choice-select bible-choice-item" data-exec="TodoView"><span> View Todo</span></li>
-          <li class="fa fa-search bible-choice-select bible-choice-item" data-exec="Locate"><span> Locate</span></li>                   
-          <li class="fa fa-gear bible-choice-select bible-choice-item" data-exec="Settings"><span> Settings</span></li>
-          <li class="fa fa-cloud bible-choice-select bible-choice-item" data-exec="Update"><span> Update</span></li>
+            <section class="bible-home-screen col-xs-8">
+                <!--<img src="img/torn_bible.jpg" height="100%" width="100%"  draggable="false" />-->
+                <div class="bible-choice">
+                    <ul class="bible-choice-item">
+                        <li class="fa fa-book bible-choice-select bible-choice-item" data-exec="oldTestament"><span> Old Testament</span></li>
+                        <li class="fa fa-book bible-newtestament bible-choice-select bible-choice-item"  data-exec="newTestament"><span> New Testament</span></li>
+                        <li class="fa fa-bookmark bible-choice-select bible-bookmark-item bible-choice-item" data-exec="BookMark"><span> Bookmark</span></li>
+                        <li class="fa fa-sticky-note bible-choice-select  bible-note-item bible-choice-item" data-exec="Note"><span> Add Note</span></li>
+                        <li class="fa fa-calendar bible-choice-select bible-choice-item" data-exec="TodoAdd"><span> Add Todo</span></li>
+                        <li class="fa fa-folder-open bible-choice-select bible-choice-item" data-exec="TodoView"><span> View Todo</span></li>
+                        <li class="fa fa-search bible-choice-select bible-choice-item" data-exec="Locate"><span> Locate</span></li>                   
+                        <li class="fa fa-gear bible-choice-select bible-choice-item" data-exec="Settings"><span> Settings</span></li>
+                        <li class="fa fa-cloud bible-choice-select bible-choice-item" data-exec="Update"><span> Update</span></li>
+                        
+                    </ul>
+                </div>
+                <div class="bible-settings" data-display="none">
+                    <ul class="bible-list">
+                        <li class="bible-list-item clearfix" data-type="Audio">
+                            <h3>Audio</h3>
+                            <span class="on" data-current="current">On</span>
+                            <span class="off">Off</span>
+                        </li>
+                        <li class="bible-list-item clearfix">
+                            <h3>Color</h3>
+                        </li>
+                        <li class="bible-list-item clearfix" data-type="FontStyle">
+                            <h3>Font Style</h3>
+                        </li>
+                        <li class="bible-list-item clearfix">
+                            <h3>Font Size</h3>
+                        </li>
+                        <li class="bible-list-item clearfix" data-type="Notfication">
+                            <h3>Notification</h3>
+                            <span class="on" data-current="current">On</span>
+                            <span class="off">Off</span>                            
+                        </li>
+                        <li class="bible-list-item clearfix">
+                            <h3>Language</h3>
+                        </li>
+                        <li class="bible-list-item clearfix" data-type="AutoScroll">
+                            <h3>Auto Scroll</h3>
+                            <span class="on" data-current="current">On</span>
+                            <span class="off">Off</span>                            
+                        </li>
+                        <li class="bible-list-item clearfix" data-type="AutoUpdate">
+                            <h3>Automatic Update</h3>
+                            <span class="on" data-current="current">On</span>
+                            <span class="off">Off</span>
+                        </li>
+                    </ul>
+                </div>
+                <!-- <div class="bible-favourites" data-display="none">
+                     FAVOURITES
+                     </div> -->
+                <div class="bible-bookmark" data-display="none">
                     
-        </ul>
-      </div>
-      <div class="bible-settings" data-display="none">
-        <ul class="list-group text-left bible-settings-list" data-change="bible-list-group">
-          <li class="list-group-item">Font Style
-            <div class="dropdown pull-right">
-              <span class="badge" data-current="sans-serif" data-type="font-style">sans-serif</span>
-              <span class="dropdown-toggle" type="button" data-toggle="dropdown">
-                      <span class="caret"></span>
-              </span>
-              <ul class="dropdown-menu list-group changeHoverState" role="fontFamily">
-                <li class="list-group-item setval">sans-serif</li>
-                <li class="list-group-item setval">Arial Narrow</li>
-                <li class="list-group-item setval">Arial black</li>
-                <li class="list-group-item setval">Algerian</li>
-                <li class="list-group-item setval">Arial</li>
-                <li class="list-group-item setval">helvetica</li>
-                <li class="list-group-item setval">webdings</li>
-                <li class="list-group-item setval">webdings</li>
-              </ul>
-            </div>
-          </li>
-          <li class="list-group-item">Font Size
-            <div class="dropdown pull-right">
-              <span class="badge" data-current="14" data-type="font-size">14</span>
-              <span class="dropdown-toggle" type="button" data-toggle="dropdown">
-                      <span class="caret"></span>
-              </span>
-              <ul class="dropdown-menu list-group changeHoverState" role="fontSize">
-                <li class="list-group-item setval">6</li>
-                <li class="list-group-item setval">10</li>
-                <li class="list-group-item setval">14</li>
-                <li class="list-group-item setval">16</li>
-                <li class="list-group-item setval">20</li>
-                <li class="list-group-item setval">24</li>
-                <li class="list-group-item setval">30</li>
-                <li class="list-group-item setval">36</li>
-              </ul>
-            </div>
-          </li>
-          <li class="list-group-item">Audio
-            <span class="pull-right bible-on-of-Parent" data-color="darkgrey" data-current="no">
-                    <span class="bible-on-of"></span>
-            </span>
-          </li>
-          <li class="list-group-item">Notification
-            <span class="pull-right bible-notification-Parent" data-color="darkgrey" data-current="no">
-              <span class="bible-notification"></span>
-            </span>
-          </li>
-          <li class="list-group-item">Audio Language
-            <div class="dropdown pull-right">
-              <span class="badge" data-current="english" data-type="audio-language">English</span>
-              <span class="dropdown-toggle" type="button" data-toggle="dropdown">
-                      <span class="caret"></span>
-              </span>
-              <ul class="dropdown-menu list-group changeHoverState" role="audioLanguage">
-                <li class="list-group-item setval">English</li>
-                <li class="list-group-item setval">English</li>
-                <li class="list-group-item setval">English</li>
-                <li class="list-group-item setval">English</li>
-                <li class="list-group-item setval">English</li>
-                <li class="list-group-item setval">English</li>
-              </ul>
+                </div>
+                <div class="bible-newt" data-display="none" data-modal="newt-chapter">
+                </div>
+                <div class="bible-ot" data-display="none" data-modal="ot-chapter">
+                </div>
+                <div class="bible-hymns" data-display="none">
+                    HYMNS
+                </div>
+            </section>
+
+            <div class="bible-note">
+                <ul class="bible-note-parent">
+                    <li class="bible-note-item bible-add-note fa fa-plus" data-pointer="bible-add-note" data-load="addnote"> </li>
+                    <li class="bible-note-item bible-view-note fa fa-folder-o" data-pointer="bible-view-note" data-load="viewnote"> </li>
+                    <li class="bible-note-item bible-edit-note fa fa-pencil" data-pointer="bible-edit-note" data-load="viewnote"> </li>
+                    <li class="bible-note-item bible-delete-note fa fa-remove" data-pointer="bible-delete-note" data-load="deletenote"> </li>
+                    <li class="glyphicon glyphicon-pushpin pull-right bible-pushpin" data-pointer="bible-pushpin" draggable="true"></li>
+
+                </ul>
             </div>
 
-          </li>
-          <li class="list-group-item">Volume
-            <div class="dropdown pull-right">
-              <span class="badge" data-current="30%" data-type="sound-level">30%</span>
-              <span class="dropdown-toggle" type="button" data-toggle="dropdown">
-                        <span class="caret"></span>
-              </span>
-              <ul class="dropdown-menu list-group changeHoverState" role="volumeLevel">
-                <li class="list-group-item setval">10%</li>
-                <li class="list-group-item setval">20%</li>
-                <li class="list-group-item setval">30%</li>
-                <li class="list-group-item setval">40%</li>
-                <li class="list-group-item setval">50%</li>
-                <li class="list-group-item setval">60%</li>
-                <li class="list-group-item setval">70%</li>
-                <li class="list-group-item setval">80%</li>
-                <li class="list-group-item setval">90%</li>
-                <li class="list-group-item setval">100%</li>
-              </ul>
-            </div>
-          </li>
-          <li class="list-group-item">Text Color
-            <div class="dropdown pull-right">
-              <span class="badge" data-current="white" data-type="text-color">White</span>
-              <span class="dropdown-toggle" type="button" data-toggle="dropdown">
-                        <span class="caret"></span>
-              </span>
-              <ul class="dropdown-menu list-group changeHoverState" role="textColor">
-                <li class="list-group-item setval">White</li>
-                <li class="list-group-item setval">Black</li>
-                <li class="list-group-item setval">Yellow</li>
-                <li class="list-group-item setval">Blue</li>
-              </ul>
+            <div class="view-note">
+                <div class="bible-view-note-parent">
+                    <p class="bible-close fa fa-close  pull-right"> </p>      
+                    <ul class="bible-view-note-list">    
+
+                        
+                    </ul>
+                </div>
+
+
+                <div class="add-note">
+                    <div class="bible-add-note-parent">
+                        <p class="bible-close fa fa-close pull-right"> </p>
+                        <p class="bible-add-note-text"></p>
+                        
+                        <input type="text" class="bible-add-note-title" placeholder="Title Of Note"></input>
+                        <textarea rows="8" class="bible-add-note-content"></textarea>
+                        <button type="submit" class="bible-add-note-btn"></button>
+
+                    </div>
+                </div>
+
+                
+                <div class="bible-view-note-modal">
+                    <p class="fa fa-close bible-close pull-right"></p>
+                    <div class="bible-view-note-title">
+                        
+                        <p>This is a Note Title</p>
+                        
+                    </div>
+                    <div class="bible-view-note-creationDate">
+                        <p>1/1/2013</p>
+                    </div>
+                    <div class="bible-view-note-content">
+                        <p>Lores Ipsum Dolor bacon tuna fish fish fish it's all about the fish, so many fishes are there in the world today
+                            if you don't fish you are a fish also , fishses love fishes, lmao, fish , meat and kean
+                        </p>
+                    </div>
+                </div>
+                
             </div>
 
-          </li>
-          <li class="list-group-item">Background Color
-            <div class="dropdown pull-right">
-              <span class="badge" data-current="blue" data-type="background-color">Blue</span>
-              <span class="dropdown-toggle" type="button" data-toggle="dropdown">
-                        <span class="caret"></span>
-              </span>
-              <ul class="dropdown-menu list-group changeHoverState" role="backgroundColor">
-                <li class="list-group-item setval">White</li>
-                <li class="list-group-item setval">Black</li>
-                <li class="list-group-item setval">Yellow</li>
-                <li class="list-group-item setval">Blue</li>
-              </ul>
+            <div class="view-todo">
+                <div class="bible-view-todo-parent">
+                    <p class="bible-close fa fa-close  pull-right"> </p>      
+                    <ul class="todo-list">    
+
+                        
+                    </ul>
+                </div>
             </div>
 
-          </li>
-          <li class="list-group-item">Language</li>
-        </ul>
-      </div>
-      <!-- <div class="bible-favourites" data-display="none">
-        FAVOURITES
-      </div> -->
-      <div class="bible-bookmark" data-display="none">
+            <div class="todo-add-parent">
+
+                <span class="fa fa-close fa-pull-right todo-bible-close" data-remove="todo-add-parent"></span>
+
+                <div class="todo-add-date-time">
+                    <div class="todo-add-date">
+                        Date:- <input type="date"/>
+                    </div>
+                    <div class="todo-add-time">
+                        Time:- <input type="time"/>
+                    </div>
+                    <div class="todo-add-todo">
+                        <!-- copied from bible-add-note -->
+                        <textarea rows="8" cols="37" class="bible-add-note-content"></textarea> 
+                    </div>
+                    <div class="todo-button-add">
+                        <button type="submit" class="todo-add-button fa fa-thumbs-up">   Add Todo</button>   
+                    </div>
+                </div>
+            </div>
+            
+
+
+
+            <div class="bible-cover" data-display="none">
+
+            </div>
+            <nav class="bible-nav col-xs-4">
+                <!--<div class="fa fa-long-arrow-left fa-2x bible fa-pull-right bible-arrows"></div>-->
+                <ul class="bible bible-nav-list">
+                    <li class="fa fa-home bible-nav-item" data-target="bible-choice"><span>Home</span>
+                        <p class="bible-underline"></p>
+                    </li>
+                    <li class="fa fa-gear bible-nav-item" data-target="bible-settings"><span>Settings</span>
+                        <p class="bible-underline"></p>
+                    </li>
+                    <!-- <li class="fa fa-heart bible-nav-item" data-target="bible-favourites"><span>Favourites</span>
+                         <p class="bible-underline"></p>
+                         </li> -->
+                    <li class="fa fa-bookmark bible-nav-item" data-target="bible-bookmark"><span>Bookmarks</span>
+                        <p class="bible-underline"></p>
+                    </li>
+                    <li class="fa fa-book bible-nav-item" data-target="bible-newt" data-modal="ot-chapter"><span>New Testament</span>
+                        <p class="bible-underline"></p>
+                    </li>
+                    <li class="fa fa-book bible-nav-item" data-target="bible-ot" data-modal="newt-chapter"><span>Old Testament</span>
+                        <p class="bible-underline"></p>
+                    </li>
+                    <li class="fa fa-search bible-nav-item concord-nav">
+                        <span>Concord</span>
+                        <p class="fa fa-caret-down pull-right">
+
+                        </p>
+                        <p class="bible-underline"></p>
+                        <ul class="bible-nav-concord">
+                            <li class="fa fa-long-arrow-right bible-nav-item bible-concord">
+                                <span>Bible Location</span>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="fa fa-music bible-nav-item" data-target="bible-hymns"><span>Hymns</span>
+                        <p class="bible-underline"></p>
+                    </li>
+                    <li class="fa fa-cloud-download bible-nav-item"><span>Update</span>
+                        <p class="bible-underline"></p>
+                    </li>
+
+                </ul>
+            </nav>
+            <div class="bible-report"></div>
+        </div>
         
-      </div>
-      <div class="bible-newt" data-display="none" data-modal="newt-chapter">
-      </div>
-      <div class="bible-ot" data-display="none" data-modal="ot-chapter">
-      </div>
-      <div class="bible-hymns" data-display="none">
-        HYMNS
-      </div>
-    </section>
-
-    <div class="bible-note">
-      <ul class="bible-note-parent">
-        <li class="bible-note-item bible-add-note fa fa-plus" data-pointer="bible-add-note" data-load="addnote"> </li>
-        <li class="bible-note-item bible-view-note fa fa-folder-o" data-pointer="bible-view-note" data-load="viewnote"> </li>
-        <li class="bible-note-item bible-edit-note fa fa-pencil" data-pointer="bible-edit-note" data-load="viewnote"> </li>
-        <li class="bible-note-item bible-delete-note fa fa-remove" data-pointer="bible-delete-note" data-load="deletenote"> </li>
-        <li class="glyphicon glyphicon-pushpin pull-right bible-pushpin" data-pointer="bible-pushpin" draggable="true"></li>
-
-      </ul>
-    </div>
-
-    <div class="view-note">
-      <div class="bible-view-note-parent">
-        <p class="bible-close fa fa-close  pull-right"> </p>      
-        <ul class="bible-view-note-list">    
-
-          
-        </ul>
-      </div>
-
-
-    <div class="add-note">
-      <div class="bible-add-note-parent">
-        <p class="bible-close fa fa-close pull-right"> </p>
-        <p class="bible-add-note-text"></p>
-        
-        <input type="text" class="bible-add-note-title" placeholder="Title Of Note"></input>
-        <textarea rows="8" class="bible-add-note-content"></textarea>
-        <button type="submit" class="bible-add-note-btn"></button>
-
-      </div>
-    </div>
-
-      
-      <div class="bible-view-note-modal">
-        <p class="fa fa-close bible-close pull-right"></p>
-        <div class="bible-view-note-title">
-          
-          <p>This is a Note Title</p>
-          
+        <div id="BibleConcord">
+            <form class="form">
+                <p class="fa fa-close bible-close"></p>
+                <fieldset class="form-group">
+                    <label for="bible-concord">Words To Search</label>
+                    <input type="text" class="form-control bible-search-concord" />
+                </fieldset>
+                <fieldset class="form-group">
+                    <button type="Submit" class="form-control bible-start-search">SEARCH</button>
+                </fieldset>
+            </form>
         </div>
-        <div class="bible-view-note-creationDate">
-          <p>1/1/2013</p>
+        <div class="bible-getChapters" data-display="none">
+            <h4 class="bible-getChapters-book"></h4>
+            <hr />
+            <span class="fa fa-close fa-pull-right bible-close"></span>
+
         </div>
-        <div class="bible-view-note-content">
-          <p>Lores Ipsum Dolor bacon tuna fish fish fish it's all about the fish, so many fishes are there in the world today
-            if you don't fish you are a fish also , fishses love fishes, lmao, fish , meat and kean
-          </p>
-        </div>
-      </div>
-      
-    </div>
-
-    <div class="view-todo">
-      <div class="bible-view-todo-parent">
-        <p class="bible-close fa fa-close  pull-right"> </p>      
-        <ul class="todo-list">    
-
-          
-        </ul>
-      </div>
-    </div>
-
-  <div class="todo-add-parent">
-
-    <span class="fa fa-close fa-pull-right todo-bible-close" data-remove="todo-add-parent"></span>
-
-    <div class="todo-add-date-time">
-      <div class="todo-add-date">
-          Date:- <input type="date"/>
-      </div>
-      <div class="todo-add-time">
-          Time:- <input type="time"/>
-      </div>
-      <div class="todo-add-todo">
-          <!-- copied from bible-add-note -->
-          <textarea rows="8" cols="37" class="bible-add-note-content"></textarea> 
-      </div>
-      <div class="todo-button-add">
-          <button type="submit" class="todo-add-button fa fa-thumbs-up">   Add Todo</button>   
-      </div>
-    </div>
-  </div>
-  
 
 
-
-    <div class="bible-cover" data-display="none">
-
-    </div>
-    <nav class="bible-nav col-xs-4">
-      <!--<div class="fa fa-long-arrow-left fa-2x bible fa-pull-right bible-arrows"></div>-->
-      <ul class="bible bible-nav-list">
-        <li class="fa fa-home bible-nav-item" data-target="bible-choice"><span>Home</span>
-          <p class="bible-underline"></p>
-        </li>
-        <li class="fa fa-gear bible-nav-item" data-target="bible-settings"><span>Settings</span>
-          <p class="bible-underline"></p>
-        </li>
-        <!-- <li class="fa fa-heart bible-nav-item" data-target="bible-favourites"><span>Favourites</span>
-          <p class="bible-underline"></p>
-        </li> -->
-        <li class="fa fa-bookmark bible-nav-item" data-target="bible-bookmark"><span>Bookmarks</span>
-        <p class="bible-underline"></p>
-        </li>
-        <li class="fa fa-book bible-nav-item" data-target="bible-newt" data-modal="ot-chapter"><span>New Testament</span>
-          <p class="bible-underline"></p>
-        </li>
-        <li class="fa fa-book bible-nav-item" data-target="bible-ot" data-modal="newt-chapter"><span>Old Testament</span>
-          <p class="bible-underline"></p>
-        </li>
-        <li class="fa fa-search bible-nav-item concord-nav">
-          <span>Concord</span>
-          <p class="fa fa-caret-down pull-right">
-
-          </p>
-          <p class="bible-underline"></p>
-          <ul class="bible-nav-concord">
-            <li class="fa fa-long-arrow-right bible-nav-item bible-concord">
-              <span>Bible Location</span>
-            </li>
-          </ul>
-        </li>
-        <li class="fa fa-music bible-nav-item" data-target="bible-hymns"><span>Hymns</span>
-          <p class="bible-underline"></p>
-        </li>
-        <li class="fa fa-cloud-download bible-nav-item"><span>Update</span>
-          <p class="bible-underline"></p>
-        </li>
-
-      </ul>
-    </nav>
-    <div class="bible-report"></div>
-  </div>
-  
-  <div id="BibleConcord">
-    <form class="form">
-      <p class="fa fa-close bible-close"></p>
-      <fieldset class="form-group">
-        <label for="bible-concord">Words To Search</label>
-        <input type="text" class="form-control bible-search-concord" />
-      </fieldset>
-      <fieldset class="form-group">
-        <button type="Submit" class="form-control bible-start-search">SEARCH</button>
-      </fieldset>
-    </form>
-  </div>
-  <div class="bible-getChapters" data-display="none">
-    <h4 class="bible-getChapters-book"></h4>
-    <hr />
-    <span class="fa fa-close fa-pull-right bible-close"></span>
-
-  </div>
-
-
-  <script type="application/javascript">
-              window.addEventListener("DOMContentLoaded", (e) => {
-                    let s = document.querySelectorAll('[data-type]');
-                    Array.from(s, (el) => {
-                      let item = localStorage.getItem(el.getAttribute('data-type'));
-                      if ( item === null ) return ;
-                      el.removeAttribute("data-current");
-                      el.setAttribute('data-current', item);
-                      el.textContent = item;
-                    });
-              });
+        <script type="application/javascript">
+         window.addEventListener("DOMContentLoaded", (e) => {
+             let s = document.querySelectorAll('[data-type]');
+             Array.from(s, (el) => {
+                 let item = localStorage.getItem(el.getAttribute('data-type'));
+                 if ( item === null ) return ;
+                 el.removeAttribute("data-current");
+                 el.setAttribute('data-current', item);
+                 el.textContent = item;
+             });
+         });
         </script>
-  <!-- <script type="text/javascript" src="cordova.js"></script> -->
-  </script>
-  <script src="libs/traceur.js"></script>
-  <script src="js/advance_bible.js"></script>
-  <script src="libs/jquery.js"></script>
-  <script src="libs/bootstrap.min.js"></script>
+        <!-- <script type="text/javascript" src="cordova.js"></script> -->
+        </script>
+        <script src="libs/traceur.js"></script>
+        <script src="js/advance_bible.js"></script>
+        <script src="libs/jquery.js"></script>
+        <script src="libs/bootstrap.min.js"></script>
 
-</body>
+    </body>
 
 </html>
