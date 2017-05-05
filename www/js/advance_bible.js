@@ -408,16 +408,11 @@ $traceurRuntime.registerModule("../advance_bible.js", [], function() {
               bibleRep.removeAttribute('style');
             }, 3000);
           },
-          Settings: function() {
-            return {
-              fontSize: localStorage.getItem("font-size"),
-              fontStyle: localStorage.getItem("font-family"),
-              audio: localStorage.getItem("sound-state"),
-              volume: localStorage.getItem("sound-level"),
-              textcolor: localStorage.getItem("text-color"),
-              bgcolor: localStorage.getItem("background-color")
-            };
+          GetSettings: function() {
+            return {};
           },
+          SetSettings: function() {},
+          SetBookMarked: function() {},
           StyleBible: function(book, chapter) {
             var $__21,
                 $__22;
@@ -437,7 +432,6 @@ $traceurRuntime.registerModule("../advance_bible.js", [], function() {
             var bookChapter = document.createElement('h5');
             bookParent.setAttribute('class', 'bible-book-parent');
             var jj = new AutoScroll();
-            console.log(jj);
             AutoScroll.Render(jj);
             HeaderButtons.render();
             backward.setAttribute('class', 'fa fa-arrow-circle-o-right bible-go-right');
@@ -451,10 +445,6 @@ $traceurRuntime.registerModule("../advance_bible.js", [], function() {
             bookParent.appendChild(bookName);
             bookParent.appendChild(bookChapter);
             var bibleSettingsValues = GetBible.Settings();
-            parent.style["font-size"] = bibleSettingsValues.fontSize + "px";
-            parent.style["font-family"] = bibleSettingsValues.fontStyle;
-            parent.style["color"] = bibleSettingsValues.textcolor;
-            parent.style["background-color"] = bibleSettingsValues.bgcolor;
             var setState = false;
             var BOOKMARK = JSON.parse(localStorage.getItem('___BIBLE-BOOKMARK___'));
             var $__14 = true;
@@ -562,6 +552,7 @@ $traceurRuntime.registerModule("../advance_bible.js", [], function() {
               });
             }
           },
+          SetAudio: function() {},
           BookMark: function($__20) {
             var $__23,
                 $__24,
@@ -2391,120 +2382,63 @@ $traceurRuntime.registerModule("../advance_bible.js", [], function() {
     15: [function(require, module, exports) {
       var Settings = function() {
         function Settings() {
-          var settingsOnOf = document.querySelector('.bible-settings');
-          this.settingsOnOf = function() {
-            return settingsOnOf;
-          };
-        }
-        return ($traceurRuntime.createClass)(Settings, {
-          setSliding: function() {
-            this.settingsOnOf().addEventListener('click', function(e) {
-              var target = e.target;
-              if (target.getAttribute('class').includes("bible-on-of-Parent")) {
-                Settings.SetElementState(target, "sound-state");
-                return;
-              } else if (target.getAttribute('class').includes("bible-notification-Parent")) {
-                Settings.SetElementState(target, "notification-state");
-                return;
-              }
-            });
-            return this;
-          },
-          setValues: function() {
-            this.settingsOnOf().addEventListener('click', function(e) {
-              var target = e.target;
-              if (target.getAttribute('class').includes("setval")) {
-                var parent = target.parentNode;
-                var elShowValue = parent.previousElementSibling.previousElementSibling;
-                elShowValue.setAttribute('data-current', target.textContent);
-                elShowValue.textContent = target.textContent;
-                var role = parent.getAttribute('role');
-                switch (role) {
-                  case null:
-                    break;
-                  case "fontFamily":
-                    localStorage.setItem('font-family', elShowValue.getAttribute('data-current'));
-                    break;
-                  case "fontSize":
-                    localStorage.setItem('font-size', elShowValue.getAttribute('data-current'));
-                    break;
-                  case "volumeLevel":
-                    localStorage.setItem('sound-level', elShowValue.getAttribute('data-current'));
-                    break;
-                  case "textColor":
-                    localStorage.setItem('text-color', elShowValue.getAttribute('data-current'));
-                    break;
-                  case "backgroundColor":
-                    localStorage.setItem('background-color', elShowValue.getAttribute('data-current'));
-                    break;
-                  default:
-                }
-              }
-            });
-            return this;
+          var bibleSettings = document.querySelector('.bible-list');
+          var _strage = localStorage.getItem("bible_settings");
+          if (!_strage) {
+            console.log('no');
+            localStorage.setItem("bible_settings", JSON.stringify({}));
+            _strage = localStorage.getItem("bible_settings");
           }
-        }, {
-          NotificationCallback: function(storageCan, target) {
-            Notification.requestPermission(function(permission) {
-              Notification.requestPermission(function(permission) {
-                if (permission === 'granted') {
-                  var _notify = new Notification("You will be notified if your todo date arrives");
-                  return true;
-                } else if (permission === 'denied') {
-                  return false;
+          this.bibleSettings = function(_) {
+            return bibleSettings;
+          };
+          console.log(_strage);
+          this.Storage = JSON.parse(_strage);
+          this.clicks();
+        }
+        return ($traceurRuntime.createClass)(Settings, {clicks: function() {
+            var $__2 = this;
+            this.bibleSettings().addEventListener('click', function(e) {
+              var target = e.target,
+                  pNode = target.parentNode,
+                  targetClass = target.getAttribute('class');
+              if (pNode.nodeName.toLowerCase() === "li" && /^(on)$|^(off)$/.test(targetClass)) {
+                var _attribute = pNode.getAttribute('data-type'),
+                    value = Settings.removeCurrent(target, pNode);
+                if (value) {
+                  Settings.Save(_attribute, value, $__2);
                 }
-                return false;
-              });
-            });
-          },
-          StyleTogglElement: function(target, elChild) {
-            target.setAttribute('data-color', "black");
-            target.setAttribute("data-current", "yes");
-            elChild.setAttribute('data-change-state', 'settings-state');
-            target.style["background-color"] = target.getAttribute('data-color');
-          },
-          SetElementState: function(target, storageCan) {
-            var elChild = target.children[0];
-            if (target.getAttribute('data-color') === "darkgrey") {
-              if (storageCan === "notification-state") {
-                if ("Notification" in window) {
-                  if (Settings.NotificationCallback(storageCan)) {
-                    Settings.StyleTogglElement(target, elChild);
-                  } else {
-                    Settings.SetStatusMessage("Notification can only be enabled if you delete the storage from your browser");
-                    return;
-                  }
-                } else {
-                  Settings.SetStatusMessage("Update Your Browser To Enable Notification");
-                  return;
-                }
-              } else {
-                Settings.StyleTogglElement(target, elChild);
               }
-              localStorage.setItem(storageCan, target.getAttribute('data-current'));
-              return;
-            }
-            target.setAttribute('data-color', "darkgrey");
-            target.setAttribute('data-current', "no");
-            elChild.removeAttribute('data-change-state');
-            target.style["background-color"] = target.getAttribute('data-color');
-            localStorage.setItem(storageCan, target.getAttribute('data-current'));
+            });
+          }}, {
+          initSettings: function() {
+            return new Settings();
           },
-          SetStatusMessage: function(msg) {
-            if (((typeof msg === 'undefined' ? 'undefined' : $traceurRuntime.typeof(msg))) !== 'string') {
-              throw Error(("expected a string as an argument but got " + ((typeof msg === 'undefined' ? 'undefined' : $traceurRuntime.typeof(msg)))));
+          Save: function(key, value, _this) {
+            _this.Storage[key] = value;
+            localStorage.setItem("bible_settings", JSON.stringify(_this.Storage));
+          },
+          setCurrent: function(target) {
+            if (!target.hasAttribute("data-current")) {
+              target.setAttribute("data-current", "current");
+              return target.getAttribute("class");
             }
-            var bibleRep = document.querySelector(".bible-report");
-            bibleRep.innerHTML = msg;
-            bibleRep.setAttribute('style', 'visibility: visible');
-            setTimeout(function() {
-              bibleRep.removeAttribute('style');
-            }, 3000);
+            return undefined;
+          },
+          removeCurrent: function(target, pNode) {
+            var toNotRemove = Settings.setCurrent(target);
+            if (!toNotRemove)
+              return false;
+            if (toNotRemove === "on") {
+              pNode.querySelector('.off').removeAttribute("data-current");
+              return "on";
+            }
+            pNode.querySelector('.on').removeAttribute("data-current");
+            return "off";
           }
         });
       }();
-      var settings = new Settings();
-      settings.setSliding().setValues();
+      Settings.initSettings();
     }, {}],
     16: [function(require, module, exports) {
       var Todo = function() {
