@@ -1,0 +1,47 @@
+.bible-settings {
+    color: darken($bgColor,90%);
+    top: 2em;
+    left: 0;
+    width: 100%;
+    .bible-list {
+        width: inherit;
+        .bible-list-item {
+            
+            font-size: 20px;
+            padding: 20px;
+            font-weight: bolder;
+            background-color: darken($bgColor,10%);
+            border: 1px solid $bgColor;
+            cursor: pointer;
+            width: inherit;
+
+            box-shadow: 1px 1px 1px darken($bgColor,10%);
+
+            h3 {
+                float: left;
+            }
+            .off {
+                float: right;
+                margin-left: 20px;
+                //margin-top: -13px;
+
+                
+                border: 1px solid $bgColor;
+                border-radius: 100%;
+                
+                box-shadow: 2px 2px 2px 3px darken($bgColor,5%);
+                background: $bgColor;
+                
+                padding: 10px;
+            }
+            .on {
+                @extend .off;
+            }
+
+            [data-current="current"] {
+                background-color: darken($bgColor,50%);
+            }
+
+        }
+    }
+}
