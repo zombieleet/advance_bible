@@ -1,12 +1,11 @@
 class Todo {
-    constructor() {
-        // let todoParent = document.querySelector('.bible-todo-parent');
-    }
+    constructor() {}
+
     triggerAdd() {
-        
+
         let todoAddParent = document.querySelector('.todo-add-parent');
         let cover = document.querySelector('.bible-head-cover');
-        // cover.removeAttribute('data-display');
+
         todoAddParent.setAttribute('style', 'visibility: visible;');
 
         let todoClose = todoAddParent.querySelector('.todo-bible-close');
@@ -16,7 +15,7 @@ class Todo {
             let target = e.target;
             let d = document.querySelector(`.${target.getAttribute('data-remove')}`);
             d.removeAttribute('style');
-            // cover.setAttribute('data-display', 'none');
+
         });
 
         todoAddTodo.addEventListener('click', e => {
@@ -25,7 +24,7 @@ class Todo {
             let todo = todoAddParent.querySelector('textarea');
             this.addTodo(date,time,todo,todoAddParent);
         });
-        
+
     }
     static  SetStatusMessage(msg) {
         if ((typeof msg) !== 'string') {
@@ -61,17 +60,18 @@ class Todo {
             }
         }
 
-        
+
         let getPrevItem = JSON.parse(localStorage.getItem('___TODO___'));
         let isTrueFalse = (getPrevItem) ? true : false;
         let todoInfo = Object.create({});
-        
+
 
         let obj = {
             [savetodo.substring(0,30)]: {
                 todo_date: savedate,
                 todo_content: savetodo,
-                todo_time: savetime
+                todo_time: savetime,
+                disabled: true
             }
         }
 
@@ -111,7 +111,8 @@ class Todo {
                     timeElement = document.createElement('p'),
                     contentElement = document.createElement('p'),
                     deleteTodo = document.createElement('span'),
-                    markCompleted = document.createElement('span');
+                    markCompleted = document.createElement('span'),
+                    bell = document.createElement('span');
 
                 dateElement.innerHTML = todo_date,
                 timeElement.innerHTML = todo_time,
@@ -124,8 +125,10 @@ class Todo {
                 timeElement.setAttribute('class', 'todo-time');
                 contentElement.setAttribute('class', '_todo-content');
                 markCompleted.setAttribute('class', 'fa fa-check-circle pull-right todo-check')
+                bel.setAttribute('class', 'fa fa-bell-slash todo-bell');
 
                 listElement.appendChild(dateElement);
+                listElement.appendChild(bell);
                 listElement.appendChild(timeElement);
                 listElement.appendChild(contentElement)
                 listElement.appendChild(deleteTodo);
@@ -156,10 +159,31 @@ class Todo {
                 });
             } else if ( target.getAttribute('class').includes('todo-delete-todo') ) {
                 this.removeTodo(target)
+            } else if ( target.getAttribute('class').includes('todo-bell') ) {
+              let value = this.notificationState(target);
+              let strage = JSON.parse(localStorage.getItem('___TODO___'));
+              let todo = target.parentNode.querySelector('textarea');
+              let key = todo.value.substring(0,30);
+              Object.assign(strage[key], {
+                disabled: value
+              });
+              localStorage.setItem("___TODO___", JSON.parse(strage))
             }
         });
     }
+    notificationState(target) {
+      const state = target.getAttribute("class");
 
+      if ( state.includes("fa-bell-slash") ) {
+        target.classList.remove("fa-bell-slash");
+        target.classList.add("fa-bell");
+        return false;
+      }
+
+      target.classList.remove("fa-bell");
+      target.classList.add("fa-bell-slash");
+      return true;
+    }
     removeTodo(target) {
         let pNode = target.parentNode;
         let contEl = pNode.querySelector('._todo-content');
