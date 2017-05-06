@@ -1,13 +1,13 @@
-class Settings {
+const { EventEmitter } = require('events');
+class Settings extends EventEmitter {
     constructor() {
-
+        super();
         let bibleSettings = document.querySelector('.bible-list');
 
         let _strage = localStorage.getItem("bible_settings");
 
 
         if ( ! _strage ) {
-            console.log('no');
             localStorage.setItem("bible_settings", JSON.stringify({}));
             _strage = localStorage.getItem("bible_settings");
         }
@@ -17,10 +17,6 @@ class Settings {
         this.Storage = JSON.parse(_strage);
 
         this.clicks();
-    }
-
-    static initSettings() {
-        return new Settings();
     }
     clicks() {
         this.bibleSettings().addEventListener('click', e => {
@@ -34,6 +30,7 @@ class Settings {
 
                 if ( value ) {
                     Settings.Save(_attribute,value,this);
+                    this.emit(_attribute,value);
                 }
             }
         });
@@ -44,11 +41,12 @@ class Settings {
     }
     static setCurrent(target) {
         if ( ! target.hasAttribute("data-current") ) {
-            target.setAttribute("data-current","current");
-            return target.getAttribute("class");
+              target.setAttribute("data-current","current");
+              return target.getAttribute("class");
         }
 
         return undefined;
+
     }
     static removeCurrent(target,pNode) {
         let toNotRemove = Settings.setCurrent(target);
@@ -59,12 +57,11 @@ class Settings {
             pNode.querySelector('.off').removeAttribute("data-current");
             return "on";
         }
-
         pNode.querySelector('.on').removeAttribute("data-current");
         return "off";
-
     }
 
 }
 
-Settings.initSettings();
+let _settings = new Settings();
+module.exports = _settings;
