@@ -61,10 +61,10 @@
                         <li class="fa fa-sticky-note bible-choice-select  bible-note-item bible-choice-item" data-exec="Note"><span> Add Note</span></li>
                         <li class="fa fa-calendar bible-choice-select bible-choice-item" data-exec="TodoAdd"><span> Add Todo</span></li>
                         <li class="fa fa-folder-open bible-choice-select bible-choice-item" data-exec="TodoView"><span> View Todo</span></li>
-                        <li class="fa fa-search bible-choice-select bible-choice-item" data-exec="Locate"><span> Locate</span></li>                   
+                        <li class="fa fa-search bible-choice-select bible-choice-item" data-exec="Locate"><span> Locate</span></li>
                         <li class="fa fa-gear bible-choice-select bible-choice-item" data-exec="Settings"><span> Settings</span></li>
                         <li class="fa fa-cloud bible-choice-select bible-choice-item" data-exec="Update"><span> Update</span></li>
-                        
+
                     </ul>
                 </div>
                 <div class="bible-settings" data-display="none">
@@ -83,10 +83,10 @@
                         <li class="bible-list-item clearfix">
                             <h3>Font Size</h3>
                         </li>
-                        <li class="bible-list-item clearfix" data-type="Notfication">
+                        <li class="bible-list-item clearfix" data-type="Notification">
                             <h3>Notification</h3>
                             <span class="on" data-current="current">On</span>
-                            <span class="off">Off</span>                            
+                            <span class="off">Off</span>
                         </li>
                         <li class="bible-list-item clearfix">
                             <h3>Language</h3>
@@ -94,7 +94,7 @@
                         <li class="bible-list-item clearfix" data-type="AutoScroll">
                             <h3>Auto Scroll</h3>
                             <span class="on" data-current="current">On</span>
-                            <span class="off">Off</span>                            
+                            <span class="off">Off</span>
                         </li>
                         <li class="bible-list-item clearfix" data-type="AutoUpdate">
                             <h3>Automatic Update</h3>
@@ -107,7 +107,7 @@
                      FAVOURITES
                      </div> -->
                 <div class="bible-bookmark" data-display="none">
-                    
+
                 </div>
                 <div class="bible-newt" data-display="none" data-modal="newt-chapter">
                 </div>
@@ -131,10 +131,10 @@
 
             <div class="view-note">
                 <div class="bible-view-note-parent">
-                    <p class="bible-close fa fa-close  pull-right"> </p>      
-                    <ul class="bible-view-note-list">    
+                    <p class="bible-close fa fa-close  pull-right"> </p>
+                    <ul class="bible-view-note-list">
 
-                        
+
                     </ul>
                 </div>
 
@@ -143,7 +143,7 @@
                     <div class="bible-add-note-parent">
                         <p class="bible-close fa fa-close pull-right"> </p>
                         <p class="bible-add-note-text"></p>
-                        
+
                         <input type="text" class="bible-add-note-title" placeholder="Title Of Note"></input>
                         <textarea rows="8" class="bible-add-note-content"></textarea>
                         <button type="submit" class="bible-add-note-btn"></button>
@@ -151,13 +151,13 @@
                     </div>
                 </div>
 
-                
+
                 <div class="bible-view-note-modal">
                     <p class="fa fa-close bible-close pull-right"></p>
                     <div class="bible-view-note-title">
-                        
+
                         <p>This is a Note Title</p>
-                        
+
                     </div>
                     <div class="bible-view-note-creationDate">
                         <p>1/1/2013</p>
@@ -168,15 +168,15 @@
                         </p>
                     </div>
                 </div>
-                
+
             </div>
 
             <div class="view-todo">
                 <div class="bible-view-todo-parent">
-                    <p class="bible-close fa fa-close  pull-right"> </p>      
-                    <ul class="todo-list">    
+                    <p class="bible-close fa fa-close  pull-right"> </p>
+                    <ul class="todo-list">
 
-                        
+
                     </ul>
                 </div>
             </div>
@@ -194,14 +194,14 @@
                     </div>
                     <div class="todo-add-todo">
                         <!-- copied from bible-add-note -->
-                        <textarea rows="8" cols="37" class="bible-add-note-content"></textarea> 
+                        <textarea rows="8" cols="37" class="bible-add-note-content"></textarea>
                     </div>
                     <div class="todo-button-add">
-                        <button type="submit" class="todo-add-button fa fa-thumbs-up">   Add Todo</button>   
+                        <button type="submit" class="todo-add-button fa fa-thumbs-up">   Add Todo</button>
                     </div>
                 </div>
             </div>
-            
+
 
 
 
@@ -252,7 +252,7 @@
             </nav>
             <div class="bible-report"></div>
         </div>
-        
+
         <div id="BibleConcord">
             <form class="form">
                 <p class="fa fa-close bible-close"></p>
@@ -274,21 +274,14 @@
 
 
         <script type="application/javascript">
-         window.addEventListener("DOMContentLoaded", (e) => {
-             let s = document.querySelectorAll('[data-type]');
-             Array.from(s, (el) => {
-                 let item = localStorage.getItem(el.getAttribute('data-type'));
-                 if ( item === null ) return ;
-                 el.removeAttribute("data-current");
-                 el.setAttribute('data-current', item);
-                 el.textContent = item;
-             });
-         });
+
         </script>
         <!-- <script type="text/javascript" src="cordova.js"></script> -->
         </script>
         <script src="libs/traceur.js"></script>
         <script src="js/advance_bible.js"></script>
+        <script src="js/init_settings.js"></script>
+        <script src="js/_notifications_b.js"></script>
         <script src="libs/jquery.js"></script>
         <script src="libs/bootstrap.min.js"></script>
 
