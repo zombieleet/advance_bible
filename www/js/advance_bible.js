@@ -408,11 +408,7 @@ $traceurRuntime.registerModule("../advance_bible.js", [], function() {
               bibleRep.removeAttribute('style');
             }, 3000);
           },
-          GetSettings: function() {
-            return {};
-          },
-          SetSettings: function() {},
-          SetBookMarked: function() {},
+          Settings: function() {},
           StyleBible: function(book, chapter) {
             var $__21,
                 $__22;
@@ -432,6 +428,7 @@ $traceurRuntime.registerModule("../advance_bible.js", [], function() {
             var bookChapter = document.createElement('h5');
             bookParent.setAttribute('class', 'bible-book-parent');
             var jj = new AutoScroll();
+            console.log(jj);
             AutoScroll.Render(jj);
             HeaderButtons.render();
             backward.setAttribute('class', 'fa fa-arrow-circle-o-right bible-go-right');
@@ -444,7 +441,6 @@ $traceurRuntime.registerModule("../advance_bible.js", [], function() {
             parent.appendChild(bookParent);
             bookParent.appendChild(bookName);
             bookParent.appendChild(bookChapter);
-            var bibleSettingsValues = GetBible.Settings();
             var setState = false;
             var BOOKMARK = JSON.parse(localStorage.getItem('___BIBLE-BOOKMARK___'));
             var $__14 = true;
@@ -552,7 +548,6 @@ $traceurRuntime.registerModule("../advance_bible.js", [], function() {
               });
             }
           },
-          SetAudio: function() {},
           BookMark: function($__20) {
             var $__23,
                 $__24,
@@ -718,103 +713,6 @@ $traceurRuntime.registerModule("../advance_bible.js", [], function() {
       "./loadRequested.js": 11
     }],
     4: [function(require, module, exports) {
-      var GetNotified = {
-        setStatusMessage: function(msg) {
-          if (((typeof msg === 'undefined' ? 'undefined' : $traceurRuntime.typeof(msg))) !== 'string') {
-            throw Error(("expected a string as an argument but got " + ((typeof msg === 'undefined' ? 'undefined' : $traceurRuntime.typeof(msg)))));
-          }
-          var bibleRep = document.querySelector(".bible-report");
-          bibleRep.innerHTML = msg;
-          bibleRep.setAttribute('style', 'visibility: visible');
-          setTimeout(function() {
-            bibleRep.removeAttribute('style');
-          }, 3000);
-        },
-        isAvailable: function() {
-          if ("Notification" in window) {
-            return true;
-          } else {
-            this.setStatusMessage("Update Your Browser to enjoy this feature");
-            return false;
-          }
-        },
-        isGranted: function() {
-          if (this.isAvailable() && Notification.permission === 'granted') {
-            this.getTodo(function() {
-              var $__19 = arguments[0] !== (void 0) ? arguments[0] : obj,
-                  todo_content = $__19.todo_content,
-                  todo_date = $__19.todo_date;
-              navigator.vibrate([100, 50, 20, 10]);
-              var __n = new Notification('Todo Notification', {
-                body: "content: " + todo_content + "\nDate: " + todo_date,
-                icon: './img/old_bible.jpg'
-              });
-              setTimeout(function() {
-                __n.close();
-              }, 4000);
-              __n.addEventListener('click', function(e) {
-                var moveToTodo = document.querySelector('.bible-view-todo'),
-                    todoList = moveToTodo.querySelector('.todo-list'),
-                    target = e.target;
-                moveToTodo.click();
-                Array.from(todoList.children, function(el) {
-                  var content = el.innerHTML;
-                  var data = target.data.replace(/\n/g, '');
-                  el.setAttribute('style', 'border: 12px solid red;');
-                  if (content === data) {}
-                });
-                __n.close();
-              });
-            });
-          } else {
-            console.log('asdfadsf');
-          }
-        },
-        getTodo: function(callback) {
-          if (localStorage.getItem("___TODO___")) {
-            var __todo__ = JSON.parse(localStorage.getItem("___TODO___"));
-            var $__7 = true;
-            var $__8 = false;
-            var $__9 = undefined;
-            try {
-              for (var $__5 = void 0,
-                  $__4 = (Object.keys(__todo__))[Symbol.iterator](); !($__7 = ($__5 = $__4.next()).done); $__7 = true) {
-                var miniObj = $__5.value;
-                {
-                  var $__19 = __todo__[miniObj],
-                      todo_date = $__19.todo_date,
-                      todo_time = $__19.todo_time;
-                  var dateObj = new Date().toLocaleDateString();
-                  var timeObj = new Date().toLocaleTimeString();
-                  dateObj = Number(dateObj.split("/").reverse().join(""));
-                  timeObj = timeObj.slice(0, 5).replace(/:/, "");
-                  todo_time = todo_time.replace(":", '');
-                  todo_date = Number(todo_date);
-                  if ((todo_date === dateObj && todo_time === timeObj) || (todo_date === dateObj)) {
-                    callback(__todo__[miniObj]);
-                  }
-                }
-              }
-            } catch ($__10) {
-              $__8 = true;
-              $__9 = $__10;
-            } finally {
-              try {
-                if (!$__7 && $__4.return != null) {
-                  $__4.return();
-                }
-              } finally {
-                if ($__8) {
-                  throw $__9;
-                }
-              }
-            }
-          }
-        }
-      };
-      GetNotified.isGranted();
-    }, {}],
-    5: [function(require, module, exports) {
       var GetBible = require("./bible.js").GetBible;
       module.exports._bookMark = Object.create({
         bookmarkStorage: JSON.parse(localStorage.getItem("___BIBLE-BOOKMARK___")),
@@ -916,7 +814,7 @@ $traceurRuntime.registerModule("../advance_bible.js", [], function() {
         }
       });
     }, {"./bible.js": 3}],
-    6: [function(require, module, exports) {
+    5: [function(require, module, exports) {
       var $__19 = require("./loadRequested.js"),
           GetJson = $__19.GetJson,
           objectEntries = $__19.objectEntries;
@@ -1168,6 +1066,10 @@ $traceurRuntime.registerModule("../advance_bible.js", [], function() {
       var q = new Concord();
       q.showConcord().openMd().closeModal().searchConcord();
     }, {"./loadRequested.js": 11}],
+    6: [function(require, module, exports) {
+      var notification = require("./notification.js");
+      notification.handleNotify();
+    }, {"./notification.js": 15}],
     7: [function(require, module, exports) {
       var HandleClose = function() {
         function HandleClose() {}
@@ -1459,15 +1361,15 @@ $traceurRuntime.registerModule("../advance_bible.js", [], function() {
       var getTestaMents = new Home();
     }, {
       "./bible.js": 3,
-      "./bookmark.js": 5,
+      "./bookmark.js": 4,
       "./loadRequested.js": 11,
       "./notes.js": 14,
-      "./todo.js": 16
+      "./todo.js": 17
     }],
     10: [function(require, module, exports) {
       var BookMark = require("./bookmark.js")._bookMark;
       BookMark.Fire(document.querySelector("[data-target='bible-bookmark']"));
-    }, {"./bookmark.js": 5}],
+    }, {"./bookmark.js": 4}],
     11: [function(require, module, exports) {
       module.exports.objectEntries = $traceurRuntime.initGeneratorFunction(function objectEntries(obj) {
         var propKeys,
@@ -2380,12 +2282,57 @@ $traceurRuntime.registerModule("../advance_bible.js", [], function() {
       module.exports = {AddNote: AddNote};
     }, {"./loadRequested.js": 11}],
     15: [function(require, module, exports) {
-      var Settings = function() {
+      var _settings = require('./settings.js');
+      var notification = {
+        isExists: function() {
+          return "Notification" in window;
+        },
+        handleNotify: function() {
+          var $__2 = this;
+          if (!this.isExists())
+            return false;
+          console.log(true);
+          _settings.on("Notification", function(value) {
+            if (value === "on" && Notification.permission !== "granted") {
+              $__2.askPermission();
+              return;
+            }
+          });
+        },
+        askPermission: function() {
+          var $__2 = this;
+          Notification.requestPermission(function(perm) {
+            if (perm === "granted") {
+              $__2.sendNotification();
+            } else if (perm === "denied") {
+              return perm;
+            } else {
+              return false;
+            }
+          });
+        },
+        sendNotification: function() {
+          var message = arguments[0] !== (void 0) ? arguments[0] : "You will Be sent notification when neccessary";
+          var _n = new Notification(message, {icon: './img/old_bible.jpg'});
+          navigator.vibrate([100, 80, 60, 40, 20, 0]);
+          _n.addEventListener('click', function(_) {
+            _n.close();
+          });
+          setTimeout(function(_) {
+            _n.close();
+          }, 5000);
+        }
+      };
+      module.exports = notification;
+    }, {"./settings.js": 16}],
+    16: [function(require, module, exports) {
+      var EventEmitter = require('events').EventEmitter;
+      var Settings = function($__super) {
         function Settings() {
+          $traceurRuntime.superConstructor(Settings).call(this);
           var bibleSettings = document.querySelector('.bible-list');
           var _strage = localStorage.getItem("bible_settings");
           if (!_strage) {
-            console.log('no');
             localStorage.setItem("bible_settings", JSON.stringify({}));
             _strage = localStorage.getItem("bible_settings");
           }
@@ -2407,13 +2354,11 @@ $traceurRuntime.registerModule("../advance_bible.js", [], function() {
                     value = Settings.removeCurrent(target, pNode);
                 if (value) {
                   Settings.Save(_attribute, value, $__2);
+                  $__2.emit(_attribute, value);
                 }
               }
             });
           }}, {
-          initSettings: function() {
-            return new Settings();
-          },
           Save: function(key, value, _this) {
             _this.Storage[key] = value;
             localStorage.setItem("bible_settings", JSON.stringify(_this.Storage));
@@ -2436,11 +2381,12 @@ $traceurRuntime.registerModule("../advance_bible.js", [], function() {
             pNode.querySelector('.on').removeAttribute("data-current");
             return "off";
           }
-        });
-      }();
-      Settings.initSettings();
-    }, {}],
-    16: [function(require, module, exports) {
+        }, $__super);
+      }(EventEmitter);
+      var _settings = new Settings();
+      module.exports = _settings;
+    }, {"events": 18}],
+    17: [function(require, module, exports) {
       var Todo = function() {
         function Todo() {}
         return ($traceurRuntime.createClass)(Todo, {
@@ -2487,7 +2433,8 @@ $traceurRuntime.registerModule("../advance_bible.js", [], function() {
               value: {
                 todo_date: savedate,
                 todo_content: savetodo,
-                todo_time: savetime
+                todo_time: savetime,
+                disabled: true
               },
               configurable: true,
               enumerable: true,
@@ -2530,7 +2477,8 @@ $traceurRuntime.registerModule("../advance_bible.js", [], function() {
                         timeElement = document.createElement('p'),
                         contentElement = document.createElement('p'),
                         deleteTodo = document.createElement('span'),
-                        markCompleted = document.createElement('span');
+                        markCompleted = document.createElement('span'),
+                        bell = document.createElement('span');
                     dateElement.innerHTML = todo_date, timeElement.innerHTML = todo_time, contentElement.innerHTML = todo_content, deleteTodo.innerHTML = "Delete";
                     listElement.setAttribute('class', 'todo-view-item');
                     dateElement.setAttribute('class', 'todo-date');
@@ -2538,7 +2486,9 @@ $traceurRuntime.registerModule("../advance_bible.js", [], function() {
                     timeElement.setAttribute('class', 'todo-time');
                     contentElement.setAttribute('class', '_todo-content');
                     markCompleted.setAttribute('class', 'fa fa-check-circle pull-right todo-check');
+                    bel.setAttribute('class', 'fa fa-bell-slash todo-bell');
                     listElement.appendChild(dateElement);
+                    listElement.appendChild(bell);
                     listElement.appendChild(timeElement);
                     listElement.appendChild(contentElement);
                     listElement.appendChild(deleteTodo);
@@ -2581,8 +2531,26 @@ $traceurRuntime.registerModule("../advance_bible.js", [], function() {
                 });
               } else if (target.getAttribute('class').includes('todo-delete-todo')) {
                 $__2.removeTodo(target);
+              } else if (target.getAttribute('class').includes('todo-bell')) {
+                var value = $__2.notificationState(target);
+                var strage = JSON.parse(localStorage.getItem('___TODO___'));
+                var todo = target.parentNode.querySelector('textarea');
+                var key = todo.value.substring(0, 30);
+                Object.assign(strage[key], {disabled: value});
+                localStorage.setItem("___TODO___", JSON.parse(strage));
               }
             });
+          },
+          notificationState: function(target) {
+            var state = target.getAttribute("class");
+            if (state.includes("fa-bell-slash")) {
+              target.classList.remove("fa-bell-slash");
+              target.classList.add("fa-bell");
+              return false;
+            }
+            target.classList.remove("fa-bell");
+            target.classList.add("fa-bell-slash");
+            return true;
           },
           removeTodo: function(target) {
             var pNode = target.parentNode;
@@ -2646,8 +2614,222 @@ $traceurRuntime.registerModule("../advance_bible.js", [], function() {
           }});
       }();
       module.exports = Todo;
+    }, {}],
+    18: [function(require, module, exports) {
+      function EventEmitter() {
+        this._events = this._events || {};
+        this._maxListeners = this._maxListeners || undefined;
+      }
+      module.exports = EventEmitter;
+      EventEmitter.EventEmitter = EventEmitter;
+      EventEmitter.prototype._events = undefined;
+      EventEmitter.prototype._maxListeners = undefined;
+      EventEmitter.defaultMaxListeners = 10;
+      EventEmitter.prototype.setMaxListeners = function(n) {
+        if (!isNumber(n) || n < 0 || isNaN(n))
+          throw TypeError('n must be a positive number');
+        this._maxListeners = n;
+        return this;
+      };
+      EventEmitter.prototype.emit = function(type) {
+        var er,
+            handler,
+            len,
+            args,
+            i,
+            listeners;
+        if (!this._events)
+          this._events = {};
+        if (type === 'error') {
+          if (!this._events.error || (isObject(this._events.error) && !this._events.error.length)) {
+            er = arguments[1];
+            if (er instanceof Error) {
+              throw er;
+            } else {
+              var err = new Error('Uncaught, unspecified "error" event. (' + er + ')');
+              err.context = er;
+              throw err;
+            }
+          }
+        }
+        handler = this._events[type];
+        if (isUndefined(handler))
+          return false;
+        if (isFunction(handler)) {
+          switch (arguments.length) {
+            case 1:
+              handler.call(this);
+              break;
+            case 2:
+              handler.call(this, arguments[1]);
+              break;
+            case 3:
+              handler.call(this, arguments[1], arguments[2]);
+              break;
+            default:
+              args = Array.prototype.slice.call(arguments, 1);
+              handler.apply(this, args);
+          }
+        } else if (isObject(handler)) {
+          args = Array.prototype.slice.call(arguments, 1);
+          listeners = handler.slice();
+          len = listeners.length;
+          for (i = 0; i < len; i++)
+            listeners[i].apply(this, args);
+        }
+        return true;
+      };
+      EventEmitter.prototype.addListener = function(type, listener) {
+        var m;
+        if (!isFunction(listener))
+          throw TypeError('listener must be a function');
+        if (!this._events)
+          this._events = {};
+        if (this._events.newListener)
+          this.emit('newListener', type, isFunction(listener.listener) ? listener.listener : listener);
+        if (!this._events[type])
+          this._events[type] = listener;
+        else if (isObject(this._events[type]))
+          this._events[type].push(listener);
+        else
+          this._events[type] = [this._events[type], listener];
+        if (isObject(this._events[type]) && !this._events[type].warned) {
+          if (!isUndefined(this._maxListeners)) {
+            m = this._maxListeners;
+          } else {
+            m = EventEmitter.defaultMaxListeners;
+          }
+          if (m && m > 0 && this._events[type].length > m) {
+            this._events[type].warned = true;
+            console.error('(node) warning: possible EventEmitter memory ' + 'leak detected. %d listeners added. ' + 'Use emitter.setMaxListeners() to increase limit.', this._events[type].length);
+            if (typeof console.trace === 'function') {
+              console.trace();
+            }
+          }
+        }
+        return this;
+      };
+      EventEmitter.prototype.on = EventEmitter.prototype.addListener;
+      EventEmitter.prototype.once = function(type, listener) {
+        if (!isFunction(listener))
+          throw TypeError('listener must be a function');
+        var fired = false;
+        function g() {
+          this.removeListener(type, g);
+          if (!fired) {
+            fired = true;
+            listener.apply(this, arguments);
+          }
+        }
+        g.listener = listener;
+        this.on(type, g);
+        return this;
+      };
+      EventEmitter.prototype.removeListener = function(type, listener) {
+        var list,
+            position,
+            length,
+            i;
+        if (!isFunction(listener))
+          throw TypeError('listener must be a function');
+        if (!this._events || !this._events[type])
+          return this;
+        list = this._events[type];
+        length = list.length;
+        position = -1;
+        if (list === listener || (isFunction(list.listener) && list.listener === listener)) {
+          delete this._events[type];
+          if (this._events.removeListener)
+            this.emit('removeListener', type, listener);
+        } else if (isObject(list)) {
+          for (i = length; i-- > 0; ) {
+            if (list[i] === listener || (list[i].listener && list[i].listener === listener)) {
+              position = i;
+              break;
+            }
+          }
+          if (position < 0)
+            return this;
+          if (list.length === 1) {
+            list.length = 0;
+            delete this._events[type];
+          } else {
+            list.splice(position, 1);
+          }
+          if (this._events.removeListener)
+            this.emit('removeListener', type, listener);
+        }
+        return this;
+      };
+      EventEmitter.prototype.removeAllListeners = function(type) {
+        var key,
+            listeners;
+        if (!this._events)
+          return this;
+        if (!this._events.removeListener) {
+          if (arguments.length === 0)
+            this._events = {};
+          else if (this._events[type])
+            delete this._events[type];
+          return this;
+        }
+        if (arguments.length === 0) {
+          for (key in this._events) {
+            if (key === 'removeListener')
+              continue;
+            this.removeAllListeners(key);
+          }
+          this.removeAllListeners('removeListener');
+          this._events = {};
+          return this;
+        }
+        listeners = this._events[type];
+        if (isFunction(listeners)) {
+          this.removeListener(type, listeners);
+        } else if (listeners) {
+          while (listeners.length)
+            this.removeListener(type, listeners[listeners.length - 1]);
+        }
+        delete this._events[type];
+        return this;
+      };
+      EventEmitter.prototype.listeners = function(type) {
+        var ret;
+        if (!this._events || !this._events[type])
+          ret = [];
+        else if (isFunction(this._events[type]))
+          ret = [this._events[type]];
+        else
+          ret = this._events[type].slice();
+        return ret;
+      };
+      EventEmitter.prototype.listenerCount = function(type) {
+        if (this._events) {
+          var evlistener = this._events[type];
+          if (isFunction(evlistener))
+            return 1;
+          else if (evlistener)
+            return evlistener.length;
+        }
+        return 0;
+      };
+      EventEmitter.listenerCount = function(emitter, type) {
+        return emitter.listenerCount(type);
+      };
+      function isFunction(arg) {
+        return typeof arg === 'function';
+      }
+      function isNumber(arg) {
+        return typeof arg === 'number';
+      }
+      function isObject(arg) {
+        return (typeof arg === 'undefined' ? 'undefined' : $traceurRuntime.typeof(arg)) === 'object' && arg !== null;
+      }
+      function isUndefined(arg) {
+        return arg === void 0;
+      }
     }, {}]
-  }, {}, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]);
+  }, {}, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17]);
   return {};
 });
 $traceurRuntime.getModule("../advance_bible.js" + '');
