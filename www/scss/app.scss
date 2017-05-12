@@ -107,7 +107,7 @@ body {
           color: #a0a0a0;
           background-color: black;
           text-align: center;
-          padding: .5em;
+          padding: 20px;
           font-weight: bolder;
           border-radius: 0;
           cursor: pointer;
@@ -116,7 +116,7 @@ body {
           margin: 20px;
           padding-top: 30px;
           vertical-align: top;
-          line-height: 1.2;
+          //line-height: 1.2;
           &:hover {
             background-color: #1a1a1a;
           }

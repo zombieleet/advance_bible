@@ -4,7 +4,6 @@ module.exports._bookMark =  Object.create({
     bookmarkStorage: JSON.parse(localStorage.getItem("___BIBLE-BOOKMARK___")),
     bookmarkElement() {
         const element = document.querySelector('.bible-bookmark');
-        element.removeAttribute('data-display');
         return element;
     },
     init() {
@@ -12,7 +11,7 @@ module.exports._bookMark =  Object.create({
         // this does not work, you have to fix the bug later
         
         if (this.bookmarkElement().children.length !== 0 )  {
-            
+            console.log('hu');
             Array.from(this.bookmarkElement().children, _ => {
                 this.bookmarkElement().removeChild(_);
                 _ = undefined;
@@ -77,8 +76,6 @@ module.exports._bookMark =  Object.create({
     Fire(el) {
         el.addEventListener('click', _ => {
             this.init();
-            document.querySelector('.bible-choice')
-                .setAttribute('data-display','none');
         })
     }
 });

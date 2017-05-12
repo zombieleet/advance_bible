@@ -718,12 +718,12 @@ $traceurRuntime.registerModule("../advance_bible.js", [], function() {
         bookmarkStorage: JSON.parse(localStorage.getItem("___BIBLE-BOOKMARK___")),
         bookmarkElement: function() {
           var element = document.querySelector('.bible-bookmark');
-          element.removeAttribute('data-display');
           return element;
         },
         init: function() {
           var $__2 = this;
           if (this.bookmarkElement().children.length !== 0) {
+            console.log('hu');
             Array.from(this.bookmarkElement().children, function(_) {
               $__2.bookmarkElement().removeChild(_);
               _ = undefined;
@@ -809,7 +809,6 @@ $traceurRuntime.registerModule("../advance_bible.js", [], function() {
           var $__2 = this;
           el.addEventListener('click', function(_) {
             $__2.init();
-            document.querySelector('.bible-choice').setAttribute('data-display', 'none');
           });
         }
       });
@@ -1247,30 +1246,47 @@ $traceurRuntime.registerModule("../advance_bible.js", [], function() {
       var GetBible = require("./bible.js").GetBible;
       var BookMark = require("./bookmark.js")._bookMark;
       var AddNote = require("./notes.js").AddNote;
-      var Todo = require('./todo.js');
+      var Todo = new (require('./todo.js'))();
       var Home = function() {
         function Home() {
           var bibleHomeNav = document.querySelector(".bible-choice-item");
           bibleHomeNav.addEventListener('click', function(e) {
             var target = e.target;
-            if (!target.hasAttribute('data-exec'))
-              return;
-            var value = target.getAttribute('data-exec');
-            Home[value](target);
+            var value;
+            if (!target.hasAttribute('data-exec') && target.parentNode.nodeName.toLowerCase() === "li") {
+              value = target.parentNode.getAttribute("data-exec");
+            }
+            value = value ? value : target.getAttribute('data-exec');
+            try {
+              Home[value](target);
+            } catch (ex) {}
+            ;
           });
         }
         return ($traceurRuntime.createClass)(Home, {}, {
+          RemoveDisplay: function(classValue) {
+            var bbHomeScreen = document.querySelector(".bible-home-screen ");
+            Array.from(bbHomeScreen.children, function(el) {
+              if (!el.hasAttribute("data-display")) {
+                var pEl = document.querySelector(".bible-nav");
+                el.setAttribute("data-display", "none");
+                pEl.querySelector(("[data-target=" + el.getAttribute + "]"));
+                bbHomeScreen.querySelector(classValue).removeAttribute("data-display");
+              }
+            });
+          },
+          Settings: function() {
+            Home.RemoveDisplay(".bible-settings");
+          },
           Note: function() {
             var noteAdd = new AddNote();
             noteAdd.showNote({page_title: 'Add Note'});
           },
           TodoAdd: function() {
-            var todoAdd = new Todo();
-            todoAdd.triggerAdd();
+            Todo.triggerAdd();
           },
           TodoView: function() {
-            var todoView = new Todo();
-            todoView.viewTodo();
+            Todo.viewTodo();
           },
           BibleChapters: function() {
             var bible = new GetBible();
@@ -1279,6 +1295,7 @@ $traceurRuntime.registerModule("../advance_bible.js", [], function() {
           },
           BookMark: function(element) {
             BookMark.Fire(element);
+            Home.RemoveDisplay(".bible-bookmark");
           },
           oldTestament: function(element) {
             element.addEventListener('click', function(e) {
@@ -2434,7 +2451,7 @@ $traceurRuntime.registerModule("../advance_bible.js", [], function() {
                 todo_date: savedate,
                 todo_content: savetodo,
                 todo_time: savetime,
-                disabled: true
+                disabled: false
               },
               configurable: true,
               enumerable: true,
@@ -2471,7 +2488,8 @@ $traceurRuntime.registerModule("../advance_bible.js", [], function() {
                     var $__19 = todo_Obj[_j],
                         todo_date = $__19.todo_date,
                         todo_time = $__19.todo_time,
-                        todo_content = $__19.todo_content;
+                        todo_content = $__19.todo_content,
+                        disabled = $__19.disabled;
                     var listElement = document.createElement('li'),
                         dateElement = document.createElement('p'),
                         timeElement = document.createElement('p'),
@@ -2486,7 +2504,11 @@ $traceurRuntime.registerModule("../advance_bible.js", [], function() {
                     timeElement.setAttribute('class', 'todo-time');
                     contentElement.setAttribute('class', '_todo-content');
                     markCompleted.setAttribute('class', 'fa fa-check-circle pull-right todo-check');
-                    bel.setAttribute('class', 'fa fa-bell-slash todo-bell');
+                    if (disabled) {
+                      bell.setAttribute('class', 'fa fa-bell-slash todo-bell pull-right');
+                    } else {
+                      bell.setAttribute('class', 'fa fa-bell todo-bell pull-right');
+                    }
                     listElement.appendChild(dateElement);
                     listElement.appendChild(bell);
                     listElement.appendChild(timeElement);
@@ -2528,28 +2550,29 @@ $traceurRuntime.registerModule("../advance_bible.js", [], function() {
                 todoViewParent.removeAttribute('style');
                 Array.from(todoView.children, function(el) {
                   el.remove();
+                  el = undefined;
                 });
               } else if (target.getAttribute('class').includes('todo-delete-todo')) {
                 $__2.removeTodo(target);
-              } else if (target.getAttribute('class').includes('todo-bell')) {
+                target = undefined;
+              } else if (target.getAttribute("class").includes("todo-bell")) {
                 var value = $__2.notificationState(target);
                 var strage = JSON.parse(localStorage.getItem('___TODO___'));
-                var todo = target.parentNode.querySelector('textarea');
-                var key = todo.value.substring(0, 30);
+                var todo = target.parentNode.querySelector('._todo-content');
+                var key = todo.innerHTML.substring(0, 30);
+                console.log(value);
                 Object.assign(strage[key], {disabled: value});
-                localStorage.setItem("___TODO___", JSON.parse(strage));
+                localStorage.setItem("___TODO___", JSON.stringify(strage));
               }
             });
           },
           notificationState: function(target) {
             var state = target.getAttribute("class");
             if (state.includes("fa-bell-slash")) {
-              target.classList.remove("fa-bell-slash");
-              target.classList.add("fa-bell");
+              target.setAttribute("class", state.replace(/fa-bell-slash/, "fa-bell"));
               return false;
             }
-            target.classList.remove("fa-bell");
-            target.classList.add("fa-bell-slash");
+            target.setAttribute("class", state.replace(/fa-bell/, "fa-bell-slash"));
             return true;
           },
           removeTodo: function(target) {

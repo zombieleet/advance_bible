@@ -71,7 +71,7 @@ class Todo {
                 todo_date: savedate,
                 todo_content: savetodo,
                 todo_time: savetime,
-                disabled: true
+                disabled: false
             }
         }
 
@@ -79,7 +79,7 @@ class Todo {
 
             Object.assign(todoInfo, obj)
             localStorage.setItem('___TODO___',
-                JSON.stringify(todoInfo));
+                                 JSON.stringify(todoInfo));
             Todo.SetStatusMessage('todo has been succefully saved');
             parent.removeAttribute('style');
             return;
@@ -88,7 +88,7 @@ class Todo {
 
         Object.assign(todoInfo, getPrevItem, obj)
         localStorage.setItem('___TODO___',
-            JSON.stringify(todoInfo));
+                             JSON.stringify(todoInfo));
         Todo.SetStatusMessage('todo has been succefully saved');
         parent.removeAttribute('style');
 
@@ -98,14 +98,14 @@ class Todo {
         let todo_Obj,
             todoViewParent = document.querySelector(".view-todo"),
             todoView = document.querySelector(".todo-list");
-
+        
         if ( (todo_Obj = localStorage.getItem('___TODO___') )) {
-
             todo_Obj = JSON.parse(todo_Obj);
             todoViewParent.setAttribute('style', 'visibility: visible;');
             for ( let _j of Object.keys(todo_Obj) ) {
-                let { todo_date, todo_time, todo_content } = todo_Obj[_j];
 
+                let { todo_date, todo_time, todo_content,disabled} = todo_Obj[_j];
+                
                 let listElement = document.createElement('li'),
                     dateElement = document.createElement('p'),
                     timeElement = document.createElement('p'),
@@ -122,10 +122,16 @@ class Todo {
                 listElement.setAttribute('class', 'todo-view-item');
                 dateElement.setAttribute('class', 'todo-date');
                 deleteTodo.setAttribute('class', 'fa todo-delete-todo pull-right');
-                timeElement.setAttribute('class', 'todo-time');
+                timeElement.setAttribute('class', 'todo-time'); 
                 contentElement.setAttribute('class', '_todo-content');
-                markCompleted.setAttribute('class', 'fa fa-check-circle pull-right todo-check')
-                bel.setAttribute('class', 'fa fa-bell-slash todo-bell');
+                markCompleted.setAttribute('class', 'fa fa-check-circle pull-right todo-check');
+
+                if ( disabled ) {
+                    bell.setAttribute('class', 'fa fa-bell-slash todo-bell pull-right');
+                } else {
+                    bell.setAttribute('class', 'fa fa-bell todo-bell pull-right');
+                }
+                
 
                 listElement.appendChild(dateElement);
                 listElement.appendChild(bell);
@@ -134,7 +140,7 @@ class Todo {
                 listElement.appendChild(deleteTodo);
                 listElement.appendChild(markCompleted);
                 todoView.appendChild(listElement);
-
+                
                 markCompleted.addEventListener('click', e => {
                     let target = e.target;
                     let parent = target.parentNode;
@@ -143,46 +149,51 @@ class Todo {
                         return false;
                     }
                     parent.setAttribute('data-completed', 'completed')
-                })
+                });
             }
         } else {
             Todo.SetStatusMessage("No Todo has been added yet");
             return ;
         }
 
-       todoViewParent.addEventListener('click', (e) => {
+        todoViewParent.addEventListener('click', e => {
             let target = e.target;
             if ( target.getAttribute('class').includes('bible-close') ) {
                 todoViewParent.removeAttribute('style');
                 Array.from(todoView.children, (el) => {
                     el.remove();
+                    el = undefined;
                 });
             } else if ( target.getAttribute('class').includes('todo-delete-todo') ) {
-                this.removeTodo(target)
-            } else if ( target.getAttribute('class').includes('todo-bell') ) {
-              let value = this.notificationState(target);
-              let strage = JSON.parse(localStorage.getItem('___TODO___'));
-              let todo = target.parentNode.querySelector('textarea');
-              let key = todo.value.substring(0,30);
-              Object.assign(strage[key], {
-                disabled: value
-              });
-              localStorage.setItem("___TODO___", JSON.parse(strage))
+                this.removeTodo(target);
+                target = undefined;
+            } else if ( target.getAttribute("class").includes("todo-bell") ) {
+
+                let value = this.notificationState(target);
+                let strage = JSON.parse(localStorage.getItem('___TODO___'));
+                let todo = target.parentNode.querySelector('._todo-content');
+
+
+                let key = todo.innerHTML.substring(0,30);
+                console.log(value)
+                Object.assign(strage[key], {
+                    disabled: value
+                });
+                
+                localStorage.setItem("___TODO___", JSON.stringify(strage))
             }
         });
     }
+
     notificationState(target) {
-      const state = target.getAttribute("class");
-
-      if ( state.includes("fa-bell-slash") ) {
-        target.classList.remove("fa-bell-slash");
-        target.classList.add("fa-bell");
-        return false;
-      }
-
-      target.classList.remove("fa-bell");
-      target.classList.add("fa-bell-slash");
-      return true;
+        const state = target.getAttribute("class");
+        if ( state.includes("fa-bell-slash") ) {
+            target.setAttribute("class", state.replace(/fa-bell-slash/,"fa-bell"))
+            return false;
+        }
+        
+        target.setAttribute("class", state.replace(/fa-bell/,"fa-bell-slash"))
+        return true;
     }
     removeTodo(target) {
         let pNode = target.parentNode;

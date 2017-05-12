@@ -1,5 +1,4 @@
 
-@import "NoteMixin.scss";
 @import "addnote.scss";
 @import "viewnote.scss";
 @import "deletenote.scss";
@@ -18,7 +17,7 @@
     .bible-note-parent {
         // padding: .6em;
         .bible-note-item {
-            background-color: lighten($bgColor, 12%);    
+            background-color: lighten($bgColor, 12%);
             padding: .5em;
             font-size: 2em;
             margin-left: 1em;
@@ -39,10 +38,10 @@
             position: relative;
             left: 1em;
             top: -1em;
-            
+
         }
         li {
             cursor: pointer;
         }
     }
-} 
+}

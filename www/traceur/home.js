@@ -6,7 +6,8 @@ const { GetBible } = require("./bible.js");
 
 const { _bookMark: BookMark } = require("./bookmark.js");
 const { AddNote } = require("./notes.js");
-const Todo = require('./todo.js');
+const Todo = new (require('./todo.js'))();
+// const Settings = 
 
 class Home {
 
@@ -18,13 +19,37 @@ class Home {
 
             const target = e.target;
 
-            if ( ! target.hasAttribute('data-exec') ) return ;
+            let value;
 
-            const value = target.getAttribute('data-exec');
-            Home[value](target);
+            if ( ! target.hasAttribute('data-exec') && target.parentNode.nodeName.toLowerCase() === "li" ) {
+                value = target.parentNode.getAttribute("data-exec");
+            }
+            
+            value = value ? value : target.getAttribute('data-exec') ;
+            
+            try {
+                Home[value](target);
+            } catch(ex) {};
 
         });
 
+    }
+    static RemoveDisplay(classValue) {
+        let bbHomeScreen = document.querySelector(".bible-home-screen ");
+
+        Array.from(bbHomeScreen.children, el => {
+            if ( ! el.hasAttribute("data-display") ) {
+                let pEl = document.querySelector(".bible-nav");
+                
+                el.setAttribute("data-display", "none");
+                pEl.querySelector(`[data-target=${el.getAttribute    }]`);
+                bbHomeScreen.querySelector(classValue).removeAttribute("data-display");
+
+            }
+        });
+    }
+    static Settings() {
+        Home.RemoveDisplay(".bible-settings");
     }
     static Note() {
         let noteAdd = new AddNote();
@@ -33,12 +58,10 @@ class Home {
         });
     }
     static TodoAdd() {
-        let todoAdd = new Todo();
-        todoAdd.triggerAdd();
+        Todo.triggerAdd();
     }
     static TodoView() {
-        let todoView = new Todo();
-        todoView.viewTodo();
+        Todo.viewTodo();
     }
     static BibleChapters() {
         let bible = new GetBible();
@@ -47,6 +70,7 @@ class Home {
     }
     static BookMark(element) {
         BookMark.Fire(element);
+        Home.RemoveDisplay(".bible-bookmark");
     }
     static oldTestament(element) {
         element.addEventListener('click', (e) => {

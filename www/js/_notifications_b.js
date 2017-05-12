@@ -34,7 +34,7 @@ let _id = setInterval(_ => {
 
   if ( notificationValue && JSON.parse(notificationValue).Notification === "on" ) {
 
-        _toNotify(todoStrage, ({ todo_content , todo_date , disabled}) => {
+        _toNotify.todo(todoStrage, ({ todo_content , todo_date , disabled}) => {
             if ( disabled ) return ;
             const message = `todo: ${todo_content}\n date: ${todo_date}`;
             notification.sendNotification(message);
@@ -53,7 +53,7 @@ const notification = {
   handleNotify() {
     
     if ( ! this.isExists() ) return false;
-
+    console.log(true);
     _settings.on("Notification", value => {
 
       if ( value === "on" && Notification.permission !== "granted" ) {
